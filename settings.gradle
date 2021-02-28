@@ -1,0 +1,3 @@
+rootProject.name = 'koreaguide'
+
+include 'koreaguide-api'
