@@ -21,10 +21,9 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'mysql:mysql-connector-java'
+    compile 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
