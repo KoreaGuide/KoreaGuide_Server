@@ -32,6 +32,11 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
         return userApiLogicService.create(request);
     }
 
+    @PostMapping("/checkDuplicate")
+    public Header<UserApiResponse> checkDuplicateEmail(@RequestBody Header<UserApiRequest> request) {
+        return userApiLogicService.checkDuplicateEmail(request);
+    }
+
     @Override
     @GetMapping("/{id}")
     public Header<UserApiResponse> read(@PathVariable(name = "id") Long id) {
@@ -39,9 +44,9 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
     }
 
     @Override
-    @PutMapping("")
-    public Header<UserApiResponse> update(@RequestBody Header<UserApiRequest> request) {
-        return userApiLogicService.update(request);
+    @PatchMapping("/{id}")
+    public Header<UserApiResponse> update(@PathVariable(name = "id") Long id,@RequestBody Header<UserApiRequest> request) {
+        return userApiLogicService.update(id,request);
     }
 
     @Override

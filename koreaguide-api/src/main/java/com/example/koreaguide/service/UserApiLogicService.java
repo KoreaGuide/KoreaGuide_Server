@@ -7,6 +7,8 @@ import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -23,19 +25,29 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         // 1.request data 가져오고
         UserApiRequest body = request.getData();
 
-        // 2. user 생성
-        User user = User.builder()
-                .email(body.getEmail())
-                .password(body.getPassword())
-                .level(body.getLevel())
-                .nickname(body.getNickname())
-                .createdAt(LocalDateTime.now())
-                .createdBy("Admin")
-                .build();
-        User newUser = userRepository.save(user);
+        // 비번 암호화
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(body.getPassword());
 
-        // 3. 생성된 데이터 --> userapiresponse 리턴
-        return response(newUser);
+        // 이메일 중복 체크 한번더 확인
+        Optional<User> userWithEmail = userRepository.findByEmail(body.getEmail());
+        if(userWithEmail.isPresent()){
+            return Header.ERROR("Email already exists");
+        }else {
+            // 2. user 생성
+            User user = User.builder()
+                    .email(body.getEmail())
+                    .password(encodedPassword)
+                    .level(body.getLevel())
+                    .nickname(body.getNickname())
+                    .createdAt(LocalDateTime.now())
+                    .createdBy("Admin")
+                    .build();
+            User newUser = userRepository.save(user);
+
+            // 3. 생성된 데이터 --> userapiresponse 리턴
+            return response(newUser);
+        }
     }
 
     @Override
@@ -50,12 +62,14 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     }
 
     @Override
-    public Header<UserApiResponse> update(Header<UserApiRequest> request) {
+    public Header<UserApiResponse> update(Long id,Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
-        Optional<User> user = userRepository.findById(body.getId());
+        Optional<User> user = userRepository.findById(id);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(body.getPassword());
         return user.map(selectedUser->{
             selectedUser.setEmail(body.getEmail())
-                .setPassword(body.getPassword())
+                .setPassword(encodedPassword)
                 .setNickname(body.getNickname())
                 .setLevel(body.getLevel())
                 .setCreatedAt(user.get().getCreatedAt())
@@ -90,5 +104,15 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .createdBy(user.getCreatedBy())
                 .build();
         return Header.OK(userApiResponse);
+    }
+
+    // 이메일 중복 검사
+    public Header<UserApiResponse> checkDuplicateEmail(Header<UserApiRequest> request) {
+        Optional<User> user = userRepository.findByEmail(request.getData().getEmail());
+        if(user.isPresent()){
+            return Header.OK("Email already exists");
+        }else{
+            return Header.OK("Email good to use");
+        }
     }
 }

@@ -37,6 +37,13 @@ public class Header<T> {
                 .description("OK")
                 .build();
     }
+    public static <T> Header<T> OK(String description){
+        return (Header<T>)Header.builder()
+                .transactionTime(LocalDateTime.now())
+                .resultCode("OK")
+                .description(description)
+                .build();
+    }
 
     //OK data
     public static <T> Header<T> OK(T data){

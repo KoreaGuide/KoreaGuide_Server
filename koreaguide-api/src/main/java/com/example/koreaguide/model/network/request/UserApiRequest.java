@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
 /*
  * @author : Jisoo Kim
  * @date: 2021/03/02 2:42 오전
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class UserApiRequest{
 
     private Long id;
-
+    @Email
     private String email;
 
     private String password;
