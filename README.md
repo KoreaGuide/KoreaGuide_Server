@@ -1,5 +1,5 @@
 # KoreaGuide_Server
-This project serves as the backend of a mobile application <b>"Korea Guide".   
+This project serves as the backend of a mobile application **"Korea Guide".**
 The project is in the form of a RESTAPI.
 ## Download and Installation
 To begin using this template, choose one of the following options to get started:
