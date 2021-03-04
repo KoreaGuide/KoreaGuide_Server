@@ -3,7 +3,7 @@ This project serves as the backend of a mobile application <b>"Korea Guide".
 The project is in the form of a RESTAPI.
 ## Download and Installation
 To begin using this template, choose one of the following options to get started:
-* [Fork, Clone, or Download on GitHub](https://github.com/cindia3704/fastai-adventure)
+* [Fork, Clone, or Download on GitHub](https://github.com/KoreaGuide/KoreaGuide_Server)
 
 ## Requirements
 - Java version 11
