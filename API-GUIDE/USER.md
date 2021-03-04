@@ -1,9 +1,9 @@
 # This is a document related to the User services
 
 ## User Create (Register)
-__Request Form:__
-Path: api/user
-Request Type: POST
+__Request Form:__   
+Path: api/user   
+Request Type: POST   
 ```json
 {
     "data": {
@@ -14,7 +14,7 @@ Request Type: POST
     }
 }
 ```
-
+   
 __Response Form:__
 ```json
 {
@@ -36,10 +36,10 @@ Example from Postman:
 <img width="1143" alt="스크린샷 2021-03-04 오후 11 58 52" src="https://user-images.githubusercontent.com/52744390/109984380-0e3d9900-7d47-11eb-81c6-2615797399db.png">
 
 ## User Read
-__Request Form:__
-Path: api/user/{id}
-Request Type: GET
-Response Form:
+__Request Form:__   
+Path: api/user/{id}   
+Request Type: GET   
+Response Form:   
 ```json
 {
     "result_code": "OK",
@@ -58,11 +58,11 @@ Response Form:
 ```
 
 ## User Delete 
-__Request Form:__
-Path: api/user/{id}
-Request Type: DELETE
+__Request Form:__   
+Path: api/user/{id}   
+Request Type: DELETE   
    
-Response Form:
+Response Form:   
 ```json
 {
     "result_code": "OK",
@@ -74,9 +74,9 @@ Response Form:
 
 
 ## Check Duplicate Email 
-__Request Form:__
-Path: api/user/checkDuplicate
-Request Type: POST 
+__Request Form:__   
+Path: api/user/checkDuplicate   
+Request Type: POST    
 ```json
 {
     "data": {
