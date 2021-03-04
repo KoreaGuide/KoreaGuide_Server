@@ -17,7 +17,7 @@ public class UserApiResponse {
 
     private String email;
 
-    private String password;            // 암호화 해야함
+    private String password;            // 암호화 해야함 -- 했음!
 
     private String nickname;
 

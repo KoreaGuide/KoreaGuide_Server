@@ -19,7 +19,6 @@ public class Header<T> {
     // 공통적으로 들어가는 부분!
 
     // api 통신 시간
-    private LocalDateTime transactionTime;
 
     // api 응답 코드
     private String resultCode;
@@ -27,19 +26,19 @@ public class Header<T> {
     // api 부가 설명
     private String description;
 
+    private String accessToken;
+
     private T data;
 
     //OK
     public static <T> Header<T> OK(){
         return (Header<T>)Header.builder()
-                .transactionTime(LocalDateTime.now())
                 .resultCode("OK")
                 .description("OK")
                 .build();
     }
     public static <T> Header<T> OK(String description){
         return (Header<T>)Header.builder()
-                .transactionTime(LocalDateTime.now())
                 .resultCode("OK")
                 .description(description)
                 .build();
@@ -48,7 +47,6 @@ public class Header<T> {
     //OK data
     public static <T> Header<T> OK(T data){
         return (Header<T>)Header.builder()
-                .transactionTime(LocalDateTime.now())
                 .resultCode("OK")
                 .description("OK")
                 .data(data)
@@ -58,7 +56,6 @@ public class Header<T> {
     // ERROR
     public static <T> Header<T> ERROR(String description){
         return (Header<T>)Header.builder()
-                .transactionTime(LocalDateTime.now())
                 .resultCode("ERROR")
                 .description(description)
                 .build();

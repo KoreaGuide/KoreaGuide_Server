@@ -2,10 +2,15 @@ package com.example.koreaguide.service;
 
 import com.example.koreaguide.ifs.CrudInterface;
 import com.example.koreaguide.model.entity.User;
+import com.example.koreaguide.model.exception.EmailNotExistedException;
+import com.example.koreaguide.model.exception.PasswordWrongException;
 import com.example.koreaguide.model.network.Header;
+import com.example.koreaguide.model.network.request.SessionRequestDto;
 import com.example.koreaguide.model.network.request.UserApiRequest;
+import com.example.koreaguide.model.network.response.SessionResponseDto;
 import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.repository.UserRepository;
+import com.example.koreaguide.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,13 +25,20 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @Override
     public Header<UserApiResponse> create(Header<UserApiRequest> request) {
+        // 회원가입!
+
         // 1.request data 가져오고
         UserApiRequest body = request.getData();
 
         // 비번 암호화
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(body.getPassword());
 
         // 이메일 중복 체크 한번더 확인
@@ -43,6 +55,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     .createdAt(LocalDateTime.now())
                     .createdBy("Admin")
                     .build();
+            String token = jwtUtil.createAccessToken(body.getId(),body.getNickname());
+            System.out.println("ACCESS TOKEN"+token);
             User newUser = userRepository.save(user);
 
             // 3. 생성된 데이터 --> userapiresponse 리턴
@@ -65,7 +79,6 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<UserApiResponse> update(Long id,Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
         Optional<User> user = userRepository.findById(id);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(body.getPassword());
         return user.map(selectedUser->{
             selectedUser.setEmail(body.getEmail())
@@ -114,5 +127,19 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         }else{
             return Header.OK("Email good to use");
         }
+    }
+
+    public Header<SessionResponseDto> authenticate(Header<SessionRequestDto> request){
+        SessionRequestDto body = request.getData();
+        String email = body.getEmail();
+        String password = body.getPassword();
+        // 해당 이메일을 가진 사용자가 존재하는지 여부
+        User user=userRepository.findByEmail(email).orElseThrow(()->new EmailNotExistedException(email));
+
+        // 해당 이메일 & 비번을 가진 사용자가 존재하는지 여부
+        if(!passwordEncoder.matches(password,user.getPassword())){
+//            throw new PasswordWrongException();
+        }
+        return null;
     }
 }

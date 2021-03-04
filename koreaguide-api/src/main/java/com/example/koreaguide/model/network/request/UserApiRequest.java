@@ -19,6 +19,7 @@ import javax.validation.constraints.Email;
 public class UserApiRequest{
 
     private Long id;
+
     @Email
     private String email;
 
