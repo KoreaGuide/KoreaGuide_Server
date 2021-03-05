@@ -167,3 +167,8 @@ __Response Form(Bad Response - email and password does not match):__
 ```
 Example from Postman: 
 <img width="1417" alt="스크린샷 2021-03-06 오전 5 11 58" src="https://user-images.githubusercontent.com/52744390/110168506-a6687a80-7e3a-11eb-9ad3-8efffe4b2755.png">
+
+__Response Form(Bad Response - User with eamil does not exist):__
+```json
+{ }
+```
