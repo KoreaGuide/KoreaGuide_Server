@@ -119,6 +119,19 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         return Header.OK(userApiResponse);
     }
 
+    private Header<UserApiResponse> response(User user,String token){
+        UserApiResponse userApiResponse = UserApiResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .nickname(user.getNickname())
+                .level(user.getLevel())
+                .createdAt(user.getCreatedAt())
+                .createdBy(user.getCreatedBy())
+                .token(token)
+                .build();
+        return Header.OK(userApiResponse);
+    }
     // 이메일 중복 검사
     public Header<UserApiResponse> checkDuplicateEmail(Header<UserApiRequest> request) {
         Optional<User> user = userRepository.findByEmail(request.getData().getEmail());
@@ -141,5 +154,15 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 //            throw new PasswordWrongException();
         }
         return null;
+    }
+
+    public Header<UserApiResponse> login(Header<UserApiRequest> request) {
+        User user = userRepository.findByEmail(request.getData().getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+        if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
+            return Header.ERROR("Wrong Password");
+        }
+        String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
+        return response(user,token);
     }
 }

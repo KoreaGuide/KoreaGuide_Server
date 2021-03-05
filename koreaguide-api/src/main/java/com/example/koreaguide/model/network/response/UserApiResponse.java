@@ -26,4 +26,6 @@ public class UserApiResponse {
     private LocalDateTime createdAt;
 
     private String createdBy;
+
+    private String token;
 }

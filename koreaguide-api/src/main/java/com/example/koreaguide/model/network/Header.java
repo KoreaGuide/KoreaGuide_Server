@@ -26,8 +26,6 @@ public class Header<T> {
     // api 부가 설명
     private String description;
 
-    private String accessToken;
-
     private T data;
 
     //OK

@@ -1,6 +1,7 @@
 package com.example.koreaguide.controller;
 
 import com.example.koreaguide.ifs.CrudInterface;
+import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.UserApiResponse;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
@@ -32,6 +35,10 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
         return userApiLogicService.create(request);
     }
 
+    @PostMapping("/login")
+    public Header<UserApiResponse> login(@RequestBody Header<UserApiRequest> request){
+        return userApiLogicService.login(request);
+    }
     @PostMapping("/checkDuplicate")
     public Header<UserApiResponse> checkDuplicateEmail(@RequestBody Header<UserApiRequest> request) {
         return userApiLogicService.checkDuplicateEmail(request);
@@ -54,4 +61,7 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
     public Header delete(@PathVariable(name = "id") Long id) {
         return userApiLogicService.delete(id);
     }
+
+
+
 }
