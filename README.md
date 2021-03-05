@@ -32,7 +32,7 @@ To begin using this template, choose one of the following options to get started
 2. Register
 
 ## API Endpoints
-__User Related Enpoints__
+__User Related Endpoints__
 |**Request Type**|**Path**|**Method**|**Description**|
 |---|------|---|---|
 | POST | [/api/user](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | CREATE | Create User & save access token for user - Register (회원가입) |
@@ -40,6 +40,7 @@ __User Related Enpoints__
 | PATCH | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | UPDATE | Update information of a particular user (사용자 정보 수정) |
 | DELETE | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | DELETE | Delete user (사용자 삭제) |
 | POST | [/api/user/checkDuplicate](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | - | Check Duplicate user by email (사용자 이메일 중복 확인 - 회원가입 페이지에서 사용하면 됨) |
+| POST | [/api/user/login](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | - | 사용자 로그인 |
 
 ## Team Members & roles
 * [Jisoo Kim](https://github.com/cindia3704) - Backend 
