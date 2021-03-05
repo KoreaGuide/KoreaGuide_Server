@@ -44,7 +44,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         // 이메일 중복 체크 한번더 확인
         Optional<User> userWithEmail = userRepository.findByEmail(body.getEmail());
         if(userWithEmail.isPresent()){
-            return Header.ERROR("Email already exists");
+            return Header.CONFLICTERROR("Email already exists");
         }else {
             // 2. user 생성
             User user = User.builder()
@@ -70,7 +70,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
         return user.map(selectedUser-> response(selectedUser))
                 .orElseGet(
-                        ()->Header.ERROR("Cannot find user")
+                        ()->Header.NOTFOUNDERROR("Cannot find user")
                 );
 
     }
@@ -91,7 +91,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
             })
                 .map(updatedUser -> userRepository.save(updatedUser))
                 .map(finalUser->response(finalUser))
-                .orElseGet(()->Header.ERROR("Cannot find user"));
+                .orElseGet(()->Header.NOTFOUNDERROR("Cannot find user"));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                             return Header.OK();
                         }
                 )
-                .orElseGet(()->Header.ERROR("데이터 없음"));
+                .orElseGet(()->Header.ERROR("Cannot find user"));
     }
 
     private Header<UserApiResponse> response(User user){
@@ -136,7 +136,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<UserApiResponse> checkDuplicateEmail(Header<UserApiRequest> request) {
         Optional<User> user = userRepository.findByEmail(request.getData().getEmail());
         if(user.isPresent()){
-            return Header.OK("Email already exists");
+            return Header.CONFLICTERROR("Email already exists");
         }else{
             return Header.OK("Email good to use");
         }
@@ -160,7 +160,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         User user = userRepository.findByEmail(request.getData().getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
-            return Header.ERROR("Wrong Password");
+            return Header.CONFLICTERROR("Wrong Password");
         }
         String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
         return response(user,token);
