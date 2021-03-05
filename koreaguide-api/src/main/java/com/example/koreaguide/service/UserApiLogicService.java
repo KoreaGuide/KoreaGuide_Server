@@ -81,13 +81,21 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         Optional<User> user = userRepository.findById(id);
         String encodedPassword = passwordEncoder.encode(body.getPassword());
         return user.map(selectedUser->{
-            selectedUser.setEmail(body.getEmail())
-                .setPassword(encodedPassword)
-                .setNickname(body.getNickname())
-                .setLevel(body.getLevel())
-                .setCreatedAt(user.get().getCreatedAt())
-                .setCreatedBy(user.get().getCreatedBy());
-                return selectedUser;
+            if(!body.getEmail().isEmpty()){
+                selectedUser.setEmail(body.getEmail());
+            }
+            if(!body.getNickname().isEmpty()){
+                selectedUser.setNickname(body.getNickname());
+            }
+            if(!body.getLevel().isEmpty()){
+                selectedUser.setLevel(body.getLevel());
+            }
+            if(!body.getPassword().isEmpty()){
+                selectedUser.setPassword(encodedPassword);
+            }
+            selectedUser.setCreatedAt(user.get().getCreatedAt())
+                        .setCreatedBy(user.get().getCreatedBy());
+            return selectedUser;
             })
                 .map(updatedUser -> userRepository.save(updatedUser))
                 .map(finalUser->response(finalUser))

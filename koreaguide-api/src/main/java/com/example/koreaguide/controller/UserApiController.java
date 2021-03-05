@@ -9,6 +9,7 @@ import com.example.koreaguide.service.UserApiLogicService;
 import com.mysql.cj.log.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @Slf4j
@@ -31,7 +34,7 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
 
     @Override
     @PostMapping("")
-    public Header<UserApiResponse> create(@RequestBody Header<UserApiRequest> request) {
+    public Header<UserApiResponse> create(@Valid @RequestBody Header<UserApiRequest> request) {
         return userApiLogicService.create(request);
     }
 
