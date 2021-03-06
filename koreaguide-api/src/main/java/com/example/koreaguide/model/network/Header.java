@@ -49,9 +49,10 @@ public class Header<T> {
     }
 
     //OK data
-    public static <T> Header<T> OK(T data){
+    public static <T> Header<T> OK(T data,HttpStatus status){
         return (Header<T>)Header.builder()
                 .resultCode("OK")
+                .status(status)
                 .description("OK")
                 .data(data)
                 .build();

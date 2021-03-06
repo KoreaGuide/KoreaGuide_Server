@@ -12,11 +12,13 @@ import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -60,7 +62,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
             User newUser = userRepository.save(user);
 
             // 3. 생성된 데이터 --> userapiresponse 리턴
-            return response(newUser);
+            return Header.OK(response(newUser),HttpStatus.CREATED);
         }
     }
 
@@ -68,7 +70,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<UserApiResponse> read(Long id) {
         Optional<User> user = userRepository.findById(id);
 
-        return user.map(selectedUser-> response(selectedUser))
+        return user.map(selectedUser-> Header.OK(response(selectedUser),HttpStatus.FOUND))
                 .orElseGet(
                         ()->Header.NOTFOUNDERROR("Cannot find user")
                 );
@@ -79,6 +81,9 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<UserApiResponse> update(Long id,Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
         Optional<User> user = userRepository.findById(id);
+        if(user == null){
+            Header.NOTFOUNDERROR("Cannot find user");
+        }
         String encodedPassword = passwordEncoder.encode(body.getPassword());
         return user.map(selectedUser->{
             if(!body.getEmail().isEmpty()){
@@ -98,7 +103,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
             return selectedUser;
             })
                 .map(updatedUser -> userRepository.save(updatedUser))
-                .map(finalUser->response(finalUser))
+                .map(finalUser->Header.OK(response(finalUser),HttpStatus.OK))
                 .orElseGet(()->Header.NOTFOUNDERROR("Cannot find user"));
     }
 
@@ -114,7 +119,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .orElseGet(()->Header.ERROR("Cannot find user"));
     }
 
-    private Header<UserApiResponse> response(User user){
+    private UserApiResponse response(User user){
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -124,7 +129,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .createdAt(user.getCreatedAt())
                 .createdBy(user.getCreatedBy())
                 .build();
-        return Header.OK(userApiResponse);
+        return userApiResponse;
     }
 
     private Header<UserApiResponse> response(User user,String token){
@@ -138,7 +143,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .createdBy(user.getCreatedBy())
                 .token(token)
                 .build();
-        return Header.OK(userApiResponse);
+        return Header.OK(userApiResponse,HttpStatus.OK);
     }
     // 이메일 중복 검사
     public Header<UserApiResponse> checkDuplicateEmail(Header<UserApiRequest> request) {
@@ -166,7 +171,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
     public Header<UserApiResponse> login(Header<UserApiRequest> request) {
         User user = userRepository.findByEmail(request.getData().getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+                .orElseThrow(()-> new EmailNotExistedException("cannot find user"));
+
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
             return Header.CONFLICTERROR("Wrong Password");
         }
