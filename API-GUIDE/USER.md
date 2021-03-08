@@ -7,10 +7,10 @@ Request Type: POST
 ```json
 {
     "data": {
-        "email": "amy1230@gmail.com",
+        "email": "mindy@gmail.com",
         "password": "1111",
-        "nickname": "Amy Lee",
-        "level": "HIGH"
+        "nickname": "Mindy Lee",
+        "level": "MID"
     }
 }
 ```
