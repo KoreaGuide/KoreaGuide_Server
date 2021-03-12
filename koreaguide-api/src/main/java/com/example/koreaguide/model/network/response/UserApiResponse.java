@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserApiResponse {
 
-    private Long id;
+    private Integer id;
 
     private String email;
 
@@ -30,4 +31,8 @@ public class UserApiResponse {
     private String createdBy;
 
     private String token;
+
+    private LocalDate lastLoginAt;
+
+    private Integer weekAttendance;
 }

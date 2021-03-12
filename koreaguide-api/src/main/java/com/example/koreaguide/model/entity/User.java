@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /*
@@ -31,7 +32,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // 전략옵션
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false,unique = true)
     @Email
@@ -45,6 +46,10 @@ public class User {
 
     @Column(nullable = false)
     private String level;
+
+    private LocalDate lastLoginAt;
+
+    private Integer weekAttendance;
 
     private LocalDateTime createdAt;
 

@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import javax.validation.constraints.Email;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -56,6 +58,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     .nickname(body.getNickname())
                     .createdAt(LocalDateTime.now())
                     .createdBy("Admin")
+                    .weekAttendance(0)
                     .build();
             String token = jwtUtil.createAccessToken(body.getId(),body.getNickname());
             System.out.println("ACCESS TOKEN"+token);
@@ -67,7 +70,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     }
 
     @Override
-    public Header<UserApiResponse> read(Long id) {
+    public Header<UserApiResponse> read(Integer id) {
         Optional<User> user = userRepository.findById(id);
 
         return user.map(selectedUser-> Header.OK(response(selectedUser),HttpStatus.FOUND))
@@ -78,7 +81,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     }
 
     @Override
-    public Header<UserApiResponse> update(Long id,Header<UserApiRequest> request) {
+    public Header<UserApiResponse> update(Integer id,Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
         Optional<User> user = userRepository.findById(id);
         if(user == null){
@@ -108,7 +111,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     }
 
     @Override
-    public Header delete(Long id) {
+    public Header delete(Integer id) {
         Optional<User> user = userRepository.findById(id);
         return user
                 .map(userSelected->{
@@ -128,6 +131,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .level(user.getLevel())
                 .createdAt(user.getCreatedAt())
                 .createdBy(user.getCreatedBy())
+                .weekAttendance(user.getWeekAttendance())
+                .lastLoginAt(user.getLastLoginAt())
                 .build();
         return userApiResponse;
     }
@@ -141,6 +146,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .level(user.getLevel())
                 .createdAt(user.getCreatedAt())
                 .createdBy(user.getCreatedBy())
+                .lastLoginAt(user.getLastLoginAt())
+                .weekAttendance(user.getWeekAttendance())
                 .token(token)
                 .build();
         return Header.OK(userApiResponse,HttpStatus.OK);
@@ -177,6 +184,15 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
             return Header.CONFLICTERROR("Wrong Password");
         }
         String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
+        if(LocalDate.now().getDayOfWeek()== DayOfWeek.MONDAY){
+            user.setWeekAttendance(1);
+            user.setLastLoginAt(LocalDate.now());
+        }
+        if(user.getLastLoginAt()!=LocalDate.now()){
+            Integer userWeekAttendance = user.getWeekAttendance();
+            user.setWeekAttendance(userWeekAttendance+1);
+            user.setLastLoginAt(LocalDate.now());
+        }
         return response(user,token);
     }
 }
