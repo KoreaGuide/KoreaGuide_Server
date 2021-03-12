@@ -7,10 +7,10 @@ Request Type: POST
 ```json
 {
     "data": {
-        "email": "mindy@gmail.com",
+        "email": "cindia@gmail.com",
         "password": "1111",
-        "nickname": "Mindy Lee",
-        "level": "MID"
+        "nickname": "Jisoo Kim",
+        "level": "LOW"
     }
 }
 ```
@@ -22,13 +22,14 @@ __Response Form(Good Response):__
     "status": "CREATED",
     "description": "OK",
     "data": {
-        "id": 4,
-        "email": "mindy@gmail.com",
-        "password": "$2a$10$HAu6i5B.KZ.iYXoOIQPFYu3EiM8q/.LzLIdtdNxDIWHJ/daoEeFli",
-        "nickname": "Mindy Lee",
-        "level": "MID",
-        "created_at": "2021-03-06T16:36:12.239575",
-        "created_by": "Admin"
+        "id": 7,
+        "email": "cindia@gmail.com",
+        "password": "$2a$10$c2fvZdal64OLKUw3h0GW0ONfvrzSh2BSTmocPjfs2otGQpxW3KKXS",
+        "nickname": "Jisoo Kim",
+        "level": "LOW",
+        "created_at": "2021-03-12T16:08:15.545682",
+        "created_by": "Admin",
+        "week_attendance": 0
     }
 }
 ```
@@ -41,7 +42,7 @@ __Response Form(Bad Response - user with email exists):__
 }
 ```
 Example from Postman: 
-<img width="1417" alt="스크린샷 2021-03-06 오전 5 07 54" src="https://user-images.githubusercontent.com/52744390/110168647-d31c9200-7e3a-11eb-8a3b-3dcb296c2152.png">
+<img width="1416" alt="스크린샷 2021-03-12 오후 4 09 07" src="https://user-images.githubusercontent.com/52744390/110905111-5105ff00-834d-11eb-9134-cf4a795fb8ad.png">
 
 ## User Read
 __Request Form:__   
@@ -54,16 +55,20 @@ __Response Form (Good Response):__
     "status": "FOUND",
     "description": "OK",
     "data": {
-        "id": 1,
-        "email": "cindia3704@gmail.com",
-        "password": "$2a$10$mGed9964ZkWEkI6rA7jAgecB75.wGHXsPaVgw97J4s8eVamByuEii",
+        "id": 7,
+        "email": "cindia@gmail.com",
+        "password": "$2a$10$c2fvZdal64OLKUw3h0GW0ONfvrzSh2BSTmocPjfs2otGQpxW3KKXS",
         "nickname": "Jisoo Kim",
         "level": "LOW",
-        "created_at": "2021-03-06T05:04:23",
-        "created_by": "Admin"
+        "created_at": "2021-03-12T16:08:16",
+        "created_by": "Admin",
+        "week_attendance": 0
     }
 }
 ```
+Example from Postman: 
+<img width="1416" alt="스크린샷 2021-03-12 오후 4 10 15" src="https://user-images.githubusercontent.com/52744390/110905182-709d2780-834d-11eb-9201-f2959ac13339.png">
+   
 __Response Form (BAD Response - user with id does not exist):__ 
 ```json
 {
@@ -147,19 +152,21 @@ __Response Form(Good Response):__
     "status": "OK",
     "description": "OK",
     "data": {
-        "id": 1,
-        "email": "cindia3704@gmail.com",
-        "password": "$2a$10$mGed9964ZkWEkI6rA7jAgecB75.wGHXsPaVgw97J4s8eVamByuEii",
+        "id": 7,
+        "email": "cindia@gmail.com",
+        "password": "$2a$10$c2fvZdal64OLKUw3h0GW0ONfvrzSh2BSTmocPjfs2otGQpxW3KKXS",
         "nickname": "Jisoo Kim",
         "level": "LOW",
-        "created_at": "2021-03-06T05:04:23",
+        "created_at": "2021-03-12T16:08:16",
         "created_by": "Admin",
-        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsIm5hbWUiOiJKaXNvbyBLaW0ifQ.s_pAbb6xjIoEfFmO78qB21sz7o95rlF3HP-zXRn9s4E"
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsIm5hbWUiOiJKaXNvbyBLaW0ifQ.xZTkLViaP4Bk1aQgdqTPRVb7a8aHJWdCmZCZy7v9ilI",
+        "last_login_at": "2021-03-12",
+        "week_attendance": 1
     }
 }
 ```
 Example from Postman: 
-<img width="1417" alt="스크린샷 2021-03-06 오후 4 38 26" src="https://user-images.githubusercontent.com/52744390/110199174-70f37980-7e9a-11eb-9716-826955a85e20.png">
+<img width="1416" alt="스크린샷 2021-03-12 오후 4 11 45" src="https://user-images.githubusercontent.com/52744390/110905329-a6421080-834d-11eb-8bb7-76fd0ff1cda6.png">
 __Response Form(Bad Response - email and password does not match):__
 ```json
 {
