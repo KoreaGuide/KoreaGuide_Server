@@ -7,7 +7,7 @@ Request Type: POST
 ```json
 {
     "data": {
-        "email": "cindia@gmail.com",
+        "email": "cindi@gmail.com",
         "password": "1111",
         "nickname": "Jisoo Kim",
         "level": "LOW"
@@ -18,31 +18,34 @@ Request Type: POST
 __Response Form(Good Response):__
 ```json
 {
-    "result_code": "OK",
+    "result_code": 201,
     "status": "CREATED",
     "description": "OK",
     "data": {
-        "id": 7,
-        "email": "cindia@gmail.com",
-        "password": "$2a$10$c2fvZdal64OLKUw3h0GW0ONfvrzSh2BSTmocPjfs2otGQpxW3KKXS",
+        "id": 9,
+        "email": "cindi@gmail.com",
+        "password": "$2a$10$nluD0omnUu1SQmv.3xRP3e5ITR2FJailmsF4JmD6BQfFsSZc3Er3e",
         "nickname": "Jisoo Kim",
         "level": "LOW",
-        "created_at": "2021-03-12T16:08:15.545682",
+        "created_at": "2021-03-12T20:22:28.292666",
         "created_by": "Admin",
         "week_attendance": 0
     }
 }
 ```
+Example from Postman: 
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 22 39" src="https://user-images.githubusercontent.com/52744390/110933918-b28b9500-8370-11eb-9a21-e8f9293b5335.png">
+
 __Response Form(Bad Response - user with email exists):__
 ```json
 {
-    "result_code": "ERROR",
+    "result_code": 409,
     "status": "CONFLICT",
-    "description": "Email already exists"
+    "description": "Unique Field Error"
 }
 ```
 Example from Postman: 
-<img width="1416" alt="스크린샷 2021-03-12 오후 4 09 07" src="https://user-images.githubusercontent.com/52744390/110905111-5105ff00-834d-11eb-9134-cf4a795fb8ad.png">
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 22 20" src="https://user-images.githubusercontent.com/52744390/110933885-a69fd300-8370-11eb-8e96-3655324ba243.png">
 
 ## User Read
 __Request Form:__   
@@ -51,30 +54,30 @@ Request Type: GET
 __Response Form (Good Response):__ 
 ```json
 {
-    "result_code": "OK",
-    "status": "FOUND",
+    "result_code": 200,
+    "status": "OK",
     "description": "OK",
     "data": {
-        "id": 7,
-        "email": "cindia@gmail.com",
-        "password": "$2a$10$c2fvZdal64OLKUw3h0GW0ONfvrzSh2BSTmocPjfs2otGQpxW3KKXS",
+        "id": 9,
+        "email": "cindi@gmail.com",
+        "password": "$2a$10$nluD0omnUu1SQmv.3xRP3e5ITR2FJailmsF4JmD6BQfFsSZc3Er3e",
         "nickname": "Jisoo Kim",
         "level": "LOW",
-        "created_at": "2021-03-12T16:08:16",
+        "created_at": "2021-03-12T20:22:28",
         "created_by": "Admin",
         "week_attendance": 0
     }
 }
 ```
 Example from Postman: 
-<img width="1416" alt="스크린샷 2021-03-12 오후 4 10 15" src="https://user-images.githubusercontent.com/52744390/110905182-709d2780-834d-11eb-9201-f2959ac13339.png">
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 29 20" src="https://user-images.githubusercontent.com/52744390/110934654-a227ea00-8371-11eb-884a-a3a8ac309aac.png">
    
 __Response Form (BAD Response - user with id does not exist):__ 
 ```json
 {
-    "result_code": "ERROR",
-    "status": "NOT_FOUND",
-    "description": "Cannot find user"
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find Entity"
 }
 ```
 
@@ -86,7 +89,7 @@ Request Type: DELETE
 __Response Form(Good Response):__   
 ```json
 {
-    "result_code": "OK",
+    "result_code": 200,
     "status": "OK",
     "description": "OK"
 }
@@ -95,9 +98,9 @@ __Response Form(Good Response):__
 __Response Form(Bad Response):__   
 ```json
 {
-    "result_code": "ERROR",
-    "status": "BAD_REQUEST",
-    "description": "Cannot find user"
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find Entity"
 }
 ```
 
@@ -117,20 +120,24 @@ Request Type: POST
 __Response Form (IF CAN USE) - 해당 이메일을 사용해도 되는 경우:__ 
 ```json
 {
-    "result_code": "OK",
+    "result_code": 200,
     "status": "OK",
     "description": "Email good to use"
 }
 ```
+Example from Postman: 
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 33 33" src="https://user-images.githubusercontent.com/52744390/110935036-38f4a680-8372-11eb-8ed1-02a36d54f894.png">
 
 __Response Form (IF CANNOT USE) - 해당 이메일을 사용하면 안되는 경우( 이미 사용자 있음)__
 ```json
 {
-    "result_code": "ERROR",
+    "result_code": 409,
     "status": "CONFLICT",
-    "description": "Email already exists"
+    "description": "Unique Field Error"
 }
 ```
+Example from Postman: 
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 32 34" src="https://user-images.githubusercontent.com/52744390/110934949-16fb2400-8372-11eb-8702-aac00e9371f3.png">
 
 ## Login
 __Request Form:__   
@@ -148,7 +155,7 @@ Request Type: POST
 __Response Form(Good Response):__
 ```json
 {
-    "result_code": "OK",
+    "result_code": 200,
     "status": "OK",
     "description": "OK",
     "data": {
@@ -166,18 +173,24 @@ __Response Form(Good Response):__
 }
 ```
 Example from Postman: 
-<img width="1416" alt="스크린샷 2021-03-12 오후 4 11 45" src="https://user-images.githubusercontent.com/52744390/110905329-a6421080-834d-11eb-8bb7-76fd0ff1cda6.png">
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 34 31" src="https://user-images.githubusercontent.com/52744390/110935133-5b86bf80-8372-11eb-818d-cee70428bcab.png">
 __Response Form(Bad Response - email and password does not match):__
 ```json
 {
-    "result_code": "ERROR",
+    "result_code": 409,
     "status": "CONFLICT",
     "description": "Wrong Password"
 }
 ```
 Example from Postman: 
-<img width="1417" alt="스크린샷 2021-03-06 오후 4 38 32" src="https://user-images.githubusercontent.com/52744390/110199185-7ea8ff00-7e9a-11eb-9f6d-7748537ca94e.png">
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 35 22" src="https://user-images.githubusercontent.com/52744390/110935218-79ecbb00-8372-11eb-82a2-87529dc98167.png">
 __Response Form(Bad Response - User with eamil does not exist):__
 ```json
-{ }
+{
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find Entity"
+}
 ```
+Example from Postman: 
+<img width="1416" alt="스크린샷 2021-03-12 오후 8 36 21" src="https://user-images.githubusercontent.com/52744390/110935318-9d176a80-8372-11eb-9249-bd00da4a526c.png">
