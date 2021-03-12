@@ -42,7 +42,10 @@ __User Related Endpoints__
 | DELETE | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | DELETE | Delete user (사용자 삭제) |
 | POST | [/api/user/checkDuplicate](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | - | Check Duplicate user by email (사용자 이메일 중복 확인 - 회원가입 페이지에서 사용하면 됨) |
 | POST | [/api/user/login](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | - | 사용자 로그인 |
-
+   
+## ERD
+<img width="979" alt="스크린샷 2021-03-12 오후 3 42 28" src="https://user-images.githubusercontent.com/52744390/110905701-3e3ffa00-834e-11eb-8d4e-115095b1b369.png">
+   
 ## Team Members & roles
 * [Jisoo Kim](https://github.com/cindia3704) - Backend 
 * [Chihyun Song](https://github.com/alzee03) - Front-end (Main)
