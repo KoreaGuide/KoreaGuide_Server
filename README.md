@@ -30,6 +30,7 @@ To begin using this template, choose one of the following options to get started
 ## Project Functions 
 1. Duplicate check of emails 
 2. Register
+3. Login
 
 ## API Endpoints
 __User Related Endpoints__
@@ -44,5 +45,5 @@ __User Related Endpoints__
 
 ## Team Members & roles
 * [Jisoo Kim](https://github.com/cindia3704) - Backend 
-* [ChiHyun Song](https://github.com/alzee03) - Front-end (Main)
-* [SeonHo Lim](https://github.com/imseonho) - External API & Data filtering & Front-end (Sub)
+* [Chihyun Song](https://github.com/alzee03) - Front-end (Main)
+* [Seonho Im](https://github.com/imseonho) - External API & Data filtering & Front-end (Sub)
