@@ -2,6 +2,8 @@ package com.example.koreaguide.controller;
 
 import com.example.koreaguide.ifs.CrudInterface;
 import com.example.koreaguide.model.entity.User;
+import com.example.koreaguide.model.exception.GlobalExceptionHandler;
+import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.UserApiResponse;
@@ -9,8 +11,10 @@ import com.example.koreaguide.service.UserApiLogicService;
 import com.mysql.cj.log.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +31,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
-public class UserApiController implements CrudInterface<UserApiRequest,UserApiResponse> {
+public class UserApiController extends GlobalExceptionHandler implements CrudInterface<UserApiRequest,UserApiResponse>{
     // generic으로 만듬!!
     @Autowired
     UserApiLogicService userApiLogicService;
@@ -35,12 +39,15 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
     @Override
     @PostMapping("")
     public Header<UserApiResponse> create(@Valid @RequestBody Header<UserApiRequest> request) {
-        return userApiLogicService.create(request);
+        UserApiResponse userApiResponse = userApiLogicService.create(request);
+        HttpStatus http = HttpStatus.CREATED;
+        return new Header<>(userApiResponse,http,"OK");
     }
 
     @PostMapping("/login")
     public Header<UserApiResponse> login(@RequestBody Header<UserApiRequest> request){
-        return userApiLogicService.login(request);
+        UserApiResponse userApiResponse = userApiLogicService.login(request);
+        return new Header<>(userApiResponse);
     }
     @PostMapping("/checkDuplicate")
     public Header<UserApiResponse> checkDuplicateEmail(@RequestBody Header<UserApiRequest> request) {
@@ -50,7 +57,8 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
     @Override
     @GetMapping("/{id}")
     public Header<UserApiResponse> read(@PathVariable(name = "id") Integer id) {
-        return userApiLogicService.read(id);
+        UserApiResponse userApiResponse =userApiLogicService.read(id);
+        return new Header<>(userApiResponse);
     }
 
     @Override

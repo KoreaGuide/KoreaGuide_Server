@@ -3,6 +3,8 @@ package com.example.koreaguide.service;
 import com.example.koreaguide.ifs.CrudInterface;
 import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.exception.EmailNotExistedException;
+import com.example.koreaguide.model.exception.KoreaGuideError;
+import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.exception.PasswordWrongException;
 import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.SessionRequestDto;
@@ -11,11 +13,13 @@ import com.example.koreaguide.model.network.response.SessionResponseDto;
 import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.utils.JwtUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.swing.text.html.Option;
 import javax.validation.constraints.Email;
@@ -25,7 +29,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
+public class UserApiLogicService {
     @Autowired
     private UserRepository userRepository;
 
@@ -35,8 +39,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Override
-    public Header<UserApiResponse> create(Header<UserApiRequest> request) {
+    public UserApiResponse create(Header<UserApiRequest> request) {
         // 회원가입!
 
         // 1.request data 가져오고
@@ -48,7 +51,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         // 이메일 중복 체크 한번더 확인
         Optional<User> userWithEmail = userRepository.findByEmail(body.getEmail());
         if(userWithEmail.isPresent()){
-            return Header.CONFLICTERROR("Email already exists");
+            throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR,"Email already exists");
         }else {
             // 2. user 생성
             User user = User.builder()
@@ -65,22 +68,21 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
             User newUser = userRepository.save(user);
 
             // 3. 생성된 데이터 --> userapiresponse 리턴
-            return Header.OK(response(newUser),HttpStatus.CREATED);
+//            return Header.OK(response(newUser),HttpStatus.CREATED);
+            return response(newUser);
         }
     }
 
-    @Override
-    public Header<UserApiResponse> read(Integer id) {
+    public UserApiResponse read(Integer id) {
         Optional<User> user = userRepository.findById(id);
 
-        return user.map(selectedUser-> Header.OK(response(selectedUser),HttpStatus.FOUND))
-                .orElseGet(
-                        ()->Header.NOTFOUNDERROR("Cannot find user")
+        return user.map(selectedUser->response(selectedUser))
+                .orElseThrow(()->
+                        new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user")
                 );
 
     }
 
-    @Override
     public Header<UserApiResponse> update(Integer id,Header<UserApiRequest> request) {
         UserApiRequest body = request.getData();
         Optional<User> user = userRepository.findById(id);
@@ -110,7 +112,6 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .orElseGet(()->Header.NOTFOUNDERROR("Cannot find user"));
     }
 
-    @Override
     public Header delete(Integer id) {
         Optional<User> user = userRepository.findById(id);
         return user
@@ -119,7 +120,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                             return Header.OK();
                         }
                 )
-                .orElseGet(()->Header.ERROR("Cannot find user"));
+                .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user"));
     }
 
     private UserApiResponse response(User user){
@@ -137,7 +138,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         return userApiResponse;
     }
 
-    private Header<UserApiResponse> response(User user,String token){
+    private UserApiResponse response(User user,String token){
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -150,13 +151,13 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .weekAttendance(user.getWeekAttendance())
                 .token(token)
                 .build();
-        return Header.OK(userApiResponse,HttpStatus.OK);
+        return userApiResponse;
     }
     // 이메일 중복 검사
     public Header<UserApiResponse> checkDuplicateEmail(Header<UserApiRequest> request) {
         Optional<User> user = userRepository.findByEmail(request.getData().getEmail());
         if(user.isPresent()){
-            return Header.CONFLICTERROR("Email already exists");
+            throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR,"Email already exists");
         }else{
             return Header.OK("Email good to use");
         }
@@ -176,12 +177,12 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         return null;
     }
 
-    public Header<UserApiResponse> login(Header<UserApiRequest> request) {
+    public UserApiResponse login(Header<UserApiRequest> request) {
         User user = userRepository.findByEmail(request.getData().getEmail())
-                .orElseThrow(()-> new EmailNotExistedException("cannot find user"));
+                .orElseThrow(()-> new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user"));
 
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
-            return Header.CONFLICTERROR("Wrong Password");
+            throw new KoreaGuideException(KoreaGuideError.WRONG_PASSWORD,"user");
         }
         String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
         if(LocalDate.now().getDayOfWeek()== DayOfWeek.MONDAY){
@@ -195,4 +196,5 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         }
         return response(user,token);
     }
+
 }

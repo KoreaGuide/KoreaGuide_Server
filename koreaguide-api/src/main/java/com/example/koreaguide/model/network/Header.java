@@ -24,7 +24,7 @@ public class Header<T> {
     // api 통신 시간
 
     // api 응답 코드
-    private String resultCode;
+    private int resultCode;
     private HttpStatus status;
 
     // api 부가 설명
@@ -35,14 +35,14 @@ public class Header<T> {
     //OK
     public static <T> Header<T> OK(){
         return (Header<T>)Header.builder()
-                .resultCode("OK")
+                .resultCode(200)
                 .status(HttpStatus.OK)
                 .description("OK")
                 .build();
     }
     public static <T> Header<T> OK(String description){
         return (Header<T>)Header.builder()
-                .resultCode("OK")
+                .resultCode(200)
                 .status(HttpStatus.OK)
                 .description(description)
                 .build();
@@ -50,8 +50,9 @@ public class Header<T> {
 
     //OK data
     public static <T> Header<T> OK(T data,HttpStatus status){
+        int codeNum = status.value();
         return (Header<T>)Header.builder()
-                .resultCode("OK")
+                .resultCode(codeNum)
                 .status(status)
                 .description("OK")
                 .data(data)
@@ -60,15 +61,16 @@ public class Header<T> {
 
     // ERROR
     public static <T> Header<T> ERROR(String description){
+        int codeNum = HttpStatus.BAD_REQUEST.value();
         return (Header<T>)Header.builder()
-                .resultCode("ERROR")
+                .resultCode(codeNum)
                 .status(HttpStatus.BAD_REQUEST)
                 .description(description)
                 .build();
     }
     public static <T> Header<T> NOTFOUNDERROR(String description){
         return (Header<T>)Header.builder()
-                .resultCode("ERROR")
+                .resultCode(HttpStatus.NOT_FOUND.value())
                 .status(HttpStatus.NOT_FOUND)
                 .description(description)
                 .build();
@@ -76,10 +78,35 @@ public class Header<T> {
 
     public static <T> Header<T> CONFLICTERROR(String description){
         return (Header<T>)Header.builder()
-                .resultCode("ERROR")
+                .resultCode(HttpStatus.CONFLICT.value())
                 .status(HttpStatus.CONFLICT)
                 .description(description)
                 .build();
     }
 
+    public static<T> Header<T> RESPONSE(HttpStatus status,String description){
+        return (Header<T>)Header.builder()
+                .resultCode(status.value())
+                .status(status)
+                .description(description)
+                .build();
+    }
+
+    public Header(HttpStatus status,String description){
+                this.resultCode = status.value();
+                this.status= status;
+                this.description=description;
+    }
+    public Header(T data){
+        this.resultCode = HttpStatus.OK.value();
+        this.status= HttpStatus.OK;
+        this.description="OK";
+        this.data = data;
+    }
+    public Header(T data,HttpStatus status,String description){
+        this.resultCode = status.value();
+        this.status= status;
+        this.description=description;
+        this.data = data;
+    }
 }
