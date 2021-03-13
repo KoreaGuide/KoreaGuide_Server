@@ -1,8 +1,13 @@
 package com.example.koreaguide.repository;
 
 import com.example.koreaguide.model.entity.Home;
+import com.example.koreaguide.model.entity.User;
+import com.example.koreaguide.model.enumclass.UserLevel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 /*
  * @author : Jisoo Kim
@@ -10,4 +15,6 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface HomeRepository extends JpaRepository<Home,Integer> {
+   Home findByLevelAndCreatedAt(UserLevel level, LocalDate createdAt);
+
 }

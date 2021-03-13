@@ -9,8 +9,8 @@ public enum KoreaGuideError {
     UNKNOWN_ERROR("Unknown Error",HttpStatus.INTERNAL_SERVER_ERROR),
     NOT_LOGIN("Not Logged in", HttpStatus.UNAUTHORIZED),
     ENTITY_NOT_FOUND("Cannot Find Entity", HttpStatus.INTERNAL_SERVER_ERROR),
-    WRONG_PASSWORD("Wrong Password", HttpStatus.CONFLICT);
-
+    WRONG_PASSWORD("Wrong Password", HttpStatus.CONFLICT),
+    WRONG_FORMAT("Wrong Format",HttpStatus.BAD_REQUEST);
     private String desc;
     private HttpStatus status;
 

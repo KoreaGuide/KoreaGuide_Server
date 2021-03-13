@@ -43,6 +43,8 @@ public class Word {
 
     private String audio;
 
+    private String image;
+
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "word")
     private List<MyWord> myWordList;
 
