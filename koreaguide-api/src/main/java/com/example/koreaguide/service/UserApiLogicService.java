@@ -97,7 +97,7 @@ public class UserApiLogicService {
             if(!body.getNickname().isEmpty()){
                 selectedUser.setNickname(body.getNickname());
             }
-            if(!body.getLevel().isEmpty()){
+            if(!body.getLevel().toString().isEmpty()){
                 selectedUser.setLevel(body.getLevel());
             }
             if(!body.getPassword().isEmpty()){
