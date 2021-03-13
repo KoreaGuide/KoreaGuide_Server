@@ -184,15 +184,23 @@ public class UserApiLogicService {
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
             throw new KoreaGuideException(KoreaGuideError.WRONG_PASSWORD,"user");
         }
+
         String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
-        if(LocalDate.now().getDayOfWeek()== DayOfWeek.MONDAY){
+
+        if(LocalDate.now().getDayOfWeek().compareTo(DayOfWeek.MONDAY)==0){
+            System.out.println("NOW: "+LocalDate.now().getDayOfWeek());
+            System.out.println("Mond: "+DayOfWeek.MONDAY);
             user.setWeekAttendance(1);
             user.setLastLoginAt(LocalDate.now());
+            userRepository.save(user);
         }
-        if(user.getLastLoginAt()!=LocalDate.now()){
+        if(user.getLastLoginAt().compareTo(LocalDate.now())!=0){
+            System.out.println("LAST LOGIN: "+user.getLastLoginAt().toString());
+            System.out.println("NOW!!: "+LocalDate.now().toString());
             Integer userWeekAttendance = user.getWeekAttendance();
             user.setWeekAttendance(userWeekAttendance+1);
             user.setLastLoginAt(LocalDate.now());
+            userRepository.save(user);
         }
         return response(user,token);
     }

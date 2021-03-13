@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+//TODO: 주의!!! -- DB에서 todays_place 삭제하면 해당 id갖는 home 도 삭제해줘야함!!!
+
 @Service
 public class HomeApiLogicService {
     @Autowired
@@ -89,6 +91,7 @@ public class HomeApiLogicService {
 
 
     public TodaysPlace createTodaysPlace(Integer count,Integer homeCount){
+        //TODO: minNum 어떻게 할건지!!
         int [] placeIndecies = getRandomIndex(100,count);
         Place place1 = placeRepository.getOne(placeIndecies[0]);
         Place place2 = placeRepository.getOne(placeIndecies[1]);
@@ -119,15 +122,18 @@ public class HomeApiLogicService {
         int min = minNum;
         int max = minNum+count;
         for(int i=0;i<count;i++){
-            indices[i]=(int) ((Math.random() * (max - min)) + min);
+            int selectedNumber=(int) ((Math.random() * (max - min)) + min);
+            while(placeRepository.findById(selectedNumber)==null){
+                selectedNumber=(int) ((Math.random() * (max - min)) + min);
+            }
+            indices[i]=selectedNumber;
+
             for(int j=0;j<i;j++){
                 if(indices[i]==indices[j]){
                     i--;
                 }
             }
         }
-//        int random = (int) ((Math.random() * (max - min)) + min);
-//        System.out.println(in);
         return indices;
     }
 
