@@ -18,6 +18,6 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler(RuntimeException.class)
     public Header<?> unknownException(Exception e) {
-        return new Header<>(KoreaGuideError.UNKNOWN_ERROR);
+        return new Header<>(KoreaGuideError.UNKNOWN_ERROR.getStatus(),"ERROR");
     }
 }

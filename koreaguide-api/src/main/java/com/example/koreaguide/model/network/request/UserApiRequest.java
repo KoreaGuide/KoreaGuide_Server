@@ -1,6 +1,7 @@
 package com.example.koreaguide.model.network.request;
 
 import com.example.koreaguide.ifs.CrudInterface;
+import com.example.koreaguide.model.enumclass.UserLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,5 @@ public class UserApiRequest{
 
     private String nickname;
 
-    private String level;
+    private UserLevel level;
 }
