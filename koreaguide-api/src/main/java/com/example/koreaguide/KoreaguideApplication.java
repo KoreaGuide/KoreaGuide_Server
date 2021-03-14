@@ -13,8 +13,8 @@ public class KoreaguideApplication {
         SpringApplication.run(KoreaguideApplication.class, args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 }

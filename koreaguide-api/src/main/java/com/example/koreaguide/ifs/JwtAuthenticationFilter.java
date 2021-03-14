@@ -1,7 +1,9 @@
 package com.example.koreaguide.ifs;
 
+import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,16 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
-    private JwtUtil jwtUtil;
-
+    private final JwtUtil jwtUtil;
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager,JwtUtil jwtUtil) {
         super(authenticationManager);
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 //        super.doFilterInternal(request, response, chain);
        Authentication authentication = getAuthentication(request);
+       if(authentication==null){
+           chain.doFilter(request,response);
+            return;
+       }
         if(authentication!=null){
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(authentication);
@@ -42,6 +48,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         // TODO: jwtUtil에서 claims 얻기
         Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
         Authentication authentication = new UsernamePasswordAuthenticationToken(claims,null);
+
         return authentication;
     }
 

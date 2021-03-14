@@ -32,13 +32,12 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(filter)
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public JwtUtil jwtUtil(){

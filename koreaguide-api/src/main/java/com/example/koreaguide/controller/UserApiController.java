@@ -3,15 +3,18 @@ package com.example.koreaguide.controller;
 import com.example.koreaguide.ifs.CrudInterface;
 import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.exception.GlobalExceptionHandler;
+import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.service.UserApiLogicService;
 import com.mysql.cj.log.Log;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,12 +34,11 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/user")
-public class UserApiController extends GlobalExceptionHandler implements CrudInterface<UserApiRequest,UserApiResponse>{
+public class UserApiController extends GlobalExceptionHandler{
     // generic으로 만듬!!
     @Autowired
     UserApiLogicService userApiLogicService;
 
-    @Override
     @PostMapping("")
     public Header<UserApiResponse> create(@Valid @RequestBody Header<UserApiRequest> request) {
         UserApiResponse userApiResponse = userApiLogicService.create(request);
@@ -54,22 +56,57 @@ public class UserApiController extends GlobalExceptionHandler implements CrudInt
         return userApiLogicService.checkDuplicateEmail(request);
     }
 
-    @Override
     @GetMapping("/{id}")
-    public Header<UserApiResponse> read(@PathVariable(name = "id") Integer id) {
+    public Header<UserApiResponse> read(
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id) {
+        try{
+            Claims claims = (Claims) authentication.getPrincipal();
+            Integer userId = claims.get("userId",Integer.class);
+            System.out.println("USER ID: "+userId);
+            if(id!=userId){
+                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+            }
+        }catch (Exception e){
+            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+        }
+
         UserApiResponse userApiResponse =userApiLogicService.read(id);
         return new Header<>(userApiResponse);
     }
 
-    @Override
     @PatchMapping("/{id}")
-    public Header<UserApiResponse> update(@PathVariable(name = "id") Integer id,@RequestBody Header<UserApiRequest> request) {
+    public Header<UserApiResponse> update(
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id,
+            @RequestBody Header<UserApiRequest> request) {
+        try{
+            Claims claims = (Claims) authentication.getPrincipal();
+            Integer userId = claims.get("userId",Integer.class);
+            System.out.println("USER ID: "+userId);
+            if(id!=userId){
+                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+            }
+        }catch (Exception e){
+            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+        }
         return userApiLogicService.update(id,request);
     }
 
-    @Override
     @DeleteMapping("/{id}")
-    public Header delete(@PathVariable(name = "id") Integer id) {
+    public Header delete(
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id) {
+        try{
+            Claims claims = (Claims) authentication.getPrincipal();
+            Integer userId = claims.get("userId",Integer.class);
+            System.out.println("USER ID: "+userId);
+            if(id!=userId){
+                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+            }
+        }catch (Exception e){
+            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+        }
         return userApiLogicService.delete(id);
     }
 
