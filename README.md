@@ -33,22 +33,35 @@ To begin using this template, choose one of the following options to get started
 3. Login
 4. Home 
 
+## Example of Token in header 
+```
+Authorization Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjExLCJuYW1lIjoiQ2luZGlhIn0.vNieUBizIAzhwpAv_J2m9GSMMUO96LTaWPLxYYOG_W8
+```
+__Response if wrong / no Token provided (헤더에 토큰 없거나 틀려서 생기는 오류)__
+```json
+{
+    "result_code": 401,
+    "status": "UNAUTHORIZED",
+    "description": "Not Logged in"
+}
+```
+   
 ## API Endpoints
 __User Related Endpoints__
-|**Request Type**|**Path**|**Method**|**Description**|
-|---|------|---|---|
-| POST | [/api/user](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | CREATE | Create User & save access token for user - Register (회원가입) |
-| GET | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | READ | Get information of 1 particular user (사용자 정보 조회) |
-| PATCH | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | UPDATE | Update information of a particular user (사용자 정보 수정) |
-| DELETE | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | DELETE | Delete user (사용자 삭제) |
-| POST | [/api/user/checkDuplicate](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | - | Check Duplicate user by email (사용자 이메일 중복 확인 - 회원가입 페이지에서 사용하면 됨) |
-| POST | [/api/user/login](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | - | 사용자 로그인 |
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| POST | [/api/user](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | NO | CREATE | Create User & save access token for user - Register (회원가입) |
+| GET | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | NO | READ | Get information of 1 particular user (사용자 정보 조회) |
+| PATCH | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | YES | UPDATE | Update information of a particular user (사용자 정보 수정) |
+| DELETE | [/api/user/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | YES | DELETE | Delete user (사용자 삭제) |
+| POST | [/api/user/checkDuplicate](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | NO | - | Check Duplicate user by email (사용자 이메일 중복 확인 - 회원가입 페이지에서 사용하면 됨) |
+| POST | [/api/user/login](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/USER.md) | NO | - | 사용자 로그인 |
       
    
 __Home Related Endpoints__
-|**Request Type**|**Path**|**Method**|**Description**|
-|---|------|---|---|
-| GET | [/api/home/{level}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| GET | [/api/home/{level}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | YES | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
    
 ## ERD
 <img width="979" alt="스크린샷 2021-03-12 오후 3 42 28" src="https://user-images.githubusercontent.com/52744390/110905701-3e3ffa00-834e-11eb-8d4e-115095b1b369.png">
