@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -46,10 +47,12 @@ public class Place {
 
     private String firstImage;
 
-    private String fistImage2;
+    private String firstImage2;
 
+    @Column(name = "map_x")
     private String mapX;
 
+    @Column(name = "map_y")
     private String mapY;
 
     private String overview;

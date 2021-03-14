@@ -4,6 +4,7 @@ package com.example.koreaguide.model.entity;
  * @date: 2021/03/13 8:52 오후
 */
 
+import com.example.koreaguide.model.enumclass.UserLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,12 +34,14 @@ public class Home {
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // 전략옵션
     private Integer id;
 
-    private String level;
+    @Enumerated(EnumType.STRING)
+    private UserLevel level;
 
     private LocalDate createdAt;
 
     @OneToOne
     private TodaysPlace todaysPlace;
 
-    @ManyToOne Word word;
+    @ManyToOne
+    private Word word;
 }
