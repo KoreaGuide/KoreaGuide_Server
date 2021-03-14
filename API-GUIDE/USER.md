@@ -51,6 +51,12 @@ Example from Postman:
 __Request Form:__   
 Path: api/user/{id}   
 Request Type: GET   
+<span style="color:red">주의!! --헤더에 TOKEN 필요!!</span>   
+__헤더 토큰 예시__
+```
+Authorization Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjExLCJuYW1lIjoiQ2luZGlhIn0.vNieUBizIAzhwpAv_J2m9GSMMUO96LTaWPLxYYOG_W8
+```
+   
 __Response Form (Good Response):__ 
 ```json
 {
@@ -80,12 +86,23 @@ __Response Form (BAD Response - user with id does not exist):__
     "description": "Cannot Find Entity"
 }
 ```
-
+__Response Form (BAD Response - 토큰 잘못왔거나 안온경우):__ 
+```json
+{
+    "result_code": 401,
+    "status": "UNAUTHORIZED",
+    "description": "Not Logged in"
+}
+```
 ## User Delete 
 __Request Form:__   
 Path: api/user/{id}   
-Request Type: DELETE   
-   
+Request Type: DELETE      
+<span style="color:red">주의!! --헤더에 TOKEN 필요!!</span>   
+__헤더 토큰 예시__
+```
+Authorization Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjExLCJuYW1lIjoiQ2luZGlhIn0.vNieUBizIAzhwpAv_J2m9GSMMUO96LTaWPLxYYOG_W8
+```
 __Response Form(Good Response):__   
 ```json
 {
@@ -103,7 +120,14 @@ __Response Form(Bad Response):__
     "description": "Cannot Find Entity"
 }
 ```
-
+__Response Form (BAD Response - 토큰 잘못왔거나 안온경우):__ 
+```json
+{
+    "result_code": 401,
+    "status": "UNAUTHORIZED",
+    "description": "Not Logged in"
+}
+```
 
 ## Check Duplicate Email 
 __Request Form:__   
