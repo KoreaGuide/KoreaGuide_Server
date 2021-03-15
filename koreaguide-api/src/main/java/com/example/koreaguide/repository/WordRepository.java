@@ -15,5 +15,4 @@ import java.time.LocalDate;
 @Repository
 public interface WordRepository extends JpaRepository<Word,Integer> {
     Word findByLevel(UserLevel level);
-
 }

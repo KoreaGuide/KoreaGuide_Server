@@ -80,7 +80,7 @@ public class UserApiLogicService {
 
         return user.map(selectedUser->response(selectedUser))
                 .orElseThrow(()->
-                        new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user")
+                        new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user")
                 );
 
     }
@@ -111,7 +111,7 @@ public class UserApiLogicService {
             })
                 .map(updatedUser -> userRepository.save(updatedUser))
                 .map(finalUser->Header.OK(response(finalUser),HttpStatus.OK))
-                .orElseGet(()->Header.NOTFOUNDERROR("Cannot find user"));
+                .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
     }
 
     public Header delete(Integer id) {
@@ -122,7 +122,7 @@ public class UserApiLogicService {
                             return Header.OK();
                         }
                 )
-                .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user"));
+                .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
     }
 
     private UserApiResponse response(User user){
