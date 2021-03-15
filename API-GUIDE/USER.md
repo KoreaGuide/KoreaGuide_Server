@@ -117,7 +117,7 @@ __Response Form(Bad Response):__
 {
     "result_code": 500,
     "status": "INTERNAL_SERVER_ERROR",
-    "description": "Cannot Find Entity"
+    "description": "Cannot Find User"
 }
 ```
 __Response Form (BAD Response - 토큰 잘못왔거나 안온경우):__ 
@@ -213,7 +213,7 @@ __Response Form(Bad Response - User with eamil does not exist):__
 {
     "result_code": 500,
     "status": "INTERNAL_SERVER_ERROR",
-    "description": "Cannot Find Entity"
+    "description": "Cannot Find User"
 }
 ```
 Example from Postman: 

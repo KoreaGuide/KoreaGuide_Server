@@ -15,6 +15,7 @@ __Response Form(Good Response):__
     "data": {
         "id": 7,
         "level": "HIGH",
+        "word_id": 2,
         "word": "cat",
         "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
         "place1_id": 103,

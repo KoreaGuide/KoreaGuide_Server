@@ -25,6 +25,8 @@ public class HomeApiResponse {
 
     private UserLevel level;
 
+    private Integer wordId;
+
     private String word;
 
     private String wordImage;
@@ -46,6 +48,5 @@ public class HomeApiResponse {
     private String place3_title;
 
     private String place3_image;
-
 
 }

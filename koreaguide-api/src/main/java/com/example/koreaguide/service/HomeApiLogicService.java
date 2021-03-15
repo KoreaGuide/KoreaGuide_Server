@@ -154,6 +154,7 @@ public class HomeApiLogicService {
         HomeApiResponse homeApiResponse = HomeApiResponse.builder()
                 .id(home.getId())
                 .level(home.getLevel())
+                .wordId(home.getWord().getId())
                 .word(home.getWord().getWordEng())
                 .wordImage(home.getWord().getImage())
                 .place1_id(home.getTodaysPlace().getPlace1Id())

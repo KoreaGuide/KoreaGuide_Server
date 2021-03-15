@@ -42,11 +42,12 @@ public class MyWordApiLogicService {
         return selectedWord.map(word->{
             Optional<User> user = userRepository.findById(id);
             MyWord newMyWord=user.map(selectedUser->{
-                if(myWordRepository.findByUserAndWord(selectedUser,word)!=null){
+                if(myWordRepository.findByUserAndWord(selectedUser,word).isPresent()){
                     // 이미 해당 단어를 mywordlist에 해당 유저가 갖고있을때
                     System.out.println("ALREADY HAVE!!!");
                     System.out.println("________________________");
                     System.out.println("selected user: "+selectedUser+"   word:"+word);
+                    System.out.println("THIS!!!  "+myWordRepository.findByUserAndWord(selectedUser,word));
                     throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR_MYWORD,"Already exists");
                 }
                 MyWord myWord = MyWord.builder()
@@ -57,14 +58,15 @@ public class MyWordApiLogicService {
                 })
                     .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
             System.out.println("MY NEW WORD: "+newMyWord);
-            return responseForRead(newMyWord);})
+            return responseForAdd(newMyWord);})
                 .orElseThrow(()->
                         new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_WORD,"word")
                 );
 
     }
-    private MyWordApiResponse responseForRead(MyWord myWord){
+    private MyWordApiResponse responseForAdd(MyWord myWord){
         List<MyWord> myWordList = myWordRepository.findAllByUserId(myWord.getUser().getId());
+        System.out.println("WORD LIST!!! "+myWordList);
         MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
                 .userId(myWord.getUser().getId())
                 .previousWordCount(myWordList.size()-1)
@@ -104,9 +106,10 @@ public class MyWordApiLogicService {
 
     public MyWordApiResponse getMyWordList(Integer id) {
         List<MyWord> myWordList = myWordRepository.findAllByUserId(id);
-        if(myWordList == null){
-            throw new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORD,"myWordList");
+        if(myWordList.isEmpty()){
+            throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORD,"myWordList");
         }
+        System.out.println("MY WORD LIST"+myWordList);
         return response(myWordList.get(0));
     }
 

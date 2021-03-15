@@ -1,6 +1,7 @@
 package com.example.koreaguide.service;
 
 import com.example.koreaguide.ifs.CrudInterface;
+import com.example.koreaguide.model.entity.MyWord;
 import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.exception.EmailNotExistedException;
 import com.example.koreaguide.model.exception.KoreaGuideError;
@@ -11,7 +12,9 @@ import com.example.koreaguide.model.network.request.SessionRequestDto;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.SessionResponseDto;
 import com.example.koreaguide.model.network.response.UserApiResponse;
+import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
+import com.example.koreaguide.repository.WordRepository;
 import com.example.koreaguide.utils.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ import javax.validation.constraints.Email;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +44,12 @@ public class UserApiLogicService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private WordRepository wordRepository;
+    @Autowired
+    private MyWordRepository myWordRepository;
+
 
     public UserApiResponse create(Header<UserApiRequest> request) {
         // 회원가입!
@@ -118,10 +128,17 @@ public class UserApiLogicService {
         Optional<User> user = userRepository.findById(id);
         return user
                 .map(userSelected->{
+                            System.out.println("USER SELECTED: "+userSelected);
+                            //유저 삭제할때 해당 사용자의 단어장에 있는 단어도 다 삭제
+                            List<MyWord> myWordList = myWordRepository.findAllByUserId(id);
+                            if(!myWordList.isEmpty()){
+                                for(int i=0;i<myWordList.size();i++){
+                                    myWordRepository.delete(myWordList.get(i));
+                                }
+                            }
                             userRepository.delete(userSelected);
-                            return Header.OK();
-                        }
-                )
+                        return Header.OK();
+                })
                 .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
     }
 
@@ -181,7 +198,7 @@ public class UserApiLogicService {
 
     public UserApiResponse login(Header<UserApiRequest> request) {
         User user = userRepository.findByEmail(request.getData().getEmail())
-                .orElseThrow(()-> new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user"));
+                .orElseThrow(()-> new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
 
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
             throw new KoreaGuideException(KoreaGuideError.WRONG_PASSWORD,"user");
