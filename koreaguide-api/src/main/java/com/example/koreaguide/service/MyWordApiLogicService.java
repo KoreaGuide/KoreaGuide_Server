@@ -10,7 +10,6 @@ import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.MyWordApiRequest;
 import com.example.koreaguide.model.network.response.MyWordApiResponse;
 import com.example.koreaguide.model.network.response.MyWordListApiResponse;
-import com.example.koreaguide.model.network.response.WordApiResponse;
 import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.repository.WordRepository;
@@ -48,7 +47,7 @@ public class MyWordApiLogicService {
                     System.out.println("ALREADY HAVE!!!");
                     System.out.println("________________________");
                     System.out.println("selected user: "+selectedUser+"   word:"+word);
-                    throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR,"Already exists");
+                    throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR_MYWORD,"Already exists");
                 }
                 MyWord myWord = MyWord.builder()
                         .word(word)
@@ -56,13 +55,22 @@ public class MyWordApiLogicService {
                         .wordStatus(MyWordStatus.NO_STATUS).build();
                 return myWordRepository.save(myWord);
                 })
-                    .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"user"));
+                    .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
             System.out.println("MY NEW WORD: "+newMyWord);
-            return response(newMyWord);})
+            return responseForRead(newMyWord);})
                 .orElseThrow(()->
-                        new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"word")
+                        new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_WORD,"word")
                 );
 
+    }
+    private MyWordApiResponse responseForRead(MyWord myWord){
+        List<MyWord> myWordList = myWordRepository.findAllByUserId(myWord.getUser().getId());
+        MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
+                .userId(myWord.getUser().getId())
+                .previousWordCount(myWordList.size()-1)
+                .nowWordCount(myWordList.size())
+                .build();
+        return myWordApiResponse;
     }
 
     private MyWordApiResponse response(MyWord myword){
@@ -86,11 +94,41 @@ public class MyWordApiLogicService {
         }
         System.out.println("WORD API RESPONSE LIST = "+myWordListApiResponseList);
         MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
-                .id(myword.getId())
+                .userId(myword.getUser().getId())
+                .nowWordCount(myWordList.size())
                 .myWordList(myWordListApiResponseList)
                 .build();
         return myWordApiResponse;
     }
 
 
+    public MyWordApiResponse getMyWordList(Integer id) {
+        List<MyWord> myWordList = myWordRepository.findAllByUserId(id);
+        if(myWordList == null){
+            throw new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORD,"myWordList");
+        }
+        return response(myWordList.get(0));
+    }
+
+    public MyWordApiResponse deleteMyWord(Integer id,Header<MyWordApiRequest> request) {
+        MyWordApiRequest body = request.getData();
+        Optional<MyWord> myWord = myWordRepository.findByUserAndWord(userRepository.getOne(id),wordRepository.getOne(body.getWordId()));
+        return myWord
+                .map(myWordSelected->{
+                            myWordRepository.delete(myWordSelected);
+                            return responseForDelete(id);
+                        }
+                )
+                .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORD,"myword"));
+    }
+
+    private MyWordApiResponse responseForDelete(Integer userId){
+        List<MyWord> myWordList = myWordRepository.findAllByUserId(userId);
+        MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
+                .userId(userId)
+                .previousWordCount(myWordList.size()+1)
+                .nowWordCount(myWordList.size())
+                .build();
+        return myWordApiResponse;
+    }
 }

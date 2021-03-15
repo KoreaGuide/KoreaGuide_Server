@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +51,7 @@ public class MyWordApiController extends GlobalExceptionHandler {
             Claims claims = (Claims) authentication.getPrincipal();
             Integer userId = claims.get("userId", Integer.class);
             System.out.println("USER ID: "+userId);
-            if(userRepository.getOne(userId)==null){
+            if(id!=userId){
                 throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
             }
         }catch (Exception e){
@@ -57,7 +59,48 @@ public class MyWordApiController extends GlobalExceptionHandler {
         }
 
         MyWordApiResponse myWordApiResponse =myWordApiLogicService.addWordToMyWordList(id,request);
-        return new Header<>(myWordApiResponse,"Successfully added");
+        return new Header<>(myWordApiResponse,HttpStatus.OK,"Successfully added");
     }
+
+    @GetMapping("/{id}")
+    public Header<MyWordApiResponse> getMyWordList(
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id) {
+        try {
+            Claims claims = (Claims) authentication.getPrincipal();
+            Integer userId = claims.get("userId", Integer.class);
+            System.out.println("USER ID: "+userId);
+            if(id!=userId){
+                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+            }
+        }catch (Exception e){
+            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+        }
+
+        MyWordApiResponse myWordApiResponse =myWordApiLogicService.getMyWordList(id);
+        return new Header<>(myWordApiResponse);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public Header<MyWordApiResponse> deleteMyWord(
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id,
+            @RequestBody Header<MyWordApiRequest> request) {
+        try {
+            Claims claims = (Claims) authentication.getPrincipal();
+            Integer userId = claims.get("userId", Integer.class);
+            System.out.println("USER ID: "+userId);
+            if(id!=userId){
+                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+            }
+        }catch (Exception e){
+            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+        }
+
+        MyWordApiResponse myWordApiResponse =myWordApiLogicService.deleteMyWord(id,request);
+        return new Header<>(myWordApiResponse);
+    }
+
 
 }

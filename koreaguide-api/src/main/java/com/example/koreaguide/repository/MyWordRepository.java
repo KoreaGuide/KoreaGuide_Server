@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MyWordRepository extends JpaRepository<MyWord,Integer> {
@@ -14,5 +15,6 @@ public interface MyWordRepository extends JpaRepository<MyWord,Integer> {
 
     MyWord findByUserIdAndWordId(Integer userId,Integer wordId);
 
-    MyWord findByUserAndWord(User user, Word word);
+    Optional<MyWord> findByUserAndWord(User user, Word word);
+
 }

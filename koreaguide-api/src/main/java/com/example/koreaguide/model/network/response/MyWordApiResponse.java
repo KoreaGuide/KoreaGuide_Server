@@ -20,7 +20,11 @@ import java.util.List;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MyWordApiResponse {
-    private Integer id;
+    private Integer userId;
+
+    private Integer previousWordCount;
+
+    private Integer nowWordCount;
 
     private List<MyWordListApiResponse> myWordList;
 
