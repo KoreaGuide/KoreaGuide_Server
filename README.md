@@ -32,6 +32,7 @@ To begin using this template, choose one of the following options to get started
 2. Register
 3. Login
 4. Home 
+5. My Word (내 단어장)
 
 ## Example of Token in header 
 ```
@@ -63,8 +64,15 @@ __Home Related Endpoints__
 |---|------|---|---|---|
 | GET | [/api/home/{level}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | YES | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
    
+   
+__MyWord (내 단어장) Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| POST | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | CREATE | 내 단어장에 특정 단어 추가 |
+| GET | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | READ | 내 단어장에 있는 단어들 정보 조회 |
+| DELETE | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | DELETE | 내 단어장에 특정 단어 삭제 |
+   
 ## ERD
-<img width="979" alt="스크린샷 2021-03-12 오후 3 42 28" src="https://user-images.githubusercontent.com/52744390/110905701-3e3ffa00-834e-11eb-8d4e-115095b1b369.png">
    
 ## Team Members & roles
 * [Jisoo Kim](https://github.com/cindia3704) - Backend 
