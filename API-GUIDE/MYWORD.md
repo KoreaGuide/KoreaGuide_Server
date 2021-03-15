@@ -29,9 +29,18 @@ __Response Form(Good Response):__
 __Response Form(BAD Response - 추가하려는 단어가 없는 경우):__
 ```json
 {
-  "result_code": 500,
-  "status": "INTERNAL_SERVER_ERROR",
-  "description": "Cannot Find Entity"
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find Word"
+}
+```
+   
+__Response Form(BAD Response - 추가하려는 단어가 이미 내 단어장에 있는 경우):__
+```json
+{
+    "result_code": 409,
+    "status": "CONFLICT",
+    "description": "MyWord already exists"
 }
 ```
    
@@ -104,6 +113,15 @@ __Response Form(Good Response):__
   }
 }
 ```  
+__Response Form(GOOD Response - 사용자의 단어장에 단어가 하나도 없는 경우):__
+```json
+{
+    "result_code": 204,
+    "status": "NO_CONTENT",
+    "description": "MyWord is empty"
+}
+```
+
 
 __Response Form(BAD Response - 사용자가 없는 경우 / 토큰 잘못된 경우):__
 ```json
@@ -113,5 +131,40 @@ __Response Form(BAD Response - 사용자가 없는 경우 / 토큰 잘못된 경
   "description": "Not Logged in"
 }
 ```
+
+## MyWord DELETE (내 단어장에서 단어 삭제)
+__Request Form:__   
+Path: api/myWord/{id} __**여기서 id는 user의 id (Integer)__   
+Request Type: DELETE
+```json
+{   
+    "data": {
+       "word_id":4
+    }
+}
+```
+__Response Form(Good Response):__
+```json
+{
+    "result_code": 200,
+    "status": "OK",
+    "description": "OK",
+    "data": {
+        "user_id": 11,
+        "previous_word_count": 3,
+        "now_word_count": 2
+    }
+}
+```
+
+__Response Form(BAD Response - 삭제하려는 단어가 내 단어장에 없는 경우):__
+```json
+{
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find MyWord"
+}
+```
+
 
 
