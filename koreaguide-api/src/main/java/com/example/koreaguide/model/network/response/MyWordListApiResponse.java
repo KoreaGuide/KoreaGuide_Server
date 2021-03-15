@@ -1,21 +1,18 @@
 package com.example.koreaguide.model.network.response;
 
+import com.example.koreaguide.model.enumclass.MyWordStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/*
- * @author : Jisoo Kim
- * @date: 2021/03/14 1:50 오전
-*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class WordApiResponse {
+public class MyWordListApiResponse {
     private Integer id;
 
     private String word_eng;
@@ -33,4 +30,6 @@ public class WordApiResponse {
     private String pronunciation;
 
     private String level;
+
+    private MyWordStatus myWordStatus;
 }

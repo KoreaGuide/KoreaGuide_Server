@@ -103,6 +103,12 @@ public class Header<T> {
         this.description="OK";
         this.data = data;
     }
+    public Header(T data,String description){
+        this.resultCode = HttpStatus.OK.value();
+        this.status= HttpStatus.OK;
+        this.description="OK";
+        this.data = data;
+    }
     public Header(T data,HttpStatus status,String description){
         this.resultCode = status.value();
         this.status= status;

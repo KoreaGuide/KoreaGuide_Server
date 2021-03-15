@@ -5,6 +5,7 @@ package com.example.koreaguide.model.entity;
  * @date: 2021/03/13 11:09 오후
 */
 
+import com.example.koreaguide.model.enumclass.MyWordStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,8 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +33,8 @@ public class MyWord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String wordStatus;
+    @Enumerated(EnumType.STRING)
+    private MyWordStatus wordStatus;
 
     @ManyToOne
     private User user;
