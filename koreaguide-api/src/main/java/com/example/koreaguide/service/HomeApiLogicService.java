@@ -51,12 +51,19 @@ public class HomeApiLogicService {
     }
 
     public Home createHome(UserLevel level){
-        Integer wordCount = Math.toIntExact(wordRepository.count());
+        System.out.println("LEVEL: "+level);
+        Integer wordCount = Math.toIntExact(wordRepository.count())+1;
+        System.out.println("WORD COUNT: "+wordCount.toString());
         Word word = wordRepository.getOne(getRandomIndex(wordCount));
+        System.out.println("WORD is: "+word);
+        while(!word.getLevel().equals(level.name())){
+            System.out.println("word level issss : "+word.getLevel());
+            System.out.println("level is :"+level);
+            word = wordRepository.getOne(getRandomIndex(wordCount));
+        }
         System.out.println("word is!!! "+word.getWordEng());
 
         TodaysPlace todaysPlaceOptional =todaysPlaceRepository.findByCreatedAt(LocalDate.now());
-
         if(todaysPlaceOptional==null){
             return createHomeAndPlace(level,word);
         }

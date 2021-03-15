@@ -1,5 +1,6 @@
 package com.example.koreaguide.model.entity;
 
+import com.example.koreaguide.model.enumclass.UserLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,6 +45,8 @@ public class Word {
     private String audio;
 
     private String image;
+
+    private String level;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "word")
     private List<MyWord> myWordList;
