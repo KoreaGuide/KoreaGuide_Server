@@ -21,6 +21,7 @@ public enum KoreaGuideError {
     ENTITY_NOT_FOUND_HOME("Cannot Find Home", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_EMPTY_MYWORD("MyWord is empty",HttpStatus.NO_CONTENT),
     ENTITY_EMPTY_MYPLACE("MyPlace is empty",HttpStatus.NO_CONTENT),
+    ENTITY_EMPTY_CODE("Code is empty",HttpStatus.NO_CONTENT),
     WRONG_PASSWORD("Wrong Password", HttpStatus.CONFLICT),
     WRONG_FORMAT("Wrong Format",HttpStatus.BAD_REQUEST);
     private String desc;

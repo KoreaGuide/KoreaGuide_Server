@@ -32,6 +32,7 @@ To begin using this template, choose one of the following options to get started
 2. Register
 3. Login
 4. Home 
+5. Get List of Regions
 
 ## Example of Token in header 
 ```
@@ -62,7 +63,12 @@ __Home Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
 | GET | [/api/home/{level}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | YES | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
-   
+
+__Place Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| GET | [/api/place/regionList](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACE.md) | YES | READ | 모든 지역에 대한 정보 조회(지역 리스트 받기) |
+
 ## ERD
 <img width="979" alt="스크린샷 2021-03-12 오후 3 42 28" src="https://user-images.githubusercontent.com/52744390/110905701-3e3ffa00-834e-11eb-8d4e-115095b1b369.png">
    
