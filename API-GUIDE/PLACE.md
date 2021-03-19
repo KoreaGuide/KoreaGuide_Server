@@ -1,4 +1,4 @@
-# This is a document related to the Home services
+# This is a document related to the Place services
 
 ## REGION LIST READ (모든 지역 리스트 가져오기)
 __Request Form:__   
