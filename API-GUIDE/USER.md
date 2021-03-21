@@ -7,7 +7,7 @@ Request Type: POST
 ```json
 {
     "data": {
-        "email": "cindi@gmail.com",
+        "email": "cindia@naver.com",
         "password": "1111",
         "nickname": "Jisoo Kim",
         "level": "LOW"
@@ -22,14 +22,14 @@ __Response Form(Good Response):__
     "status": "CREATED",
     "description": "OK",
     "data": {
-        "id": 9,
-        "email": "cindi@gmail.com",
-        "password": "$2a$10$nluD0omnUu1SQmv.3xRP3e5ITR2FJailmsF4JmD6BQfFsSZc3Er3e",
+        "id": 18,
+        "email": "cindia@naver.com",
+        "password": "$2a$10$uV9nL.nh6OEGA.wYd6GBnu.F9ugVc9ljivOPyHiwkkyEEp9xlO99i",
         "nickname": "Jisoo Kim",
-        "level": "LOW",
-        "created_at": "2021-03-12T20:22:28.292666",
+        "created_at": "2021-03-21T06:57:20.646319",
         "created_by": "Admin",
-        "week_attendance": 0
+        "week_attendance": 0,
+        "status": "INACTIVE"
     }
 }
 ```
@@ -41,7 +41,7 @@ __Response Form(Bad Response - user with email exists):__
 {
     "result_code": 409,
     "status": "CONFLICT",
-    "description": "Unique Field Error"
+    "description": "User already exists"
 }
 ```
 Example from Postman: 
@@ -64,14 +64,15 @@ __Response Form (Good Response):__
     "status": "OK",
     "description": "OK",
     "data": {
-        "id": 9,
-        "email": "cindi@gmail.com",
-        "password": "$2a$10$nluD0omnUu1SQmv.3xRP3e5ITR2FJailmsF4JmD6BQfFsSZc3Er3e",
+        "id": 18,
+        "email": "cindia@naver.com",
+        "password": "$2a$10$uV9nL.nh6OEGA.wYd6GBnu.F9ugVc9ljivOPyHiwkkyEEp9xlO99i",
         "nickname": "Jisoo Kim",
-        "level": "LOW",
-        "created_at": "2021-03-12T20:22:28",
+        "created_at": "2021-03-21T06:57:21",
         "created_by": "Admin",
-        "week_attendance": 0
+        "last_login_at": "2021-03-21",
+        "week_attendance": 1,
+        "status": "INACTIVE"
     }
 }
 ```
@@ -170,7 +171,7 @@ Request Type: POST
 ```json
 {
     "data": {
-        "email": "amy1230@gmail.com",
+        "email": "cindia@naver.com",
         "password": "1111"
     }
 }
@@ -179,20 +180,21 @@ Request Type: POST
 __Response Form(Good Response):__
 ```json
 {
+{
     "result_code": 200,
     "status": "OK",
     "description": "OK",
     "data": {
-        "id": 7,
-        "email": "cindia@gmail.com",
-        "password": "$2a$10$c2fvZdal64OLKUw3h0GW0ONfvrzSh2BSTmocPjfs2otGQpxW3KKXS",
+        "id": 18,
+        "email": "cindia@naver.com",
+        "password": "$2a$10$uV9nL.nh6OEGA.wYd6GBnu.F9ugVc9ljivOPyHiwkkyEEp9xlO99i",
         "nickname": "Jisoo Kim",
-        "level": "LOW",
-        "created_at": "2021-03-12T16:08:16",
+        "created_at": "2021-03-21T06:57:21",
         "created_by": "Admin",
-        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjcsIm5hbWUiOiJKaXNvbyBLaW0ifQ.xZTkLViaP4Bk1aQgdqTPRVb7a8aHJWdCmZCZy7v9ilI",
-        "last_login_at": "2021-03-12",
-        "week_attendance": 1
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE4LCJuYW1lIjoiSmlzb28gS2ltIn0.Qj1bLBI1DJ6F7x_XCn16gzo2tC5TBjKB3I-SKOWJOic",
+        "last_login_at": "2021-03-21",
+        "week_attendance": 1,
+        "status": "INACTIVE"
     }
 }
 ```
