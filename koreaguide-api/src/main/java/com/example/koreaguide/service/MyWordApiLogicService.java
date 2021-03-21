@@ -66,7 +66,7 @@ public class MyWordApiLogicService {
                 return myWordRepository.save(myWord);
 
                 })
-                    .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
+                    .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
             System.out.println("MY NEW WORD: "+newMyWord);
             return responseForAdd(newMyWord);})
                 .orElseThrow(()->
@@ -115,8 +115,13 @@ public class MyWordApiLogicService {
     }
 
 
-    public MyWordApiResponse getMyWordList(Integer id) {
-        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(id);
+    public MyWordApiResponse getMyWordList(Integer id,Header<MyWordApiRequest> request) {
+        System.out.println("INSIDE");
+        MyWordApiRequest body = request.getData();
+        System.out.println("BODY: "+body);
+        System.out.println("MY folder id: "+body.getWordFolderId());
+        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(body.getWordFolderId());
+        System.out.println("MY WORD LIST"+myWordList);
         if(myWordList.isEmpty()){
             throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORD,"myWordList");
         }

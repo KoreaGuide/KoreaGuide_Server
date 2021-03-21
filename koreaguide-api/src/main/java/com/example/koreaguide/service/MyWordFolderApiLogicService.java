@@ -1,5 +1,6 @@
 package com.example.koreaguide.service;
 
+import com.example.koreaguide.model.entity.MyWord;
 import com.example.koreaguide.model.entity.MyWordFolder;
 import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.enumclass.UserStatus;
@@ -10,6 +11,7 @@ import com.example.koreaguide.model.network.request.MyWordFolderApiRequest;
 import com.example.koreaguide.model.network.response.MyWordFolderApiResponse;
 import com.example.koreaguide.model.network.response.MyWordListApiResponse;
 import com.example.koreaguide.repository.MyWordFolderRepository;
+import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class MyWordFolderApiLogicService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    MyWordRepository myWordRepository;
 
     public MyWordFolderApiResponse create(Header<MyWordFolderApiResponse> request) {
         MyWordFolderApiResponse body = request.getData();
@@ -88,6 +93,12 @@ public class MyWordFolderApiLogicService {
         MyWordFolderApiRequest body = request.getData();
         Optional<MyWordFolder> myWordFolder = myWordFolderRepository.findById(body.getWordFolderId());
         return myWordFolder.map(selectedFolder->{
+            List<MyWord> myWordList =myWordRepository.findAllByMyWordFolderId(body.getWordFolderId());
+            if(!myWordList.isEmpty()){
+                for(int i=0;i<myWordList.size();i++){
+                    myWordRepository.delete(myWordList.get(i));
+                }
+            }
             myWordFolderRepository.delete(selectedFolder);
             MyWordFolderApiResponse myWordFolderApiResponse = MyWordFolderApiResponse.builder().build();
             return myWordFolderApiResponse;
