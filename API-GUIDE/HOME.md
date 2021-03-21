@@ -2,7 +2,7 @@
 
 ## Home READ (홈화면에 띄울 정보 가져오기)
 __Request Form:__   
-Path: api/home/
+Path: api/home/   
 Request Type: GET   
    
   
