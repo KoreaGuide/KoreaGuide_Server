@@ -29,10 +29,9 @@ public class HomeApiController extends GlobalExceptionHandler {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/{level}")
+    @GetMapping("")
     public Header<HomeApiResponse> getHomeInfo(
-            Authentication authentication,
-            @PathVariable(name = "level") UserLevel level) {
+            Authentication authentication) {
         try {
             Claims claims = (Claims) authentication.getPrincipal();
             Integer userId = claims.get("userId", Integer.class);
@@ -44,7 +43,7 @@ public class HomeApiController extends GlobalExceptionHandler {
             throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
         }
 
-        HomeApiResponse homeApiResponse =homeApiLogicService.getHomeInfo(level);
+        HomeApiResponse homeApiResponse =homeApiLogicService.getHomeInfo();
         return new Header<>(homeApiResponse);
     }
 

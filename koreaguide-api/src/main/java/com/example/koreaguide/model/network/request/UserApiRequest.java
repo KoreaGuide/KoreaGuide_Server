@@ -27,6 +27,4 @@ public class UserApiRequest{
     private String password;
 
     private String nickname;
-
-    private UserLevel level;
 }

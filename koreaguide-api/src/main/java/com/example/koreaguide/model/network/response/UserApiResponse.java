@@ -1,6 +1,7 @@
 package com.example.koreaguide.model.network.response;
 
 import com.example.koreaguide.model.enumclass.UserLevel;
+import com.example.koreaguide.model.enumclass.UserStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +26,6 @@ public class UserApiResponse {
 
     private String nickname;
 
-    private UserLevel level;
-
     private LocalDateTime createdAt;
 
     private String createdBy;
@@ -36,4 +35,6 @@ public class UserApiResponse {
     private LocalDate lastLoginAt;
 
     private Integer weekAttendance;
+
+    private UserStatus status;
 }

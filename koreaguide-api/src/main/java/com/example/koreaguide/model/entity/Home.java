@@ -34,8 +34,8 @@ public class Home {
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // 전략옵션
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    private UserLevel level;
+//    @Enumerated(EnumType.STRING)
+//    private UserLevel level;
 
     private LocalDate createdAt;
 

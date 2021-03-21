@@ -29,7 +29,5 @@ public class MyWordListApiResponse {
 
     private String pronunciation;
 
-    private String level;
-
     private MyWordStatus myWordStatus;
 }

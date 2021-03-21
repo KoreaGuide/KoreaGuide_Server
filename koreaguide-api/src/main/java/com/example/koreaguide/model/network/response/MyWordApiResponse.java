@@ -22,6 +22,10 @@ import java.util.List;
 public class MyWordApiResponse {
     private Integer userId;
 
+    private Integer myWordFolderId;
+
+    private String myWordFolderName;
+
     private Integer previousWordCount;
 
     private Integer nowWordCount;

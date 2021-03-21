@@ -32,8 +32,9 @@ To begin using this template, choose one of the following options to get started
 2. Register
 3. Login
 4. Home
-5. My Word (내 단어장)
-5. Get List of Regions
+5. My Word Folder (내 단어장 폴더)
+6. My Word (내 단어장)
+7. Get List of Regions
 
 ## Example of Token in header 
 ```
@@ -65,12 +66,20 @@ __Home Related Endpoints__
 |---|------|---|---|---|
 | GET | [/api/home/{level}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | YES | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
 
+__MyWordFolder (내 단어장 폴더) Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| POST | [api/myWordFolder/](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | CREATE | 내 단어장 폴더 생성 |
+| GET | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 단어장 폴더 목록 보기 |
+| DELETE | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | DELETE | 내 특정 단어장 폴더 삭제 |
+| PATCH | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | DELETE | 내 특정 단어장 이름 변경 |
+
 __MyWord (내 단어장) Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
-| POST | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | CREATE | 내 단어장에 특정 단어 추가 |
-| GET | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | READ | 내 단어장에 있는 단어들 정보 조회 |
-| DELETE | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | DELETE | 내 단어장에 특정 단어 삭제 |
+| POST | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | CREATE | 특정 단어장 폴더에 특정 단어 추가 |
+| GET | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | READ | 특정 단어장 폴더에 있는 단어들 정보 조회 |
+| DELETE | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | DELETE | 특정 단어장 폴더에 있는 특정 단어 삭제 |
 
 __Place Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|

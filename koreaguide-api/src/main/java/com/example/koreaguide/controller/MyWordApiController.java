@@ -85,20 +85,19 @@ public class MyWordApiController extends GlobalExceptionHandler {
     @DeleteMapping("/{id}")
     public Header<MyWordApiResponse> deleteMyWord(
             Authentication authentication,
-            @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordApiRequest> request) {
         try {
             Claims claims = (Claims) authentication.getPrincipal();
             Integer userId = claims.get("userId", Integer.class);
             System.out.println("USER ID: "+userId);
-            if(id!=userId){
+            if(userRepository.findById(userId).isEmpty()){
                 throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
             }
         }catch (Exception e){
             throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
         }
 
-        MyWordApiResponse myWordApiResponse =myWordApiLogicService.deleteMyWord(id,request);
+        MyWordApiResponse myWordApiResponse =myWordApiLogicService.deleteMyWord(request);
         return new Header<>(myWordApiResponse);
     }
 

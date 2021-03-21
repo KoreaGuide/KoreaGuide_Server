@@ -46,8 +46,6 @@ public class Word {
 
     private String image;
 
-    private String level;
-
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "word")
     private List<MyWord> myWordList;
 
