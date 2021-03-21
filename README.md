@@ -64,7 +64,7 @@ __User Related Endpoints__
 __Home Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
-| GET | [/api/home/{level}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | YES | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
+| GET | [/api/home/](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/HOME.md) | YES | READ & CREATE | 홈 화면에서 필요한 정보 조회 |
 
 __MyWordFolder (내 단어장 폴더) Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
