@@ -15,6 +15,5 @@ import java.util.Optional;
 */
 @Repository
 public interface HomeRepository extends JpaRepository<Home,Integer> {
-   Home findByLevelAndCreatedAt(UserLevel level, LocalDate createdAt);
-
+   Home findByCreatedAt(LocalDate createdAt);
 }

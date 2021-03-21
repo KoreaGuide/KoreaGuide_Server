@@ -40,38 +40,37 @@ public class HomeApiLogicService {
     @Autowired
     private TodaysPlaceRepository todaysPlaceRepository;
 
-    public HomeApiResponse getHomeInfo(UserLevel level) {
-        Home homeOptional = homeRepository.findByLevelAndCreatedAt(level, LocalDate.now());
+    public HomeApiResponse getHomeInfo() {
+        Home homeOptional = homeRepository.findByCreatedAt(LocalDate.now());
         if(homeOptional==null){
-            return response(createHome(level));
+            return response(createHome());
         }else{
             // 이미 level 과 createdAt을 갖는 객체가 있음 --> 그냥 반환!
             return response(homeOptional);
         }
     }
 
-    public Home createHome(UserLevel level){
-        System.out.println("LEVEL: "+level);
+    public Home createHome(){
+//        System.out.println("LEVEL: "+level);
         Integer wordCount = Math.toIntExact(wordRepository.count())+1;
         System.out.println("WORD COUNT: "+wordCount.toString());
         Word word = wordRepository.getOne(getRandomIndex(wordCount));
         System.out.println("WORD is: "+word);
-        while(!word.getLevel().equals(level.name())){
-            System.out.println("word level issss : "+word.getLevel());
-            System.out.println("level is :"+level);
-            word = wordRepository.getOne(getRandomIndex(wordCount));
-        }
-        System.out.println("word is!!! "+word.getWordEng());
+//        while(!word.getLevel().equals(level.name())){
+//            System.out.println("word level issss : "+word.getLevel());
+//            System.out.println("level is :"+level);
+//            word = wordRepository.getOne(getRandomIndex(wordCount));
+//        }
+//        System.out.println("word is!!! "+word.getWordEng());
 
         TodaysPlace todaysPlaceOptional =todaysPlaceRepository.findByCreatedAt(LocalDate.now());
         if(todaysPlaceOptional==null){
-            return createHomeAndPlace(level,word);
+            return createHomeAndPlace(word);
         }
         else{
             //이미 todayPlace객체가 있음
             Home home = Home.builder()
                     .createdAt(LocalDate.now())
-                    .level(level)
                     .word(word)
                     .todaysPlace(todaysPlaceOptional)
                     .build();
@@ -80,7 +79,7 @@ public class HomeApiLogicService {
 
     }
 
-    private Home createHomeAndPlace(UserLevel level,Word word){
+    private Home createHomeAndPlace(Word word){
         System.out.println("home and place create!!!!");
         Integer homeCount = Math.toIntExact(homeRepository.count());
         Integer placeCount = Math.toIntExact(placeRepository.count());
@@ -88,7 +87,6 @@ public class HomeApiLogicService {
         Home home = Home.builder()
                 .todaysPlace(todaysPlace)
                 .word(word)
-                .level(level)
                 .createdAt(LocalDate.now())
                 .build();
         Home newHome = homeRepository.save(home);
@@ -153,7 +151,7 @@ public class HomeApiLogicService {
         }
         HomeApiResponse homeApiResponse = HomeApiResponse.builder()
                 .id(home.getId())
-                .level(home.getLevel())
+                .wordAudio(home.getWord().getAudio())
                 .wordId(home.getWord().getId())
                 .word(home.getWord().getWordEng())
                 .wordImage(home.getWord().getImage())

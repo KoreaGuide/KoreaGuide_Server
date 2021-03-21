@@ -62,7 +62,15 @@ __Response Form(Good Response: 단어장 폴더 목록이 없는 경우):__
 ## MyWordFolder DELETE (특정 단어장 폴더 삭제)
 __Request Form:__      
 Path: api/myWordFolder/{id} __**여기서 id = userID(integer)__     
-Request Type: DELETE     
+Request Type: DELETE  
+__Request Form:__
+```json
+{
+  "data": {
+    "word_folder_id": 2
+  }
+}
+```
    
 __Response Form(Good Response):__
 ```json

@@ -1,6 +1,5 @@
 package com.example.koreaguide.model.network.response;
 
-import com.example.koreaguide.model.enumclass.RegionColorStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,23 +8,19 @@ import lombok.NoArgsConstructor;
 
 /*
  * @author : Jisoo Kim
- * @date: 2021/03/19 9:26 오후
+ * @date: 2021/03/21 7:53 오전
 */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodeApiResponse {
-    private Integer id;
+public class MyWordFolderApiResponse {
+    private Integer userId;
 
-    private Integer areacode;
+    private Integer wordFolderId;
 
-    private String areanameKor;
+    private String folderName;
 
-    private String areanameEng;
-
-    private RegionColorStatus color;
-
-    private Integer listcount;
+    private Integer wordCount;
 }

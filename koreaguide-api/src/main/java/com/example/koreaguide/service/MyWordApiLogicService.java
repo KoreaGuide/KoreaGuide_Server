@@ -1,6 +1,7 @@
 package com.example.koreaguide.service;
 
 import com.example.koreaguide.model.entity.MyWord;
+import com.example.koreaguide.model.entity.MyWordFolder;
 import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.entity.Word;
 import com.example.koreaguide.model.enumclass.MyWordStatus;
@@ -10,6 +11,7 @@ import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.MyWordApiRequest;
 import com.example.koreaguide.model.network.response.MyWordApiResponse;
 import com.example.koreaguide.model.network.response.MyWordListApiResponse;
+import com.example.koreaguide.repository.MyWordFolderRepository;
 import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.repository.WordRepository;
@@ -35,28 +37,36 @@ public class MyWordApiLogicService {
     @Autowired
     private MyWordRepository myWordRepository;
 
+    @Autowired
+    private MyWordFolderRepository myWordFolderRepository;
+
     public MyWordApiResponse addWordToMyWordList(Integer id, Header<MyWordApiRequest> request) {
         //request에 있는 id 갖는 word 찾아서
         MyWordApiRequest body = request.getData();
         Optional<Word> selectedWord = wordRepository.findById(body.getWordId());
         return selectedWord.map(word->{
-            Optional<User> user = userRepository.findById(id);
-            MyWord newMyWord=user.map(selectedUser->{
-                if(myWordRepository.findByUserAndWord(selectedUser,word).isPresent()){
-                    // 이미 해당 단어를 mywordlist에 해당 유저가 갖고있을때
+//            Optional<User> user = userRepository.findById(id);
+            // 폴더 아이디로 폴더 찾고
+            Optional<MyWordFolder> wordFolder = myWordFolderRepository.findById(body.getWordFolderId());
+            MyWord newMyWord=wordFolder.map(selectedWordFolder->{
+                // 그 폴더가 있을때
+                if(myWordRepository.findByMyWordFolderAndWord(selectedWordFolder,word).isPresent()){
+                    // 이미 해당 단어를 mywordlist에 해당 유저가 폴더에 갖고있을때
                     System.out.println("ALREADY HAVE!!!");
                     System.out.println("________________________");
-                    System.out.println("selected user: "+selectedUser+"   word:"+word);
-                    System.out.println("THIS!!!  "+myWordRepository.findByUserAndWord(selectedUser,word));
+                    System.out.println("selected wordFolder: "+selectedWordFolder+"   word:"+word);
                     throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR_MYWORD,"Already exists");
                 }
+                selectedWordFolder.setWordCount(selectedWordFolder.getWordCount()+1);
+                myWordFolderRepository.save(selectedWordFolder);
                 MyWord myWord = MyWord.builder()
                         .word(word)
-                        .user(selectedUser)
+                        .myWordFolder(selectedWordFolder)
                         .wordStatus(MyWordStatus.NO_STATUS).build();
                 return myWordRepository.save(myWord);
+
                 })
-                    .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
+                    .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
             System.out.println("MY NEW WORD: "+newMyWord);
             return responseForAdd(newMyWord);})
                 .orElseThrow(()->
@@ -65,10 +75,11 @@ public class MyWordApiLogicService {
 
     }
     private MyWordApiResponse responseForAdd(MyWord myWord){
-        List<MyWord> myWordList = myWordRepository.findAllByUserId(myWord.getUser().getId());
+        //해당 폴더에 있는 워드에 대한 count 보여줌
+        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(myWord.getMyWordFolder().getId());
         System.out.println("WORD LIST!!! "+myWordList);
         MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
-                .userId(myWord.getUser().getId())
+                .myWordFolderId(myWord.getMyWordFolder().getId())
                 .previousWordCount(myWordList.size()-1)
                 .nowWordCount(myWordList.size())
                 .build();
@@ -76,7 +87,8 @@ public class MyWordApiLogicService {
     }
 
     private MyWordApiResponse response(MyWord myword){
-        List<MyWord> myWordList = myWordRepository.findAllByUserId(myword.getUser().getId());
+        //해당 폴더에 있는 워드들 모두 보여주기
+        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(myword.getMyWordFolder().getId());
         System.out.println("MY WORD LIST = "+myWordList);
         List<MyWordListApiResponse> myWordListApiResponseList =new ArrayList<MyWordListApiResponse>();
         for(int i=0;i<myWordList.size();i++){
@@ -89,14 +101,13 @@ public class MyWordApiLogicService {
                     .image(myWordList.get(i).getWord().getImage())
                     .audio(myWordList.get(i).getWord().getAudio())
                     .pronunciation(myWordList.get(i).getWord().getPronunciation())
-                    .level(myWordList.get(i).getWord().getLevel())
                     .myWordStatus(myWordList.get(i).getWordStatus())
                     .build();
             myWordListApiResponseList.add(myWordListApiResponse);
         }
         System.out.println("WORD API RESPONSE LIST = "+myWordListApiResponseList);
         MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
-                .userId(myword.getUser().getId())
+                .myWordFolderId(myword.getMyWordFolder().getId())
                 .nowWordCount(myWordList.size())
                 .myWordList(myWordListApiResponseList)
                 .build();
@@ -104,8 +115,13 @@ public class MyWordApiLogicService {
     }
 
 
-    public MyWordApiResponse getMyWordList(Integer id) {
-        List<MyWord> myWordList = myWordRepository.findAllByUserId(id);
+    public MyWordApiResponse getMyWordList(Integer id,Header<MyWordApiRequest> request) {
+        System.out.println("INSIDE");
+        MyWordApiRequest body = request.getData();
+        System.out.println("BODY: "+body);
+        System.out.println("MY folder id: "+body.getWordFolderId());
+        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(body.getWordFolderId());
+        System.out.println("MY WORD LIST"+myWordList);
         if(myWordList.isEmpty()){
             throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORD,"myWordList");
         }
@@ -113,22 +129,27 @@ public class MyWordApiLogicService {
         return response(myWordList.get(0));
     }
 
-    public MyWordApiResponse deleteMyWord(Integer id,Header<MyWordApiRequest> request) {
+    public MyWordApiResponse deleteMyWord(Header<MyWordApiRequest> request) {
         MyWordApiRequest body = request.getData();
-        Optional<MyWord> myWord = myWordRepository.findByUserAndWord(userRepository.getOne(id),wordRepository.getOne(body.getWordId()));
+        MyWordFolder myWordFolder = myWordFolderRepository.getOne(body.getWordFolderId());
+        Optional<MyWord> myWord = myWordRepository.findByMyWordFolderAndWord(myWordFolder,wordRepository.getOne(body.getWordId()));
         return myWord
                 .map(myWordSelected->{
                             myWordRepository.delete(myWordSelected);
-                            return responseForDelete(id);
+                            myWordFolder.setWordCount(myWordFolder.getWordCount()-1);
+                            myWordFolderRepository.save(myWordFolder);
+                            Integer userId = myWordFolderRepository.getOne(body.getWordFolderId()).getUser().getId();
+                            return responseForDelete(userId,body.getWordFolderId());
                         }
                 )
                 .orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORD,"myword"));
     }
 
-    private MyWordApiResponse responseForDelete(Integer userId){
-        List<MyWord> myWordList = myWordRepository.findAllByUserId(userId);
+    private MyWordApiResponse responseForDelete(Integer userId,Integer folderId){
+        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(folderId);
         MyWordApiResponse myWordApiResponse = MyWordApiResponse.builder()
                 .userId(userId)
+                .myWordFolderId(folderId)
                 .previousWordCount(myWordList.size()+1)
                 .nowWordCount(myWordList.size())
                 .build();

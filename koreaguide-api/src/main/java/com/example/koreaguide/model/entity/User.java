@@ -2,6 +2,7 @@ package com.example.koreaguide.model.entity;
 
 
 import com.example.koreaguide.model.enumclass.UserLevel;
+import com.example.koreaguide.model.enumclass.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-@ToString(exclude = {"myWordList","myPlaceList"})
+@ToString(exclude = {"myPlaceList","regionColorList"})
 @Accessors(chain = true)
 public class User {
     @Id
@@ -52,10 +53,6 @@ public class User {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserLevel level;
-
     private LocalDate lastLoginAt;
 
     private Integer weekAttendance;
@@ -64,9 +61,12 @@ public class User {
 
     private String createdBy;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
-    private List<MyWord> myWordList;
+    private UserStatus status;
+
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
     private List<MyPlace> myPlaceList;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
+    private List<RegionColor> regionColorList;
 }

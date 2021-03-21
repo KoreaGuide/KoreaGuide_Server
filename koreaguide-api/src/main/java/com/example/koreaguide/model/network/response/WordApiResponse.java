@@ -32,5 +32,5 @@ public class WordApiResponse {
 
     private String pronunciation;
 
-    private String level;
+//    private String level;
 }

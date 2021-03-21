@@ -34,9 +34,10 @@ public class CodeApiController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/regionList")
+    @GetMapping("/regionList/{id}")
     public Header<RegionApiResponse> getRegionList(
-            Authentication authentication) {
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id) {
         try {
             Claims claims = (Claims) authentication.getPrincipal();
             Integer userId = claims.get("userId", Integer.class);
@@ -48,7 +49,7 @@ public class CodeApiController {
             throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
         }
 
-        RegionApiResponse regionApiResponse =codeApiLogicService.getRegionList();
+        RegionApiResponse regionApiResponse =codeApiLogicService.getRegionList(id);
         return new Header<>(regionApiResponse);
     }
 }

@@ -23,13 +23,13 @@ import java.util.List;
 public class HomeApiResponse {
     private Integer id;
 
-    private UserLevel level;
-
     private Integer wordId;
 
     private String word;
 
     private String wordImage;
+
+    private String wordAudio;
 
     private Integer place1_id;
 

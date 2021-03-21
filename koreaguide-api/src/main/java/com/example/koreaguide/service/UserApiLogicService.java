@@ -2,7 +2,9 @@ package com.example.koreaguide.service;
 
 import com.example.koreaguide.ifs.CrudInterface;
 import com.example.koreaguide.model.entity.MyWord;
+import com.example.koreaguide.model.entity.MyWordFolder;
 import com.example.koreaguide.model.entity.User;
+import com.example.koreaguide.model.enumclass.UserStatus;
 import com.example.koreaguide.model.exception.EmailNotExistedException;
 import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
@@ -12,6 +14,7 @@ import com.example.koreaguide.model.network.request.SessionRequestDto;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.SessionResponseDto;
 import com.example.koreaguide.model.network.response.UserApiResponse;
+import com.example.koreaguide.repository.MyWordFolderRepository;
 import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.repository.WordRepository;
@@ -47,8 +50,12 @@ public class UserApiLogicService {
 
     @Autowired
     private WordRepository wordRepository;
+
     @Autowired
     private MyWordRepository myWordRepository;
+
+    @Autowired
+    private MyWordFolderRepository myWordFolderRepository;
 
 
     public UserApiResponse create(Header<UserApiRequest> request) {
@@ -63,16 +70,17 @@ public class UserApiLogicService {
         // 이메일 중복 체크 한번더 확인
         Optional<User> userWithEmail = userRepository.findByEmail(body.getEmail());
         if(userWithEmail.isPresent()){
-            throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR,"Email already exists");
+            throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR_USER,"Email already exists");
         }else {
             // 2. user 생성
             User user = User.builder()
                     .email(body.getEmail())
                     .password(encodedPassword)
-                    .level(body.getLevel())
                     .nickname(body.getNickname())
                     .createdAt(LocalDateTime.now())
                     .createdBy("Admin")
+                    .lastLoginAt(null)
+                    .status(UserStatus.INACTIVE)
                     .weekAttendance(0)
                     .build();
             String token = jwtUtil.createAccessToken(body.getId(),body.getNickname());
@@ -109,9 +117,6 @@ public class UserApiLogicService {
             if(!body.getNickname().isEmpty()){
                 selectedUser.setNickname(body.getNickname());
             }
-            if(!body.getLevel().toString().isEmpty()){
-                selectedUser.setLevel(body.getLevel());
-            }
             if(!body.getPassword().isEmpty()){
                 selectedUser.setPassword(encodedPassword);
             }
@@ -130,10 +135,10 @@ public class UserApiLogicService {
                 .map(userSelected->{
                             System.out.println("USER SELECTED: "+userSelected);
                             //유저 삭제할때 해당 사용자의 단어장에 있는 단어도 다 삭제
-                            List<MyWord> myWordList = myWordRepository.findAllByUserId(id);
-                            if(!myWordList.isEmpty()){
-                                for(int i=0;i<myWordList.size();i++){
-                                    myWordRepository.delete(myWordList.get(i));
+                            List<MyWordFolder> myWordFolderList =myWordFolderRepository.findAllByUserId(id);
+                            if(!myWordFolderList.isEmpty()){
+                                for(int i=0;i<myWordFolderList.size();i++){
+                                    myWordFolderRepository.delete(myWordFolderList.get(i));
                                 }
                             }
                             userRepository.delete(userSelected);
@@ -148,11 +153,11 @@ public class UserApiLogicService {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .nickname(user.getNickname())
-                .level(user.getLevel())
                 .createdAt(user.getCreatedAt())
                 .createdBy(user.getCreatedBy())
                 .weekAttendance(user.getWeekAttendance())
                 .lastLoginAt(user.getLastLoginAt())
+                .status(user.getStatus())
                 .build();
         return userApiResponse;
     }
@@ -163,13 +168,14 @@ public class UserApiLogicService {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .nickname(user.getNickname())
-                .level(user.getLevel())
                 .createdAt(user.getCreatedAt())
                 .createdBy(user.getCreatedBy())
                 .lastLoginAt(user.getLastLoginAt())
                 .weekAttendance(user.getWeekAttendance())
+                .status(user.getStatus())
                 .token(token)
                 .build();
+        System.out.println("RESPONSE: "+userApiResponse);
         return userApiResponse;
     }
     // 이메일 중복 검사
@@ -196,15 +202,17 @@ public class UserApiLogicService {
         return null;
     }
 
-    public UserApiResponse login(Header<UserApiRequest> request) {
+    public UserApiResponse login(Header<SessionRequestDto> request) {
         User user = userRepository.findByEmail(request.getData().getEmail())
                 .orElseThrow(()-> new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER,"user"));
-
+        System.out.println("USER IS: "+user);
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
             throw new KoreaGuideException(KoreaGuideError.WRONG_PASSWORD,"user");
         }
 
         String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
+        System.out.println("USER TOKEN: "+token);
+        System.out.println("DAY OF WEEK : "+LocalDate.now().getDayOfWeek());
 
         if(LocalDate.now().getDayOfWeek().compareTo(DayOfWeek.MONDAY)==0){
             System.out.println("NOW: "+LocalDate.now().getDayOfWeek());
@@ -212,15 +220,25 @@ public class UserApiLogicService {
             user.setWeekAttendance(1);
             user.setLastLoginAt(LocalDate.now());
             userRepository.save(user);
+        }else {
+            System.out.println("WHAT IS: " + user.getLastLoginAt());
+            if (user.getWeekAttendance() == 0) {
+                user.setLastLoginAt(LocalDate.now());
+                user.setWeekAttendance(1);
+                userRepository.save(user);
+            }
+            else{
+                if (user.getLastLoginAt().compareTo(LocalDate.now()) != 0) {
+//            System.out.println("LAST LOGIN: "+user.getLastLoginAt().toString());
+//            System.out.println("NOW!!: "+LocalDate.now().toString());
+                    Integer userWeekAttendance = user.getWeekAttendance();
+                    user.setWeekAttendance(userWeekAttendance + 1);
+                    user.setLastLoginAt(LocalDate.now());
+                    userRepository.save(user);
+                }
+            }
         }
-        if(user.getLastLoginAt().compareTo(LocalDate.now())!=0){
-            System.out.println("LAST LOGIN: "+user.getLastLoginAt().toString());
-            System.out.println("NOW!!: "+LocalDate.now().toString());
-            Integer userWeekAttendance = user.getWeekAttendance();
-            user.setWeekAttendance(userWeekAttendance+1);
-            user.setLastLoginAt(LocalDate.now());
-            userRepository.save(user);
-        }
+
         return response(user,token);
     }
 

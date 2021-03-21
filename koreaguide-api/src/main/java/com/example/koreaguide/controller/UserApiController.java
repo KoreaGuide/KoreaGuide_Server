@@ -6,6 +6,7 @@ import com.example.koreaguide.model.exception.GlobalExceptionHandler;
 import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.Header;
+import com.example.koreaguide.model.network.request.SessionRequestDto;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.service.UserApiLogicService;
@@ -47,7 +48,7 @@ public class UserApiController extends GlobalExceptionHandler{
     }
 
     @PostMapping("/login")
-    public Header<UserApiResponse> login(@RequestBody Header<UserApiRequest> request){
+    public Header<UserApiResponse> login(@RequestBody Header<SessionRequestDto> request){
         UserApiResponse userApiResponse = userApiLogicService.login(request);
         return new Header<>(userApiResponse);
     }
