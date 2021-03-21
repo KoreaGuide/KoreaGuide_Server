@@ -1,14 +1,15 @@
 # This is a document related to the Home services
 
-## MyWord CREATE (특정 단어를 내 단어장에 추가하기)
+## MyWord CREATE (특정 단어를 내 단어장 폴더에 추가하기)
 __Request Form:__   
 Path: api/myWord/{id} __**여기서 id는 user의 id (Integer)__   
 Request Type: POST   
 __Request Form:__
 ```json
-{   
+{
     "data": {
-       "word_id":4
+        "word_folder_id": 2,
+        "word_id": 1
     }
 }
 
@@ -16,14 +17,14 @@ __Request Form:__
 __Response Form(Good Response):__
 ```json
 {
-  "result_code": 200,
-  "status": "OK",
-  "description": "Successfully added",
-  "data": {
-    "user_id": 11,
-    "previous_word_count": 4,
-    "now_word_count": 5
-  }
+    "result_code": 200,
+    "status": "OK",
+    "description": "Successfully added",
+    "data": {
+        "my_word_folder_id": 2,
+        "previous_word_count": 0,
+        "now_word_count": 1
+    }
 }
 ```
 __Response Form(BAD Response - 추가하려는 단어가 없는 경우):__
@@ -35,7 +36,7 @@ __Response Form(BAD Response - 추가하려는 단어가 없는 경우):__
 }
 ```
    
-__Response Form(BAD Response - 추가하려는 단어가 이미 내 단어장에 있는 경우):__
+__Response Form(BAD Response - 추가하려는 단어가 이미 특정 단어장 폴더에 있는 경우):__
 ```json
 {
     "result_code": 409,
@@ -44,81 +45,69 @@ __Response Form(BAD Response - 추가하려는 단어가 이미 내 단어장에
 }
 ```
    
+__Response Form(BAD Response - 단어를 추가하려는 단어장 폴더가 없는 경우):__
+```json
+{
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find MyWordFolder"
+}
+```
+   
 ## MyWord READ (내 단어장 정보 읽기)
 __Request Form:__   
 Path: api/myWord/{id} __**여기서 id는 user의 id (Integer)__   
 Request Type: GET
+__Request Form:__
+```json
+{
+    "data": {
+        "word_folder_id": 2
+    }
+}
 
+```
 __Response Form(Good Response):__
 ```json
 {
-  "result_code": 200,
-  "status": "OK",
-  "description": "OK",
-  "data": {
-    "user_id": 11,
-    "now_word_count": 5,
-    "my_word_list": [
-      {
-        "id": 1,
-        "word_eng": "fire",
-        "word_kor": "불",
-        "meaning_eng": "fire is hot",
-        "meaning_kor": "불은 뜨거운 것",
-        "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "level": "LOW",
-        "my_word_status": "NO_STATUS"
-      },
-      {
-        "id": 2,
-        "word_eng": "cat",
-        "word_kor": "고양이",
-        "meaning_eng": "cat is an animal",
-        "meaning_kor": "고양이는 동물이다",
-        "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "level": "LOW",
-        "my_word_status": "NO_STATUS"
-      },
-      {
-        "id": 3,
-        "word_eng": "korea",
-        "word_kor": "한국",
-        "meaning_eng": "Korea is a country in Asia",
-        "meaning_kor": "한국은 아시아에 있는 나라다",
-        "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "level": "MID",
-        "my_word_status": "NO_STATUS"
-      },
-      {
-        "id": 5,
-        "word_eng": "island",
-        "word_kor": "섬",
-        "meaning_eng": "island is an island",
-        "meaning_kor": "섬은 섬입니다",
-        "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "level": "MID",
-        "my_word_status": "NO_STATUS"
-      },
-      {
-        "id": 4,
-        "word_eng": "CAU",
-        "word_kor": "중앙대학교",
-        "meaning_eng": "CAU is a university in Korea",
-        "meaning_kor": "중앙대학교는 서울에 있는 학교다.",
-        "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "level": "MID",
-        "my_word_status": "NO_STATUS"
-      }
-    ]
-  }
+    "result_code": 200,
+    "status": "OK",
+    "description": "OK",
+    "data": {
+        "my_word_folder_id": 2,
+        "now_word_count": 2,
+        "my_word_list": [
+            {
+                "id": 1,
+                "word_eng": "fire",
+                "word_kor": "불",
+                "meaning_eng": "fire is hot",
+                "meaning_kor": "불은 뜨거운 것",
+                "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
+                "audio": "https://drive.google.com/file/d/12pQ8P_H2M2rxzwz_leTaYOvEo2CPzMqd/view?usp=sharing",
+                "my_word_status": "NO_STATUS"
+            },
+            {
+                "id": 5,
+                "word_eng": "island",
+                "word_kor": "섬",
+                "meaning_eng": "island is an island",
+                "meaning_kor": "섬은 섬입니다",
+                "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
+                "audio": "https://drive.google.com/file/d/1RzIwX_41dpNL6M8J7VA19wjG20nBV6uA/view?usp=sharing",
+                "my_word_status": "NO_STATUS"
+            }
+        ]
+    }
 }
 ```  
+   
 __Response Form(GOOD Response - 사용자의 단어장에 단어가 하나도 없는 경우):__
 ```json
 {
     "result_code": 204,
     "status": "NO_CONTENT",
-    "description": "MyWord is empty"
+    "description": "MyWordFolder is empty"
 }
 ```
 
@@ -137,9 +126,10 @@ __Request Form:__
 Path: api/myWord/{id} __**여기서 id는 user의 id (Integer)__   
 Request Type: DELETE
 ```json
-{   
+{
     "data": {
-       "word_id":4
+        "word_folder_id": 2,
+        "word_id":5
     }
 }
 ```
@@ -150,9 +140,10 @@ __Response Form(Good Response):__
     "status": "OK",
     "description": "OK",
     "data": {
-        "user_id": 11,
-        "previous_word_count": 3,
-        "now_word_count": 2
+        "user_id": 18,
+        "my_word_folder_id": 2,
+        "previous_word_count": 2,
+        "now_word_count": 1
     }
 }
 ```
