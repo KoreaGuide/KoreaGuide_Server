@@ -42,6 +42,10 @@ To begin using this template, choose one of the following options to get started
 ```
 Authorization Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjExLCJuYW1lIjoiQ2luZGlhIn0.vNieUBizIAzhwpAv_J2m9GSMMUO96LTaWPLxYYOG_W8
 ```
+## Token for login & register & checkDuplicate
+```
+Authorization Bearer no_value
+```
 __Response if wrong / no Token provided (헤더에 토큰 없거나 틀려서 생기는 오류)__
 ```json
 {
