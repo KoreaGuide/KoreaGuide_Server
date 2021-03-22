@@ -9,6 +9,8 @@ import com.example.koreaguide.model.enumclass.UserLevel;
 import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.response.HomeApiResponse;
+import com.example.koreaguide.model.network.response.MyWordFolderApiResponse;
+import com.example.koreaguide.model.network.response.PlaceApiResponse;
 import com.example.koreaguide.repository.HomeRepository;
 import com.example.koreaguide.repository.PlaceRepository;
 import com.example.koreaguide.repository.TodaysPlaceRepository;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,11 +146,23 @@ public class HomeApiLogicService {
     }
 
     private HomeApiResponse response(Home home){
+        List<Place> placeList = new ArrayList<Place>();
         Place place1=placeRepository.getOne(home.getTodaysPlace().getPlace1Id());
         Place place2=placeRepository.getOne(home.getTodaysPlace().getPlace2Id());
         Place place3=placeRepository.getOne(home.getTodaysPlace().getPlace3Id());
+        placeList.add(place1);
+        placeList.add(place2);
+        placeList.add(place3);
         if(place1 ==null || place2 ==null || place3 ==null){
             new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND,"place");
+        }
+        List<PlaceApiResponse> placeApiResponses =new ArrayList<PlaceApiResponse>();
+        for(int i=0;i<3;i++){
+            PlaceApiResponse placeApiResponse = PlaceApiResponse.builder()
+                    .id(placeList.get(i).getId())
+                    .title(placeList.get(i).getTitle())
+                    .firstImage(placeList.get(i).getFirstImage()).build();
+            placeApiResponses.add(placeApiResponse);
         }
         HomeApiResponse homeApiResponse = HomeApiResponse.builder()
                 .id(home.getId())
@@ -155,15 +170,7 @@ public class HomeApiLogicService {
                 .wordId(home.getWord().getId())
                 .word(home.getWord().getWordEng())
                 .wordImage(home.getWord().getImage())
-                .place1_id(home.getTodaysPlace().getPlace1Id())
-                .place1_title(place1.getTitle())
-                .place1_image(place1.getFirstImage())
-                .place2_id(home.getTodaysPlace().getPlace2Id())
-                .place2_title(place2.getTitle())
-                .place2_image(place2.getFirstImage())
-                .place3_id(home.getTodaysPlace().getPlace3Id())
-                .place3_title(place3.getTitle())
-                .place3_image(place3.getFirstImage())
+                .placeList(placeApiResponses)
                 .build();
         return homeApiResponse;
     }
