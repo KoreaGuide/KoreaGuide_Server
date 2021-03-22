@@ -34,7 +34,8 @@ To begin using this template, choose one of the following options to get started
 4. Home
 5. My Word Folder (내 단어장 폴더)
 6. My Word (내 단어장)
-7. Get List of Regions
+7. Regions (지역 리스트 받아오기 & 지역별 색깔 바꾸기)
+8. Place (특정 지역에 대한 관광지 정보 받아오기)  
 
 ## Example of Token in header 
 ```
