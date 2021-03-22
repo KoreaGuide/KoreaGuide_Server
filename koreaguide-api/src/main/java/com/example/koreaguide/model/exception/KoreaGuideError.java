@@ -21,10 +21,12 @@ public enum KoreaGuideError {
     ENTITY_NOT_FOUND_MYWORD("Cannot Find MyWord", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_MYWORDFOLDER("Cannot Find MyWordFolder", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_HOME("Cannot Find Home", HttpStatus.INTERNAL_SERVER_ERROR),
+    ENTITY_NOT_FOUND_REGION("Cannot Find Region", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_EMPTY_MYWORD("MyWord is empty",HttpStatus.NO_CONTENT),
     ENTITY_EMPTY_MYPLACE("MyPlace is empty",HttpStatus.NO_CONTENT),
     ENTITY_EMPTY_MYWORDFOLDER("MyWordFolder is empty",HttpStatus.NO_CONTENT),
     ENTITY_EMPTY_CODE("Code is empty",HttpStatus.NO_CONTENT),
+    ENTITY_EMPTY_PLACE("Place is empty",HttpStatus.NO_CONTENT),
     WRONG_PASSWORD("Wrong Password", HttpStatus.CONFLICT),
     WRONG_FORMAT("Wrong Format",HttpStatus.BAD_REQUEST);
     private String desc;
