@@ -1,5 +1,12 @@
 # This is a document related to the Place Detail services
 
+## place_status 종류: 
+```
+   - "NO_STATUS" : 내 지도에 추가되지 않은 상태 
+   - "WISH_LIST" : 내 지도, 위시리스트에 추가됨 
+   - "HAVE_BEEN_TO": 내 지도, 이미 가본 곳에 추가됨
+```
+
 ## Place Detail ALL READ (특정 관광지 정보 조회 -- 영어 & 한국어)
 __Request Form:__   
 Path: api/place/detail/{id} __**여기서 id 는 place_id(integer)__   
