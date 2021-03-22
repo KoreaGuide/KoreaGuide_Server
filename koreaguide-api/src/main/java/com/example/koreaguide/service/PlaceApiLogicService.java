@@ -183,18 +183,50 @@ public class PlaceApiLogicService {
         Optional<Place> place = placeRepository.findById(id);
         return place.map(selectedPlace->{
             List<Word> words = getPlaceWordList(selectedPlace);
+            List<MyWordStatus> myWordStatusList = getWordStatusList(words,userId);
+            System.out.println("+++++++++++++");
+            System.out.println("MY WORD STATUS LIST"+myWordStatusList);
             Integer totalPage;
             if(words.size()%pageSize!=0){
                 totalPage=words.size()/pageSize+1;
             }else{
                 totalPage=words.size()/pageSize;
             }
-            return responseForWordPage(totalPage,pageable,words,userId,id);
+            return responseForWordPage(totalPage,pageable,words,userId,id,myWordStatusList);
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
 
     }
 
-    private PlaceDetailHeadApiResponse responseForWordPage(Integer totalPage, Integer currentPage,List<Word> words,Integer userId,Integer placeId) {
+    private List<MyWordStatus> getWordStatusList(List<Word> words,Integer userId) {
+        List<MyWordStatus> myWordStatuses =new ArrayList<MyWordStatus>();
+        List<MyWordFolder> myWordFolder =myWordFolderRepository.findAllByUserId(userId);
+        if(myWordFolder.size()==0){
+            for(int i=0;i<words.size();i++){
+                myWordStatuses.add(MyWordStatus.NO_STATUS);
+            }
+        }else{
+            System.out.println("WORD SIZE: "+words.size());
+            for (int i = 0; i < words.size(); i++) {
+                for(int j=0;j <myWordFolder.size();j++) {
+                    System.out.println("WORD FOLDER: " + myWordFolder.get(j));
+                    System.out.println("WORD: " + words.get(i));
+                    Optional<MyWord> myWord = myWordRepository.findByMyWordFolderAndWord(myWordFolder.get(j), words.get(i));
+                    if(myWord.isEmpty()){
+                        System.out.println("Empty: !!!!" );
+                        myWordStatuses.add(MyWordStatus.NO_STATUS);
+                    }else{
+                        System.out.println("NOT Empty!!! ");
+                        myWord.map(selectedWord ->
+                            myWordStatuses.add(selectedWord.getWordStatus())
+                        );
+                    }
+                }
+            }
+        }
+        return myWordStatuses;
+    }
+
+    private PlaceDetailHeadApiResponse responseForWordPage(Integer totalPage, Integer currentPage,List<Word> words,Integer userId,Integer placeId,List<MyWordStatus> myWordStatusList) {
         if(currentPage>totalPage || currentPage<1){
             throw new KoreaGuideException(KoreaGuideError.PAGINATION_OUT_OF_INDEX);
         }
@@ -215,23 +247,23 @@ public class PlaceApiLogicService {
                 .totalElements(words.size()).build();
         List<PlaceDetailWordApiResponse> placeDetailWordApiResponseArrayList =new ArrayList<PlaceDetailWordApiResponse>();
         for(int i=startItemindex;i<endItemindex;i++){
-            MyWordStatus wordStatus=MyWordStatus.NO_STATUS;
-            List<MyWordFolder> myWordFolder =myWordFolderRepository.findAllByUserId(userId);
-            if(myWordFolder.size()==0){
-                wordStatus=MyWordStatus.NO_STATUS;
-            }else{
-                Optional<MyWord> myWord;
-                for(int j=0;j<myWordFolder.size();j++){
-                    myWord = myWordRepository.findByMyWordFolderAndWord(myWordFolder.get(i),words.get(i));
-                    if(myWord.isPresent()){
-                        wordStatus = myWord.get().getWordStatus();
-                        break;
-                    }
-                }
-            }
+            System.out.println("WORD!!! "+words.get(i));
+//            MyWordStatus wordStatus=MyWordStatus.NO_STATUS;
+//            List<MyWordFolder> myWordFolder =myWordFolderRepository.findAllByUserId(userId);
+//            if(myWordFolder.size()==0){
+//                wordStatus=MyWordStatus.NO_STATUS;
+//            }else{
+//                System.out.println("myWordFolder not null");
+//
+//                for(int j=0;j<myWordFolder.size();j++){
+//                    System.out.println("j: "+j);
+//                    Optional<MyWord> myWord = myWordRepository.findByMyWordFolderAndWord(myWordFolder.get(j),words.get(i));
+//                    wordStatus=myWord.map(selectedWord-> selectedWord.getWordStatus()).orElse(MyWordStatus.NO_STATUS);
+//                }
+//            }
             PlaceDetailWordApiResponse placeDetailWordApiResponse = PlaceDetailWordApiResponse.builder()
                     .wordId(words.get(i).getId())
-                    .wordStatus(wordStatus)
+                    .wordStatus(myWordStatusList.get(i))
                     .wordEng(words.get(i).getWordEng())
                     .wordKor(words.get(i).getWordKor())
                     .wordImage(words.get(i).getImage())

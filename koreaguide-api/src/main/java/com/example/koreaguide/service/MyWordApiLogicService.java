@@ -62,7 +62,7 @@ public class MyWordApiLogicService {
                 MyWord myWord = MyWord.builder()
                         .word(word)
                         .myWordFolder(selectedWordFolder)
-                        .wordStatus(MyWordStatus.NO_STATUS).build();
+                        .wordStatus(MyWordStatus.IN_MY_LIST).build();
                 return myWordRepository.save(myWord);
 
                 })
