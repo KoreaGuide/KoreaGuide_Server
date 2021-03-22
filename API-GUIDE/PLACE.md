@@ -135,8 +135,8 @@ __Response Form(Bad Response- region_id 가 잘못됨 <-- 이런 지역 없음):
 
 ## PLACE LIST FOR REGION READ (특정 지역의 관광지 목록 보기)
 __Request Form:__   
-Path: api/place/region/{id} __**여기서 id 는 region_id(integer)__   
-Request Type: GET
+Path: api/place/region/{id} __**여기서 id 는 region_id(integer)__         
+Request Type: GET   
 __Response Form(Good Response):__
 ```json
 {
