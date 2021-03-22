@@ -14,7 +14,7 @@ __Response Form(Good Response):__
     "description": "OK",
     "data": {
         "user_id": 18,
-        "status": "NO_STATUS",
+        "place_status": "NO_STATUS",
         "id": 100,
         "title": "Gyeongbokgung Palace (경복궁)",
         "content_id": 264337,
@@ -57,7 +57,7 @@ __Response Form(Good Response):__
     "description": "OK",
     "data": {
         "user_id": 18,
-        "status": "NO_STATUS",
+        "place_status": "NO_STATUS",
         "id": 100,
         "title": "Gyeongbokgung Palace (경복궁)",
         "content_id": 264337,
@@ -99,7 +99,7 @@ __Response Form(Good Response):__
     "description": "OK",
     "data": {
         "user_id": 18,
-        "status": "NO_STATUS",
+        "place_status": "NO_STATUS",
         "id": 100,
         "title": "Gyeongbokgung Palace (경복궁)",
         "content_id": 264337,

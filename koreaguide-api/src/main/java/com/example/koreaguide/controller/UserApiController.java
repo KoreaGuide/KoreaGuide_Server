@@ -48,7 +48,8 @@ public class UserApiController extends GlobalExceptionHandler{
     }
 
     @PostMapping("/login")
-    public Header<UserApiResponse> login(@RequestBody Header<SessionRequestDto> request){
+    public Header<UserApiResponse> login(Authentication authentication,@RequestBody Header<SessionRequestDto> request){
+
         UserApiResponse userApiResponse = userApiLogicService.login(request);
         return new Header<>(userApiResponse);
     }
