@@ -7,25 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-
-/*
- * @author : Jisoo Kim
- * @date: 2021/03/22 12:15 오후
-*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PlaceApiResponse {
+public class PlaceDetailApiResponse {
+    private Integer userId;
+
+    private PlaceStatus status;
+
     private Integer id;
 
-    private Integer areaCode;
+    private String title;
 
     private Integer contentId;
 
-    private String title;
+    private Integer areaCode;
 
     private String address1;
 
@@ -41,7 +39,9 @@ public class PlaceApiResponse {
 
     private String mapY;
 
-    private String overview;
+    private String overview_english;
+
+    private String overview_korean;
 
     private String category1;
 
