@@ -9,8 +9,7 @@ Request Type: POST
     "data": {
         "email": "cindia@naver.com",
         "password": "1111",
-        "nickname": "Jisoo Kim",
-        "level": "LOW"
+        "nickname": "Jisoo Kim"
     }
 }
 ```
