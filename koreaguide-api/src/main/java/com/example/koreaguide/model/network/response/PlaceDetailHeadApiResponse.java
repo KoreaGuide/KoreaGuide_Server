@@ -1,5 +1,6 @@
 package com.example.koreaguide.model.network.response;
 
+import com.example.koreaguide.model.network.Pagination;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,6 @@ import java.util.List;
 public class PlaceDetailHeadApiResponse {
     private Integer userId;
     private Integer placeId;
+    private Pagination pagination;
     private List<PlaceDetailWordApiResponse> wordList;
 }
