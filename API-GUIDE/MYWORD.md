@@ -1,5 +1,14 @@
 # This is a document related to the Home services
 
+## my_word_status 종류: 
+```
+ - "NO_STATUS": 해당 단어가 내 단어장에 포함 되어있지 않음
+ - "IN_MY_LIST": 단어가 내 단어장에 포함 되어있음 (BUT 정답 / 오답 기록 없음)
+ - "CORRECT": 단어가 내 단어장에 있으며, 사용자가 해당 단어를 시험에서 맞춤 
+ - "WRONG":단어가 내 단어장에 있으며, 사용자가 해당 단어를 시험에서 틀림
+```
+
+
 ## MyWord CREATE (특정 단어를 내 단어장 폴더에 추가하기)
 __Request Form:__   
 Path: api/myWord/{id} __**여기서 id는 user의 id (Integer)__   
@@ -85,7 +94,7 @@ __Response Form(Good Response):__
                 "meaning_kor": "불은 뜨거운 것",
                 "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
                 "audio": "https://drive.google.com/file/d/12pQ8P_H2M2rxzwz_leTaYOvEo2CPzMqd/view?usp=sharing",
-                "my_word_status": "NO_STATUS"
+                "my_word_status": "IN_MY_LIST"
             },
             {
                 "id": 5,
@@ -95,7 +104,7 @@ __Response Form(Good Response):__
                 "meaning_kor": "섬은 섬입니다",
                 "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
                 "audio": "https://drive.google.com/file/d/1RzIwX_41dpNL6M8J7VA19wjG20nBV6uA/view?usp=sharing",
-                "my_word_status": "NO_STATUS"
+                "my_word_status": "IN_MY_LIST"
             }
         ]
     }
