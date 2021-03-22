@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlaceDetailWordApiResponse {
-    private Integer userId;
-
     private MyWordStatus wordStatus;
 
     private Integer wordId;

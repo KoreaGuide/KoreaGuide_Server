@@ -128,3 +128,64 @@ __Response Form(Bad Response- place_id 가 잘못됨 <-- 이런 관광지 없음
 }
 ```
 
+## Place Related Words  (특정 관광지와 관련된 단어 페이지네이션)
+__Request Form:__   
+Path: api/place/word/{id}?page={pageNumber} __**여기서 id 는 place_id(integer)__  __**pageNumber = 1부터 시작!__    
+__Path 예시:__
+```
+http://localhost:8080/api/place/word/100?page=1
+```
+Request Type: GET     
+__Response Form(Good Response):__
+```json
+{
+  "result_code": 200,
+  "status": "OK",
+  "description": "OK",
+  "data": {
+    "user_id": 18,
+    "place_id": 100,
+    "pagination": {
+      "total_pages": 2,
+      "total_elements": 3,
+      "current_page": 1,
+      "current_elements": 2
+    },
+    "word_list": [
+      {
+        "word_status": "NO_STATUS",
+        "word_id": 1,
+        "word_kor": "불",
+        "word_eng": "fire",
+        "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
+        "word_audio": "https://drive.google.com/file/d/12pQ8P_H2M2rxzwz_leTaYOvEo2CPzMqd/view?usp=sharing"
+      },
+      {
+        "word_status": "NO_STATUS",
+        "word_id": 2,
+        "word_kor": "고양이",
+        "word_eng": "cat",
+        "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
+        "word_audio": "https://drive.google.com/file/d/1pHRW50oxel6UbOdlLNo6e-LUfpaAik43/view?usp=sharing"
+      }
+    ]
+  }
+}
+```
+
+__Response Form(Bad Response -- PageNumber가 잘못됨):__
+```json
+{
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Pagination out of index"
+}
+```
+__Response Form(Bad Response- place_id 가 잘못됨 <-- 이런 관광지 없음):__
+```json
+{
+    "result_code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "description": "Cannot Find Place"
+}
+```

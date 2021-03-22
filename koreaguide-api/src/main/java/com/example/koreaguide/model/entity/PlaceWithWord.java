@@ -94,6 +94,41 @@ public class PlaceWithWord {
 
     private Integer word30;
 
+    public Integer getWord(String s){
+        switch (s){
+            case "word1": return word1;
+            case "word2": return word2;
+            case "word3": return word3;
+            case "word4": return word4;
+            case "word5": return word5;
+            case "word6": return word6;
+            case "word7": return word7;
+            case "word8": return word8;
+            case "word9": return word9;
+            case "word10": return word10;
+            case "word11": return word11;
+            case "word12": return word12;
+            case "word13": return word13;
+            case "word14": return word14;
+            case "word15": return word15;
+            case "word16": return word16;
+            case "word17": return word17;
+            case "word18": return word18;
+            case "word19": return word19;
+            case "word20": return word20;
+            case "word21": return word21;
+            case "word22": return word22;
+            case "word23": return word23;
+            case "word24": return word24;
+            case "word25": return word25;
+            case "word26": return word26;
+            case "word27": return word27;
+            case "word28": return word28;
+            case "word29": return word29;
+            default: return word30;
+        }
+    }
+
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "placeWithWord")
     private Place place;
 
