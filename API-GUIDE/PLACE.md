@@ -94,8 +94,16 @@ __Request Form:__
 Path: api/place/regionList/{id} __**여기서 id 는 userId(integer)__   
 Request Type: PATCH   
 
-__**여기서 region_id는 areacode랑 똑같음__
-__Request Form):__
+__**여기서 region_id는 areacode랑 똑같음__   
+__color은 다음5가지 외에 것을 입력하면 에러남 (이건 나중에 색 같이 정하고 변경해야함)__   
+```
+   - NONE
+   - RED
+   - BLUE
+   - GREEN
+   - PINK
+```
+__Request Form:__
 ```json
 {
   "data": {
