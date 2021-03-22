@@ -13,20 +13,28 @@ __Response Form(Good Response):__
     "status": "OK",
     "description": "OK",
     "data": {
-        "id": 15,
-        "word_id": 4,
-        "word": "CAU",
+        "id": 16,
+        "word_id": 2,
+        "word": "cat",
         "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "word_audio": "https://drive.google.com/file/d/1aRCA4FIMS2n1mPOUEi1WMMSKlxUOXfR9/view?usp=sharing",
-        "place1_id": 103,
-        "place1_title": "Jebudo Island (제부도)",
-        "place1_image": "http://tong.visitkorea.or.kr/cms/resource/34/2482734_image2_1.jpg",
-        "place2_id": 102,
-        "place2_title": "Korean Folk Village (한국민속촌)",
-        "place2_image": "http://tong.visitkorea.or.kr/cms/resource/89/2612489_image2_1.jpg",
-        "place3_id": 104,
-        "place3_title": "Jeju Gwandeokjeong Hall (관덕정(제주))",
-        "place3_image": "http://tong.visitkorea.or.kr/cms/resource/75/2513575_image2_1.jpg"
+        "word_audio": "https://drive.google.com/file/d/1pHRW50oxel6UbOdlLNo6e-LUfpaAik43/view?usp=sharing",
+        "place_list": [
+            {
+                "id": 101,
+                "title": "Lotte World (롯데월드)",
+                "first_image": "http://tong.visitkorea.or.kr/cms/resource/77/2553577_image2_1.jpg"
+            },
+            {
+                "id": 102,
+                "title": "Korean Folk Village (한국민속촌)",
+                "first_image": "http://tong.visitkorea.or.kr/cms/resource/89/2612489_image2_1.jpg"
+            },
+            {
+                "id": 103,
+                "title": "Jebudo Island (제부도)",
+                "first_image": "http://tong.visitkorea.or.kr/cms/resource/34/2482734_image2_1.jpg"
+            }
+        ]
     }
 }
 ```
