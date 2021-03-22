@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class PlaceDetailApiResponse {
     private Integer userId;
 
-    private PlaceStatus status;
+    private PlaceStatus placeStatus;
 
     private Integer id;
 

@@ -8,7 +8,9 @@ import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.response.PlaceApiResponse;
 import com.example.koreaguide.model.network.response.PlaceDetailApiResponse;
+import com.example.koreaguide.model.network.response.PlaceDetailHeadApiResponse;
 import com.example.koreaguide.repository.MyPlaceRepository;
+import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.PlaceKoreanRepository;
 import com.example.koreaguide.repository.PlaceRepository;
 import com.example.koreaguide.repository.UserRepository;
@@ -38,6 +40,9 @@ public class PlaceApiLogicService {
 
     @Autowired
     PlaceKoreanRepository placeKoreanRepository;
+
+    @Autowired
+    MyWordRepository myWordRepository;
 
     public PlaceDetailApiResponse getPlaceDetailAll(Integer userId, Integer id) {
         Optional<Place> place = placeRepository.findById(id);
@@ -82,7 +87,7 @@ public class PlaceApiLogicService {
         PlaceDetailApiResponse response =placeKorean.map(selectedPlaceKorean->{
             PlaceDetailApiResponse placeDetailApiResponse = PlaceDetailApiResponse.builder()
                     .userId(userId)
-                    .status(status)
+                    .placeStatus(status)
                     .id(selectedPlace.getId())
                     .contentId(selectedPlace.getContentId())
                     .areaCode(selectedPlace.getAreaCode())
@@ -107,7 +112,7 @@ public class PlaceApiLogicService {
     private PlaceDetailApiResponse responseEng(Place selectedPlace,PlaceStatus status,Integer userId) {
         PlaceDetailApiResponse placeDetailApiResponse = PlaceDetailApiResponse.builder()
                 .userId(userId)
-                .status(status)
+                .placeStatus(status)
                 .id(selectedPlace.getId())
                 .contentId(selectedPlace.getContentId())
                 .areaCode(selectedPlace.getAreaCode())
@@ -131,7 +136,7 @@ public class PlaceApiLogicService {
         PlaceDetailApiResponse response =placeKorean.map(selectedPlaceKorean->{
             PlaceDetailApiResponse placeDetailApiResponse = PlaceDetailApiResponse.builder()
                     .userId(userId)
-                    .status(status)
+                    .placeStatus(status)
                     .id(selectedPlace.getId())
                     .contentId(selectedPlace.getContentId())
                     .areaCode(selectedPlace.getAreaCode())
@@ -151,4 +156,8 @@ public class PlaceApiLogicService {
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE_KOREAN));
         return response;
     }
+
+//    public PlaceDetailHeadApiResponse getWord(Integer userId, Integer id) {
+//
+//    }
 }

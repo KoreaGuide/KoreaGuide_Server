@@ -44,6 +44,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         if(token==null){
             return null;
         }
+        if(token.equals("Bearer no_value")){
+            return null;
+        }
 
         // TODO: jwtUtil에서 claims 얻기
         Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
