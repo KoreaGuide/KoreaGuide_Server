@@ -2,8 +2,12 @@ package com.example.koreaguide.repository;
 
 import com.example.koreaguide.model.entity.MyPlace;
 import com.example.koreaguide.model.entity.Place;
+import com.example.koreaguide.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 /*
  * @author : Jisoo Kim
@@ -12,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MyPlaceRepository extends JpaRepository<MyPlace,Integer> {
     MyPlace findByPlace(Place place);
+    Optional<MyPlace> findByPlaceAndUser(Place place, User user);
+    List<MyPlace> findAllByUserId(Integer userId);
 }
