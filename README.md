@@ -37,6 +37,7 @@ To begin using this template, choose one of the following options to get started
 7. Regions (지역 리스트 받아오기 & 지역별 색깔 바꾸기)
 8. Place (특정 지역에 대한 관광지 정보 받아오기) 
 9. Place Detail (장소 정보 & 관련 단어리스트)
+10. My Map (내 지도) 
 
 ## Example of Token in header 
 ```
@@ -101,6 +102,12 @@ __Place Detail Related Endpoints__
 | GET | [/api/place/detail/eng/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (영어)|
 | GET | [/api/place/detail/kor/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (한국어)|
 | GET | [/api/place/word/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination|
+   
+__My Map Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| GET | [api/myMap/all/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 내 지도에 포함된 모든 장소 보기(wish & have been to)|
+| POST | [api/myMap/all/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | CREATE | 내 지도에 장소 넣기(wish & have been to)|
 
 ## ERD
    
