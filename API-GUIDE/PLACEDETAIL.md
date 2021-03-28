@@ -146,37 +146,29 @@ Request Type: GET
 __Response Form(Good Response):__
 ```json
 {
-  "result_code": 200,
-  "status": "OK",
-  "description": "OK",
-  "data": {
-    "user_id": 18,
-    "place_id": 100,
-    "pagination": {
-      "total_pages": 2,
-      "total_elements": 3,
-      "current_page": 1,
-      "current_elements": 2
-    },
-    "word_list": [
-      {
-        "word_status": "NO_STATUS",
-        "word_id": 1,
-        "word_kor": "불",
-        "word_eng": "fire",
-        "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "word_audio": "https://drive.google.com/file/d/12pQ8P_H2M2rxzwz_leTaYOvEo2CPzMqd/view?usp=sharing"
-      },
-      {
-        "word_status": "NO_STATUS",
-        "word_id": 2,
-        "word_kor": "고양이",
-        "word_eng": "cat",
-        "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-        "word_audio": "https://drive.google.com/file/d/1pHRW50oxel6UbOdlLNo6e-LUfpaAik43/view?usp=sharing"
-      }
-    ]
-  }
+    "result_code": 200,
+    "status": "OK",
+    "description": "OK",
+    "data": {
+        "user_id": 18,
+        "place_id": 100,
+        "pagination": {
+            "total_pages": 3,
+            "total_elements": 3,
+            "current_page": 3,
+            "current_elements": 1
+        },
+        "word_list": [
+            {
+                "word_status": "NO_STATUS",
+                "word_id": 4,
+                "word_kor": "중앙대학교",
+                "word_eng": "CAU",
+                "word_image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
+                "word_audio": "https://drive.google.com/file/d/1aRCA4FIMS2n1mPOUEi1WMMSKlxUOXfR9/view?usp=sharing"
+            }
+        ]
+    }
 }
 ```
 
