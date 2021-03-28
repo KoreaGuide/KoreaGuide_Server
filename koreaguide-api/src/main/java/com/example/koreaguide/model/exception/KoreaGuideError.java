@@ -18,6 +18,7 @@ public enum KoreaGuideError {
     ENTITY_NOT_FOUND_USER("Cannot Find User", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_WORD("Cannot Find Word", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_PLACE("Cannot Find Place", HttpStatus.INTERNAL_SERVER_ERROR),
+    ENTITY_NOT_FOUND_MYPLACE("Cannot Find MyPlace", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_PLACEWITHWORD("Cannot Find Place with word mapping", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_PLACE_KOREAN("Cannot Find Place Korean", HttpStatus.INTERNAL_SERVER_ERROR),
     ENTITY_NOT_FOUND_MYWORD("Cannot Find MyWord", HttpStatus.INTERNAL_SERVER_ERROR),

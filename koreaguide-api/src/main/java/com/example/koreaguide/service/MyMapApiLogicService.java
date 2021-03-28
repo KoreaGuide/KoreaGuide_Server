@@ -68,20 +68,6 @@ public class MyMapApiLogicService {
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
     }
 
-    private MyMapApiResponse responseAdd(Integer id, MyPlace resultPlace,Place place) {
-        List<MyMapPlaceApiResponse> myMapPlaceApiResponseList=new ArrayList<MyMapPlaceApiResponse>();
-        MyMapPlaceApiResponse myMapPlaceApiResponse = MyMapPlaceApiResponse.builder()
-                .myMapId(resultPlace.getId())
-                .placeId(place.getId())
-                .placeStatus(resultPlace.getStatus())
-                .title(place.getTitle())
-                .diary(resultPlace.getDiary()).build();
-        myMapPlaceApiResponseList.add(myMapPlaceApiResponse);
-        MyMapApiResponse myMapApiResponse = MyMapApiResponse.builder()
-                .userId(id)
-                .placeList(myMapPlaceApiResponseList).build();
-        return myMapApiResponse;
-    }
 
     public MyMapApiResponse getMyMapAll(Integer id) {
         List<MyPlace> myPlaceList = myPlaceRepository.findAllByUserId(id);
@@ -97,6 +83,101 @@ public class MyMapApiLogicService {
             }
             return responseGet(id,myPlaceList,placeList);
         }
+    }
+
+
+    public MyMapApiResponse getMyMapWish(Integer id) {
+        List<MyPlace> myPlaceList = myPlaceRepository.findAllByUserIdAndStatus(id,PlaceStatus.WISH_LIST);
+        if(myPlaceList.size()==0){
+            throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYPLACE);
+        }else{
+            List<Place> placeList=new ArrayList<Place>();
+            for(int i=0;i<myPlaceList.size();i++){
+                Optional<Place> place = placeRepository.findById(myPlaceList.get(i).getPlace().getId());
+                place.map(selectedPlace->{
+                    return placeList.add(selectedPlace);
+                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+            }
+            return responseGet(id,myPlaceList,placeList);
+        }
+    }
+    public MyMapApiResponse getMyMapHaveBeenTo(Integer id) {
+        List<MyPlace> myPlaceList = myPlaceRepository.findAllByUserIdAndStatus(id,PlaceStatus.HAVE_BEEN_TO);
+        if(myPlaceList.size()==0){
+            throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYPLACE);
+        }else{
+            List<Place> placeList=new ArrayList<Place>();
+            for(int i=0;i<myPlaceList.size();i++){
+                Optional<Place> place = placeRepository.findById(myPlaceList.get(i).getPlace().getId());
+                place.map(selectedPlace->{
+                    return placeList.add(selectedPlace);
+                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+            }
+            return responseGet(id,myPlaceList,placeList);
+        }
+    }
+
+    public MyMapApiResponse deleteMyMap(Integer id, Header<MyMapApiRequest> request) {
+        MyMapApiRequest body = request.getData();
+        Optional<Place> place = placeRepository.findById(body.getPlaceId());
+        Optional<User> user = userRepository.findById(id);
+        return place.map(selectedPlace -> {
+            MyMapApiResponse finalResponse =user.map(selectedUser->{
+                Optional<MyPlace> myPlace = myPlaceRepository.findByPlaceAndUser(selectedPlace,selectedUser);
+                MyMapApiResponse response =myPlace.map(selectedMyPlace->{
+                    myPlaceRepository.delete(selectedMyPlace);
+                    List<MyPlace> myPlaceList = myPlaceRepository.findAllByUserId(id);
+                    return responseDelete(selectedUser.getId(),myPlaceList.size());
+                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYPLACE));
+                return response;
+            }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER));
+            return finalResponse;
+        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+    }
+
+    public MyMapApiResponse changeMyMap(Integer id, Header<MyMapApiRequest> request) {
+        MyMapApiRequest body = request.getData();
+        Optional<Place> place = placeRepository.findById(body.getPlaceId());
+        Optional<User> user = userRepository.findById(id);
+        return place.map(selectedPlace->{
+            MyMapApiResponse finalResponse = user.map(selectedUser->{
+                Optional<MyPlace> myPlace = myPlaceRepository.findByPlaceAndUser(selectedPlace,selectedUser);
+                MyMapApiResponse response =myPlace.map(selectedMyPlace->{
+                    if(body.getPlaceStatus() == PlaceStatus.WISH_LIST){
+                        selectedMyPlace.setStatus(PlaceStatus.WISH_LIST);
+                        selectedMyPlace.setDiary(null);
+                        myPlaceRepository.save(selectedMyPlace);
+                    }else{
+                        selectedMyPlace.setStatus(PlaceStatus.HAVE_BEEN_TO);
+                        if(body.getDiary()!=null) {
+                            selectedMyPlace.setDiary(body.getDiary());
+                        }
+                        myPlaceRepository.save(selectedMyPlace);
+                    }
+                    List<MyPlace> myPlaceList = myPlaceRepository.findAllByUserId(id);
+                    return responseAdd(selectedUser.getId(),selectedMyPlace,selectedPlace);
+                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYPLACE));
+                return response;
+            }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_USER));
+            return finalResponse;
+        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+    }
+
+
+    //RESPONSES
+    private MyMapApiResponse responseAdd(Integer id, MyPlace resultPlace,Place place) {
+        List<MyMapPlaceApiResponse> myMapPlaceApiResponseList=new ArrayList<MyMapPlaceApiResponse>();
+        MyMapPlaceApiResponse myMapPlaceApiResponse = MyMapPlaceApiResponse.builder()
+                .myMapId(resultPlace.getId())
+                .placeId(place.getId())
+                .placeStatus(resultPlace.getStatus())
+                .title(place.getTitle())
+                .diary(resultPlace.getDiary()).build();
+        myMapPlaceApiResponseList.add(myMapPlaceApiResponse);
+        MyMapApiResponse myMapApiResponse = MyMapApiResponse.builder()
+                .userId(id)
+                .placeList(myMapPlaceApiResponseList).build();
+        return myMapApiResponse;
     }
 
     private MyMapApiResponse responseGet(Integer id, List<MyPlace> myPlaceList,List<Place> placeList) {
@@ -122,4 +203,13 @@ public class MyMapApiLogicService {
                 .placeList(myMapPlaceApiResponseList).build();
         return myMapApiResponse;
     }
+
+    private MyMapApiResponse responseDelete(Integer id, Integer currentSize){
+        MyMapApiResponse myMapApiResponse = MyMapApiResponse.builder()
+                .userId(id)
+                .placeCount(currentSize)
+                .build();
+        return myMapApiResponse;
+    }
+
 }
