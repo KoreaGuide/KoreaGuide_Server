@@ -31,13 +31,14 @@ To begin using this template, choose one of the following options to get started
 1. Duplicate check of emails 
 2. Register
 3. Login
-4. Home
-5. My Word Folder (내 단어장 폴더)
-6. My Word (내 단어장)
-7. Regions (지역 리스트 받아오기 & 지역별 색깔 바꾸기)
-8. Place (특정 지역에 대한 관광지 정보 받아오기) 
-9. Place Detail (장소 정보 & 관련 단어리스트)
-10. My Map (내 지도) 
+4. User (사용자 관련) 
+5. Home
+6. My Word Folder (내 단어장 폴더)
+7. My Word (내 단어장)
+8. Regions (지역 리스트 받아오기 & 지역별 색깔 바꾸기)
+9. Place (특정 지역에 대한 관광지 정보 받아오기) 
+10. Place Detail (장소 정보 & 관련 단어리스트)
+11. My Map (내 지도) 
 
 ## Example of Token in header 
 ```
@@ -106,9 +107,13 @@ __Place Detail Related Endpoints__
 __My Map Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
+| POST | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | CREATE | 내 지도에 장소 넣기(wish & have been to)|
 | GET | [api/myMap/all/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 내 지도에 포함된 모든 장소 보기(wish & have been to)|
-| POST | [api/myMap/all/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | CREATE | 내 지도에 장소 넣기(wish & have been to)|
-
+| GET | [api/myMap/wish/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 내 지도에 포함된 장소 보기(wish ONLY)|
+| GET | [api/myMap/haveBeen/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 내 지도에 포함된 장소 보기(have been to ONLY)|
+| PATCH | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | UPDATE | 내 지도에 있는 장소 수정|
+| DELETE | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | DELETE | 내 지도에 있는 장소 삭제|
+   
 ## ERD
    
 ## Team Members & roles
