@@ -178,7 +178,7 @@ public class PlaceApiLogicService {
     }
 
     public PlaceDetailHeadApiResponse getWord(Integer userId, Integer id, Integer pageable) {
-        Integer pageSize=2;
+        Integer pageSize=1;
         // 해당 유저에게 이 단어가 있는지 알아내고, 단어들을 페이지네이션 해야함
         Optional<Place> place = placeRepository.findById(id);
         return place.map(selectedPlace->{
@@ -234,12 +234,14 @@ public class PlaceApiLogicService {
         if(currentPage == 1){
             startItemindex=0;
         }else{
-            startItemindex = currentPage;
+            // page 마다 1개씩으로 바껴서 currentPage-1
+            startItemindex = currentPage-1;
         }
-        endItemindex = startItemindex+2;
+        endItemindex = startItemindex+1;
         if(endItemindex>=words.size()){
             endItemindex = startItemindex+1;
         }
+        System.out.println("currentPage:"+currentPage+"   startItemindex:"+startItemindex);
         Pagination pagination = Pagination.builder()
                 .currentPage(currentPage)
                 .currentElements(endItemindex-startItemindex)
