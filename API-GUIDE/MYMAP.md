@@ -1,4 +1,4 @@
-# This is a document related to the Home services
+# This is a document related to the My Map services
 ### My Place Status List
 ```
 - HAVE_BEEN_TO : 이미 다녀온 곳 <-- diary 적을 수 있고, 안적어도 됨 
