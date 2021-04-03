@@ -39,6 +39,7 @@ To begin using this template, choose one of the following options to get started
 9. Place (특정 지역에 대한 관광지 정보 받아오기) 
 10. Place Detail (장소 정보 & 관련 단어리스트)
 11. My Map (내 지도) 
+12. 내 단어장 폴더별 단어 학습 
 
 ## Example of Token in header 
 ```
@@ -55,6 +56,24 @@ __Response if wrong / no Token provided (헤더에 토큰 없거나 틀려서 �
     "status": "UNAUTHORIZED",
     "description": "Not Logged in"
 }
+```
+
+## Explanation of Pagination
+```json
+"pagination": {
+            "total_pages": 2,
+            "total_elements": 2,
+            "current_page": 1,
+            "current_elements": 1
+        }
+```
+```
+    - total pages: 총 페이지
+    - total elements: 페이지네이션하는 아이템의 총 수
+    - current page: 현재 페이지 
+    - current elements: 현재 페이지에 있는 아이템의 수 
+
+** pageNumber은 1부터 시작! 
 ```
    
 ## API Endpoints
@@ -81,6 +100,7 @@ __MyWordFolder (내 단어장 폴더) Related Endpoints__
 | GET | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 단어장 폴더 목록 보기 |
 | DELETE | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | DELETE | 내 특정 단어장 폴더 삭제 |
 | PATCH | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | UPDATE | 내 특정 단어장 이름 변경 |
+| GET | [api/myWordFolder/learn/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 특정 단어장 폴더에 있는 단어들 학습하기 |
 
 __MyWord (내 단어장) Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
