@@ -7,8 +7,10 @@ import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.MyWordApiRequest;
 import com.example.koreaguide.model.network.request.MyWordFolderApiRequest;
 import com.example.koreaguide.model.network.request.UserApiRequest;
+import com.example.koreaguide.model.network.response.LearnWordApiResponse;
 import com.example.koreaguide.model.network.response.MyWordApiResponse;
 import com.example.koreaguide.model.network.response.MyWordFolderApiResponse;
+import com.example.koreaguide.model.network.response.PlaceDetailHeadApiResponse;
 import com.example.koreaguide.model.network.response.UserApiResponse;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.service.MyWordApiLogicService;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -121,5 +124,28 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
         }
         MyWordFolderApiResponse myWordFolderApiResponse =myWordFolderApiLogicService.updateFolderName(id,request);
         return new Header<>(myWordFolderApiResponse);
+    }
+
+    //유저의 아이디
+    @GetMapping("/learn/{id}")
+    public Header<LearnWordApiResponse> getWordforLearning(
+            Authentication authentication,
+            @PathVariable(name = "id") Integer id,
+            @RequestBody Header<MyWordFolderApiRequest> request,
+            @RequestParam(value = "page",defaultValue = "1")Integer pageNumber) {
+        Integer userId;
+        try {
+            Claims claims = (Claims) authentication.getPrincipal();
+            userId = claims.get("userId", Integer.class);
+            System.out.println("USER ID: "+userId);
+            if(id!=userId){
+                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+            }
+        }catch (Exception e){
+            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+        }
+
+        LearnWordApiResponse learnWordApiResponse =myWordFolderApiLogicService.getWordforLearning(id,request,pageNumber);
+        return new Header<>(learnWordApiResponse);
     }
 }

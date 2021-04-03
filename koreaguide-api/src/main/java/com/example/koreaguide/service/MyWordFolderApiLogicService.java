@@ -7,9 +7,12 @@ import com.example.koreaguide.model.enumclass.UserStatus;
 import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.Header;
+import com.example.koreaguide.model.network.Pagination;
 import com.example.koreaguide.model.network.request.MyWordFolderApiRequest;
+import com.example.koreaguide.model.network.response.LearnWordApiResponse;
 import com.example.koreaguide.model.network.response.MyWordFolderApiResponse;
 import com.example.koreaguide.model.network.response.MyWordListApiResponse;
+import com.example.koreaguide.model.network.response.PlaceDetailWordApiResponse;
 import com.example.koreaguide.repository.MyWordFolderRepository;
 import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
@@ -113,5 +116,70 @@ public class MyWordFolderApiLogicService {
             MyWordFolder newFolder =myWordFolderRepository.save(selectedFolder);
             return response(newFolder);
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
+    }
+
+    public LearnWordApiResponse getWordforLearning(Integer id, Header<MyWordFolderApiRequest> request, Integer pageNumber) {
+        Integer pageSize=1;
+        MyWordFolderApiRequest body = request.getData();
+
+        Optional<MyWordFolder> myWordFolder = myWordFolderRepository.findById(body.getWordFolderId());
+        return myWordFolder.map(selectedWordFolder->{
+            List<MyWord> myWord = myWordRepository.findAllByMyWordFolderId(selectedWordFolder.getId());
+            if(myWord.isEmpty()){
+                throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORDFOLDER);
+            }
+            Integer totalPage;
+            if(myWord.size()%pageSize!=0){
+                totalPage=myWord.size()/pageSize+1;
+            }else{
+                totalPage=myWord.size()/pageSize;
+            }
+            return responseForLearnWord(totalPage,pageNumber,myWord,id,selectedWordFolder);
+        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
+
+    }
+
+    private LearnWordApiResponse responseForLearnWord(Integer totalPage, Integer currentPage, List<MyWord> myWord, Integer id, MyWordFolder selectedWordFolder) {
+        if(currentPage>totalPage || currentPage<1){
+            throw new KoreaGuideException(KoreaGuideError.PAGINATION_OUT_OF_INDEX);
+        }
+        Integer startItemindex,endItemindex;
+        if(currentPage == 1){
+            startItemindex=0;
+        }else{
+            // page 마다 1개씩으로 바껴서 currentPage-1
+            startItemindex = currentPage-1;
+        }
+        endItemindex = startItemindex+1;
+        if(endItemindex>=myWord.size()){
+            endItemindex = startItemindex+1;
+        }
+
+        Pagination pagination = Pagination.builder()
+                .currentPage(currentPage)
+                .currentElements(endItemindex-startItemindex)
+                .totalPages(totalPage)
+                .totalElements(myWord.size()).build();
+        List<MyWordListApiResponse> myWordListApiResponseList =new ArrayList<MyWordListApiResponse>();
+        for(int i=startItemindex;i<endItemindex;i++){
+            MyWordListApiResponse myWordListApiResponse = MyWordListApiResponse.builder()
+                    .id(myWord.get(i).getId())
+                    .myWordStatus(myWord.get(i).getWordStatus())
+                    .word_eng(myWord.get(i).getWord().getWordEng())
+                    .word_kor(myWord.get(i).getWord().getWordKor())
+                    .meaning_eng(myWord.get(i).getWord().getMeaningEng())
+                    .meaning_kor(myWord.get(i).getWord().getMeaningKor())
+                    .image(myWord.get(i).getWord().getImage())
+                    .audio(myWord.get(i).getWord().getAudio())
+                    .pronunciation(myWord.get(i).getWord().getPronunciation())
+                    .build();
+            myWordListApiResponseList.add(myWordListApiResponse);
+        }
+        LearnWordApiResponse learnWordApiResponse = LearnWordApiResponse.builder()
+                .folderId(selectedWordFolder.getId())
+                .folderName(selectedWordFolder.getFolderName())
+                .pagination(pagination)
+                .wordList(myWordListApiResponseList).build();
+        return learnWordApiResponse;
     }
 }
