@@ -133,7 +133,12 @@ __My Map Related Endpoints__
 | GET | [api/myMap/haveBeen/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 내 지도에 포함된 장소 보기(have been to ONLY)|
 | PATCH | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | UPDATE | 내 지도에 있는 장소 수정|
 | DELETE | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | DELETE | 내 지도에 있는 장소 삭제|
-   
+
+__WORD Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| GET | [api/word](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/WORD.md) | YES | READ | 특정 단어에 대한 정보 조회 ( HOME의 단어랑 연결시 사용) |
+
 ## ERD
    
 ## Team Members & roles

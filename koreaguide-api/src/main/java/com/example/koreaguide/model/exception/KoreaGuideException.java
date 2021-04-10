@@ -11,7 +11,6 @@ public class KoreaGuideException extends RuntimeException {
     public KoreaGuideException(KoreaGuideError error) {
         super(error.getDesc());
         this.error = error;
-
     }
 
     public KoreaGuideException(KoreaGuideError error, String message) {
