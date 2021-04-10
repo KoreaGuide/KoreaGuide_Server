@@ -101,6 +101,7 @@ __MyWordFolder (내 단어장 폴더) Related Endpoints__
 | DELETE | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | DELETE | 내 특정 단어장 폴더 삭제 |
 | PATCH | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | UPDATE | 내 특정 단어장 이름 변경 |
 | GET | [api/myWordFolder/learn/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 특정 단어장 폴더에 있는 단어들 학습하기 |
+| GET | [api/myWordFolder/learnWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 특정 단어장 폴더에 있는 단어들 학습하기 |
 
 __MyWord (내 단어장) Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
@@ -123,6 +124,7 @@ __Place Detail Related Endpoints__
 | GET | [/api/place/detail/eng/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (영어)|
 | GET | [/api/place/detail/kor/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (한국어)|
 | GET | [/api/place/word/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination|
+| GET | [/api/place/wordList/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination 없이| 
    
 __My Map Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
