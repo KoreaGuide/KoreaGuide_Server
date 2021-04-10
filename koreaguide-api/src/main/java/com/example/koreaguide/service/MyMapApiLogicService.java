@@ -188,7 +188,6 @@ public class MyMapApiLogicService {
                     .placeId(placeList.get(i).getId())
                     .placeStatus(myPlaceList.get(i).getStatus())
                     .title(placeList.get(i).getTitle())
-                    .contentId(placeList.get(i).getContentId())
                     .address1(placeList.get(i).getAddress1())
                     .mapX(placeList.get(i).getMapX())
                     .mapY(placeList.get(i).getMapY())

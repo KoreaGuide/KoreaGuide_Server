@@ -12,5 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface PlaceKoreanRepository extends JpaRepository<PlaceKorean,Integer> {
-    Optional<PlaceKorean> findByContentId(Integer contentId);
+//    Optional<PlaceKorean> findByContentId(Integer contentId);
+    Optional<PlaceKorean> findByPlaceId(Integer placeId);
 }

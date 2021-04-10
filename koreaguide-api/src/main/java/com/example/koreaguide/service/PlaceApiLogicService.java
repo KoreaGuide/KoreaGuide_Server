@@ -12,8 +12,6 @@ import com.example.koreaguide.model.enumclass.PlaceStatus;
 import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.Pagination;
-import com.example.koreaguide.model.network.response.MyWordListApiResponse;
-import com.example.koreaguide.model.network.response.PlaceApiResponse;
 import com.example.koreaguide.model.network.response.PlaceDetailApiResponse;
 import com.example.koreaguide.model.network.response.PlaceDetailHeadApiResponse;
 import com.example.koreaguide.model.network.response.PlaceDetailWordApiResponse;
@@ -26,13 +24,12 @@ import com.example.koreaguide.repository.PlaceWithWordRepository;
 import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /*
  * @author : Jisoo Kim
@@ -103,16 +100,15 @@ public class PlaceApiLogicService {
     }
 
     private PlaceDetailApiResponse responseAll(Place selectedPlace,PlaceStatus status,Integer userId) {
-        Optional<PlaceKorean> placeKorean =placeKoreanRepository.findByContentId(selectedPlace.getContentId());
+        Optional<PlaceKorean> placeKorean =placeKoreanRepository.findByPlaceId(selectedPlace.getId());
         PlaceDetailApiResponse response =placeKorean.map(selectedPlaceKorean->{
             PlaceDetailApiResponse placeDetailApiResponse = PlaceDetailApiResponse.builder()
                     .userId(userId)
                     .placeStatus(status)
                     .id(selectedPlace.getId())
-                    .contentId(selectedPlace.getContentId())
                     .areaCode(selectedPlace.getAreaCode())
                     .title(selectedPlace.getTitle())
-                    .address1(selectedPlace.getAddress1())
+                    .address(selectedPlace.getAddress1())
                     .mapX(selectedPlace.getMapX())
                     .mapY(selectedPlace.getMapY())
                     .overview_english(selectedPlace.getOverview())
@@ -133,10 +129,9 @@ public class PlaceApiLogicService {
                 .userId(userId)
                 .placeStatus(status)
                 .id(selectedPlace.getId())
-                .contentId(selectedPlace.getContentId())
                 .areaCode(selectedPlace.getAreaCode())
                 .title(selectedPlace.getTitle())
-                .address1(selectedPlace.getAddress1())
+                .address(selectedPlace.getAddress1())
                 .mapX(selectedPlace.getMapX())
                 .mapY(selectedPlace.getMapY())
                 .overview_english(selectedPlace.getOverview())
@@ -150,16 +145,15 @@ public class PlaceApiLogicService {
     }
 
     private PlaceDetailApiResponse responseKor(Place selectedPlace,PlaceStatus status,Integer userId) {
-        Optional<PlaceKorean> placeKorean =placeKoreanRepository.findByContentId(selectedPlace.getContentId());
+        Optional<PlaceKorean> placeKorean =placeKoreanRepository.findByPlaceId(selectedPlace.getId());
         PlaceDetailApiResponse response =placeKorean.map(selectedPlaceKorean->{
             PlaceDetailApiResponse placeDetailApiResponse = PlaceDetailApiResponse.builder()
                     .userId(userId)
                     .placeStatus(status)
                     .id(selectedPlace.getId())
-                    .contentId(selectedPlace.getContentId())
                     .areaCode(selectedPlace.getAreaCode())
                     .title(selectedPlace.getTitle())
-                    .address1(selectedPlace.getAddress1())
+                    .address(selectedPlace.getAddress1())
                     .mapX(selectedPlace.getMapX())
                     .mapY(selectedPlace.getMapY())
                     .overview_korean(selectedPlaceKorean.getKorOverview())
@@ -193,6 +187,33 @@ public class PlaceApiLogicService {
 //        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
 //
 //    }
+    // pageination for place detail word
+    public PlaceDetailHeadApiResponse getWord(Integer userId, Integer id,Integer pageable){
+        Integer pageSize=1;
+        Optional<Place> place = placeRepository.findById(id);
+        return place.map(selectedPlace->{
+            List<PlaceWithWord> placeWithWords = placeWithWordRepository.findByPlaceId(selectedPlace.getId());
+            List<Word> wordForPlace = wordRepository.findAllById(placeWithWords.stream().map(i->i.getWordId()).collect(Collectors.toList()));
+            List<MyWordStatus> myWordStatusList = getWordStatusList(wordForPlace,userId);
+            Integer totalPage;
+            if(wordForPlace.size()%pageSize!=0){
+                totalPage=wordForPlace.size()/pageSize+1;
+            }else{
+                totalPage=wordForPlace.size()/pageSize;
+            }
+            return responseForWordPage(totalPage,pageable,wordForPlace,userId,id,myWordStatusList);
+        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+    }
+
+    public PlaceDetailHeadApiResponse getWordWithoutPagination(Integer userId, Integer id){
+        Optional<Place> place = placeRepository.findById(id);
+        return place.map(selectedPlace->{
+            List<PlaceWithWord> placeWithWords = placeWithWordRepository.findByPlaceId(selectedPlace.getId());
+            List<Word> wordForPlace = wordRepository.findAllById(placeWithWords.stream().map(i->i.getWordId()).collect(Collectors.toList()));
+            List<MyWordStatus> myWordStatusList = getWordStatusList(wordForPlace,userId);
+            return responseForWord(wordForPlace,userId,id,myWordStatusList);
+        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+    }
 
     private List<MyWordStatus> getWordStatusList(List<Word> words,Integer userId) {
         List<MyWordStatus> myWordStatuses =new ArrayList<MyWordStatus>();
@@ -265,6 +286,12 @@ public class PlaceApiLogicService {
                     .wordStatus(myWordStatusList.get(i))
                     .wordEng(words.get(i).getWordEng())
                     .wordKor(words.get(i).getWordKor())
+                    .meaningKor1(words.get(i).getMeaningKor1())
+                    .meaningKor2(words.get(i).getMeaningKor2())
+                    .meaningEng1(words.get(i).getMeaningEng1())
+                    .meaningEng2(words.get(i).getMeaningEng2())
+                    .pronunciationEng(words.get(i).getPronunciationEng())
+                    .pronunciationKor(words.get(i).getPronunciationKor())
                     .wordImage(words.get(i).getImage())
                     .wordAudio(words.get(i).getAudio()).build();
             placeDetailWordApiResponseArrayList.add(placeDetailWordApiResponse);
@@ -276,6 +303,34 @@ public class PlaceApiLogicService {
                 .userId(userId).build();
         return placeDetailHeadApiResponse;
     }
+
+    // place detail word list wo pagination
+    private PlaceDetailHeadApiResponse responseForWord(List<Word> words,Integer userId,Integer placeId,List<MyWordStatus> myWordStatusList) {
+        List<PlaceDetailWordApiResponse> placeDetailWordApiResponseArrayList =new ArrayList<PlaceDetailWordApiResponse>();
+        for(int i=0;i<words.size();i++){
+            System.out.println("WORD!!! "+words.get(i));
+            PlaceDetailWordApiResponse placeDetailWordApiResponse = PlaceDetailWordApiResponse.builder()
+                    .wordId(words.get(i).getId())
+                    .wordStatus(myWordStatusList.get(i))
+                    .wordEng(words.get(i).getWordEng())
+                    .wordKor(words.get(i).getWordKor())
+                    .meaningKor1(words.get(i).getMeaningKor1())
+                    .meaningKor2(words.get(i).getMeaningKor2())
+                    .meaningEng1(words.get(i).getMeaningEng1())
+                    .meaningEng2(words.get(i).getMeaningEng2())
+                    .pronunciationEng(words.get(i).getPronunciationEng())
+                    .pronunciationKor(words.get(i).getPronunciationKor())
+                    .wordImage(words.get(i).getImage())
+                    .wordAudio(words.get(i).getAudio()).build();
+            placeDetailWordApiResponseArrayList.add(placeDetailWordApiResponse);
+        }
+        PlaceDetailHeadApiResponse placeDetailHeadApiResponse = PlaceDetailHeadApiResponse.builder()
+                .placeId(placeId)
+                .wordList(placeDetailWordApiResponseArrayList)
+                .userId(userId).build();
+        return placeDetailHeadApiResponse;
+    }
+
 
 //    private List<Word> getPlaceWordList(Place place){
 //        Optional<PlaceWithWord> placeWithWord =placeWithWordRepository.findByContentId(place.getContentId());
