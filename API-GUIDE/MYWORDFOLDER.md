@@ -204,7 +204,7 @@ __Response Form(Bad Response: 해당 단어장 폴더를 못찾겠는 경우):__
 }
 ```
 
-## MyWordFolder LEARN(PAGINATION) (특정 단어장 폴더에 있는 단어들 학습하기 페이지네이션)
+## MyWordFolder LEARN(NO PAGINATION) (특정 단어장 폴더에 있는 단어들 학습하기 리스트)
 __Request Form:__   
 Path: api/myWordFolder/learnWord/{id}
 
