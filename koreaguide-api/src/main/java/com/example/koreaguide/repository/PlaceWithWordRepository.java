@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PlaceWithWordRepository extends JpaRepository<PlaceWithWord,Integer> {
-    Optional<PlaceWithWord> findByContentId(Integer contentId);
+//    Optional<PlaceWithWord> findByContentId(Integer contentId);
 }

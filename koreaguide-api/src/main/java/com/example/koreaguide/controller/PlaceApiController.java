@@ -98,24 +98,24 @@ public class PlaceApiController extends GlobalExceptionHandler {
     }
 
     //id = place_id
-    @GetMapping("/word/{id}")
-    public Header<PlaceDetailHeadApiResponse> getPlaceWordKor(
-            Authentication authentication,
-            @PathVariable(name = "id") Integer id,
-            @RequestParam(value = "page",defaultValue = "1")Integer pageNumber) {
-        Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
-
-        PlaceDetailHeadApiResponse placeDetailHeadApiResponse =placeApiLogicService.getWord(userId,id,pageNumber);
-        return new Header<>(placeDetailHeadApiResponse);
-    }
+//    @GetMapping("/word/{id}")
+//    public Header<PlaceDetailHeadApiResponse> getPlaceWordKor(
+//            Authentication authentication,
+//            @PathVariable(name = "id") Integer id,
+//            @RequestParam(value = "page",defaultValue = "1")Integer pageNumber) {
+//        Integer userId;
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
+//
+//        PlaceDetailHeadApiResponse placeDetailHeadApiResponse =placeApiLogicService.getWord(userId,id,pageNumber);
+//        return new Header<>(placeDetailHeadApiResponse);
+//    }
 }

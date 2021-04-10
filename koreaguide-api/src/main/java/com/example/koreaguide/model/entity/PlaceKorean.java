@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /*
  * @author : Jisoo Kim
@@ -25,6 +26,7 @@ import javax.persistence.OneToOne;
 @Builder
 @ToString(exclude = {"place"})
 @Accessors(chain = true)
+@Table(name = "final_place_korean")
 public class PlaceKorean {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -167,11 +167,11 @@ public class MyWordFolderApiLogicService {
                     .myWordStatus(myWord.get(i).getWordStatus())
                     .word_eng(myWord.get(i).getWord().getWordEng())
                     .word_kor(myWord.get(i).getWord().getWordKor())
-                    .meaning_eng(myWord.get(i).getWord().getMeaningEng())
-                    .meaning_kor(myWord.get(i).getWord().getMeaningKor())
+                    .meaning_eng(myWord.get(i).getWord().getMeaningEng1())
+                    .meaning_kor(myWord.get(i).getWord().getMeaningKor1())
                     .image(myWord.get(i).getWord().getImage())
                     .audio(myWord.get(i).getWord().getAudio())
-                    .pronunciation(myWord.get(i).getWord().getPronunciation())
+                    .pronunciation(myWord.get(i).getWord().getPronunciationEng())
                     .build();
             myWordListApiResponseList.add(myWordListApiResponse);
         }

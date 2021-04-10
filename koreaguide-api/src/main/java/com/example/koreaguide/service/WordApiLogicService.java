@@ -31,9 +31,9 @@ public class WordApiLogicService {
                 .id(selectedWord.getId())
                 .word_kor(selectedWord.getWordKor())
                 .word_eng(selectedWord.getWordEng())
-                .meaning_kor(selectedWord.getMeaningKor())
-                .meaning_eng(selectedWord.getMeaningEng())
-                .pronunciation(selectedWord.getPronunciation())
+                .meaning_kor(selectedWord.getMeaningKor1())
+                .meaning_eng(selectedWord.getMeaningEng1())
+                .pronunciation(selectedWord.getPronunciationEng())
                 .audio(selectedWord.getAudio())
                 .image(selectedWord.getImage())
                 .build();

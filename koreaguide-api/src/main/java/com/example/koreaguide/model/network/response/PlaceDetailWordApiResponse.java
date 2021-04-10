@@ -25,9 +25,17 @@ public class PlaceDetailWordApiResponse {
 
     private String wordEng;
 
-    private String meaningKor;
+    private String meaningKor1;
 
-    private String meaningEng;
+    private String meaningKor2;
+
+    private String meaningEng1;
+
+    private String meaningEng2;
+
+    private String pronunciationEng;
+
+    private String pronunciationKor;
 
     private String wordImage;
 

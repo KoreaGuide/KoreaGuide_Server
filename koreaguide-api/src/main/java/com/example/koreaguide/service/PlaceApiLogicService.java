@@ -113,7 +113,6 @@ public class PlaceApiLogicService {
                     .areaCode(selectedPlace.getAreaCode())
                     .title(selectedPlace.getTitle())
                     .address1(selectedPlace.getAddress1())
-                    .address2(selectedPlace.getAddress2())
                     .mapX(selectedPlace.getMapX())
                     .mapY(selectedPlace.getMapY())
                     .overview_english(selectedPlace.getOverview())
@@ -138,7 +137,6 @@ public class PlaceApiLogicService {
                 .areaCode(selectedPlace.getAreaCode())
                 .title(selectedPlace.getTitle())
                 .address1(selectedPlace.getAddress1())
-                .address2(selectedPlace.getAddress2())
                 .mapX(selectedPlace.getMapX())
                 .mapY(selectedPlace.getMapY())
                 .overview_english(selectedPlace.getOverview())
@@ -162,7 +160,6 @@ public class PlaceApiLogicService {
                     .areaCode(selectedPlace.getAreaCode())
                     .title(selectedPlace.getTitle())
                     .address1(selectedPlace.getAddress1())
-                    .address2(selectedPlace.getAddress2())
                     .mapX(selectedPlace.getMapX())
                     .mapY(selectedPlace.getMapY())
                     .overview_korean(selectedPlaceKorean.getKorOverview())
@@ -177,25 +174,25 @@ public class PlaceApiLogicService {
         return response;
     }
 
-    public PlaceDetailHeadApiResponse getWord(Integer userId, Integer id, Integer pageable) {
-        Integer pageSize=1;
-        // 해당 유저에게 이 단어가 있는지 알아내고, 단어들을 페이지네이션 해야함
-        Optional<Place> place = placeRepository.findById(id);
-        return place.map(selectedPlace->{
-            List<Word> words = getPlaceWordList(selectedPlace);
-            List<MyWordStatus> myWordStatusList = getWordStatusList(words,userId);
-            System.out.println("+++++++++++++");
-            System.out.println("MY WORD STATUS LIST"+myWordStatusList);
-            Integer totalPage;
-            if(words.size()%pageSize!=0){
-                totalPage=words.size()/pageSize+1;
-            }else{
-                totalPage=words.size()/pageSize;
-            }
-            return responseForWordPage(totalPage,pageable,words,userId,id,myWordStatusList);
-        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
-
-    }
+//    public PlaceDetailHeadApiResponse getWord(Integer userId, Integer id, Integer pageable) {
+//        Integer pageSize=1;
+//        // 해당 유저에게 이 단어가 있는지 알아내고, 단어들을 페이지네이션 해야함
+//        Optional<Place> place = placeRepository.findById(id);
+//        return place.map(selectedPlace->{
+//            List<Word> words = getPlaceWordList(selectedPlace);
+//            List<MyWordStatus> myWordStatusList = getWordStatusList(words,userId);
+//            System.out.println("+++++++++++++");
+//            System.out.println("MY WORD STATUS LIST"+myWordStatusList);
+//            Integer totalPage;
+//            if(words.size()%pageSize!=0){
+//                totalPage=words.size()/pageSize+1;
+//            }else{
+//                totalPage=words.size()/pageSize;
+//            }
+//            return responseForWordPage(totalPage,pageable,words,userId,id,myWordStatusList);
+//        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
+//
+//    }
 
     private List<MyWordStatus> getWordStatusList(List<Word> words,Integer userId) {
         List<MyWordStatus> myWordStatuses =new ArrayList<MyWordStatus>();
@@ -280,27 +277,27 @@ public class PlaceApiLogicService {
         return placeDetailHeadApiResponse;
     }
 
-    private List<Word> getPlaceWordList(Place place){
-        Optional<PlaceWithWord> placeWithWord =placeWithWordRepository.findByContentId(place.getContentId());
-        String fieldName="word";
-        List<Word> wordList =new ArrayList<Word>();
-        placeWithWord.map(selected->{
-            Integer wordCount=selected.getWordCount();
-            if(wordCount==0){
-                throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_PLACEWITHWORD);
-            }
-            for(int i=0;i<wordCount;i++){
-                String newFieldName=fieldName+String.valueOf(i+1);
-                Optional<Word> wordFound=wordRepository.findById(selected.getWord(newFieldName));
-                wordFound.map(selectedWord->{
-                    wordList.add(selectedWord);
-                    return wordList;
-                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_WORD));
-            }
-            return wordList;
-        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACEWITHWORD));
-        return wordList;
-    }
+//    private List<Word> getPlaceWordList(Place place){
+//        Optional<PlaceWithWord> placeWithWord =placeWithWordRepository.findByContentId(place.getContentId());
+//        String fieldName="word";
+//        List<Word> wordList =new ArrayList<Word>();
+//        placeWithWord.map(selected->{
+//            Integer wordCount=selected.getWordCount();
+//            if(wordCount==0){
+//                throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_PLACEWITHWORD);
+//            }
+//            for(int i=0;i<wordCount;i++){
+//                String newFieldName=fieldName+String.valueOf(i+1);
+//                Optional<Word> wordFound=wordRepository.findById(selected.getWord(newFieldName));
+//                wordFound.map(selectedWord->{
+//                    wordList.add(selectedWord);
+//                    return wordList;
+//                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_WORD));
+//            }
+//            return wordList;
+//        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACEWITHWORD));
+//        return wordList;
+//    }
 
 
 }

@@ -100,7 +100,7 @@ public class HomeApiLogicService {
 
     public TodaysPlace createTodaysPlace(Integer count,Integer homeCount){
         //TODO: minNum 어떻게 할건지!!
-        int [] placeIndecies = getRandomIndex(100,count);
+        int [] placeIndecies = getRandomIndex(1,count);
         Place place1 = placeRepository.getOne(placeIndecies[0]);
         Place place2 = placeRepository.getOne(placeIndecies[1]);
         Place place3 = placeRepository.getOne(placeIndecies[2]);
@@ -129,8 +129,10 @@ public class HomeApiLogicService {
         int indices[] = new int[count];
         int min = minNum;
         int max = minNum+count;
+        System.out.println("______min: "+minNum+"  MAX: "+max);
         for(int i=0;i<count;i++){
             int selectedNumber=(int) ((Math.random() * (max - min)) + min);
+            System.out.println("______SELECTED!!! : "+selectedNumber);
             while(placeRepository.findById(selectedNumber)==null){
                 selectedNumber=(int) ((Math.random() * (max - min)) + min);
             }

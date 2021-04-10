@@ -15,19 +15,27 @@ import lombok.NoArgsConstructor;
 public class MyWordListApiResponse {
     private Integer id;
 
-    private String word_eng;
+    private String wordEng;
 
-    private String word_kor;
+    private String wordKor;
 
-    private String meaning_eng;
+    private String meaningEng1;
 
-    private String meaning_kor;
+    private String meaningEng2;
+
+    private String meaningKor1;
+
+    private String meaningKor2;
 
     private String image;
 
     private String audio;
 
-    private String pronunciation;
+    private String pronunciationEng;
+
+    private String pronunciationKor;
+
+    private String partOfSpeech;
 
     private MyWordStatus myWordStatus;
 }

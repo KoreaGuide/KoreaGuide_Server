@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -28,6 +29,7 @@ import java.util.List;
 @Builder
 @ToString(exclude = {"placeKorean","placeWithWord","myPlaceList"})
 @Accessors(chain = true)
+@Table(name = "final_place")
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +38,6 @@ public class Place {
     private String title;
 
     private String address1;
-
-    private String address2;
-
-    private Integer contentId;
 
     private Integer areaCode;
 

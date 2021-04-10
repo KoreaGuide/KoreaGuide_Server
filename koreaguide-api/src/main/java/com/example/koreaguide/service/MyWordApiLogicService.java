@@ -96,11 +96,11 @@ public class MyWordApiLogicService {
                     .id(myWordList.get(i).getWord().getId())
                     .word_eng(myWordList.get(i).getWord().getWordEng())
                     .word_kor(myWordList.get(i).getWord().getWordKor())
-                    .meaning_eng(myWordList.get(i).getWord().getMeaningEng())
-                    .meaning_kor(myWordList.get(i).getWord().getMeaningKor())
+                    .meaning_eng(myWordList.get(i).getWord().getMeaningEng1())
+                    .meaning_kor(myWordList.get(i).getWord().getMeaningKor1())
                     .image(myWordList.get(i).getWord().getImage())
                     .audio(myWordList.get(i).getWord().getAudio())
-                    .pronunciation(myWordList.get(i).getWord().getPronunciation())
+                    .pronunciation(myWordList.get(i).getWord().getPronunciationEng())
                     .myWordStatus(myWordList.get(i).getWordStatus())
                     .build();
             myWordListApiResponseList.add(myWordListApiResponse);

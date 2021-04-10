@@ -153,7 +153,6 @@ public class CodeApiLogicService {
                         .contentId(placeList.get(i).getContentId())
                         .title(placeList.get(i).getTitle())
                         .address1(placeList.get(i).getAddress1())
-                        .address2(placeList.get(i).getAddress2())
                         .mapX(placeList.get(i).getMapX())
                         .mapY(placeList.get(i).getMapY())
                         .firstImage(placeList.get(i).getFirstImage())

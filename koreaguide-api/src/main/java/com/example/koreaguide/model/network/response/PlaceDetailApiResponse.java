@@ -20,9 +20,7 @@ public class PlaceDetailApiResponse {
     private Integer id;
 
     private String title;
-
-    private Integer contentId;
-
+    
     private Integer areaCode;
 
     private String address1;
