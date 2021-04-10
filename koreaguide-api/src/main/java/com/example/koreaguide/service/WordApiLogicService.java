@@ -29,11 +29,13 @@ public class WordApiLogicService {
     private WordApiResponse response(Word selectedWord) {
         WordApiResponse wordApiResponse = WordApiResponse.builder()
                 .id(selectedWord.getId())
-                .word_kor(selectedWord.getWordKor())
-                .word_eng(selectedWord.getWordEng())
-                .meaning_kor(selectedWord.getMeaningKor1())
-                .meaning_eng(selectedWord.getMeaningEng1())
-                .pronunciation(selectedWord.getPronunciationEng())
+                .wordKor(selectedWord.getWordKor())
+                .wordEng(selectedWord.getWordEng())
+                .meaningKor1(selectedWord.getMeaningKor1())
+                .meaningKor2(selectedWord.getMeaningKor2())
+                .meaningEng2(selectedWord.getMeaningEng2())
+                .meaningEng1(selectedWord.getMeaningEng1())
+                .pronunciationEng(selectedWord.getPronunciationEng())
                 .audio(selectedWord.getAudio())
                 .image(selectedWord.getImage())
                 .build();
