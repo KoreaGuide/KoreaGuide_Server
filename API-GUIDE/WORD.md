@@ -16,18 +16,21 @@ __Response Form(Good Response):__
 __Response Form(Good Response):__
 ```json
 {
-  "result_code": 200,
-  "status": "OK",
-  "description": "OK",
-  "data": {
-    "id": 5,
-    "word_eng": "island",
-    "word_kor": "섬",
-    "meaning_eng": "island is an island",
-    "meaning_kor": "섬은 섬입니다",
-    "image": "http://tong.visitkorea.or.kr/cms/resource/23/2678623_image2_1.jpg",
-    "audio": "https://drive.google.com/file/d/1RzIwX_41dpNL6M8J7VA19wjG20nBV6uA/view?usp=sharing"
-  }
+    "result_code": 200,
+    "status": "OK",
+    "description": "OK",
+    "data": {
+        "id": 3,
+        "word_kor": "건축물",
+        "word_eng": "building",
+        "meaning_kor1": "땅 위에 지은 건물이나 시설.",
+        "meaning_kor2": "",
+        "meaning_eng1": "A building or facility built on the ground.",
+        "meaning_eng2": "",
+        "pronunciation_eng": "geonchukmul",
+        "audio": "",
+        "image": "https://img.maisonkorea.com/2019/06/msk_5d1306577e2f0.jpg"
+    }
 }
 ```
 
