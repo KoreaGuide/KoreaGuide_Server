@@ -1,4 +1,4 @@
-# This is a document related to the Home services
+# This is a document related to the Word services
 
 ## WORD READ (특정 단어 정보 조회)
 __Request Form:__   
