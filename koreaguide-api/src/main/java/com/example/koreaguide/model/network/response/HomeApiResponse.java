@@ -33,22 +33,4 @@ public class HomeApiResponse {
 
     private List<PlaceApiResponse> placeList;
 
-//    private Integer place1_id;
-//
-//    private String place1_title;
-//
-//    private String place1_image;
-//
-//    private Integer place2_id;
-//
-//    private String place2_title;
-//
-//    private String place2_image;
-//
-//    private Integer place3_id;
-//
-//    private String place3_title;
-//
-//    private String place3_image;
-
 }

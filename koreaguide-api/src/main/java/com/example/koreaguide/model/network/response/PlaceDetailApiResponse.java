@@ -21,13 +21,9 @@ public class PlaceDetailApiResponse {
 
     private String title;
 
-    private Integer contentId;
-
     private Integer areaCode;
 
-    private String address1;
-
-    private String address2;
+    private String address;
 
     private Integer sigunguCode;
 

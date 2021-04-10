@@ -94,13 +94,15 @@ public class MyWordApiLogicService {
         for(int i=0;i<myWordList.size();i++){
             MyWordListApiResponse myWordListApiResponse =MyWordListApiResponse.builder()
                     .id(myWordList.get(i).getWord().getId())
-                    .word_eng(myWordList.get(i).getWord().getWordEng())
-                    .word_kor(myWordList.get(i).getWord().getWordKor())
-                    .meaning_eng(myWordList.get(i).getWord().getMeaningEng())
-                    .meaning_kor(myWordList.get(i).getWord().getMeaningKor())
+                    .wordEng(myWordList.get(i).getWord().getWordEng())
+                    .wordKor(myWordList.get(i).getWord().getWordKor())
+                    .meaningEng1(myWordList.get(i).getWord().getMeaningEng1())
+                    .meaningEng2(myWordList.get(i).getWord().getMeaningEng2())
+                    .meaningKor1(myWordList.get(i).getWord().getMeaningKor1())
+                    .meaningKor1(myWordList.get(i).getWord().getMeaningKor2())
                     .image(myWordList.get(i).getWord().getImage())
                     .audio(myWordList.get(i).getWord().getAudio())
-                    .pronunciation(myWordList.get(i).getWord().getPronunciation())
+                    .pronunciationEng(myWordList.get(i).getWord().getPronunciationEng())
                     .myWordStatus(myWordList.get(i).getWordStatus())
                     .build();
             myWordListApiResponseList.add(myWordListApiResponse);

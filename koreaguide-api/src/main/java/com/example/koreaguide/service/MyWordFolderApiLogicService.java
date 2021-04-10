@@ -165,13 +165,15 @@ public class MyWordFolderApiLogicService {
             MyWordListApiResponse myWordListApiResponse = MyWordListApiResponse.builder()
                     .id(myWord.get(i).getId())
                     .myWordStatus(myWord.get(i).getWordStatus())
-                    .word_eng(myWord.get(i).getWord().getWordEng())
-                    .word_kor(myWord.get(i).getWord().getWordKor())
-                    .meaning_eng(myWord.get(i).getWord().getMeaningEng())
-                    .meaning_kor(myWord.get(i).getWord().getMeaningKor())
+                    .wordEng(myWord.get(i).getWord().getWordEng())
+                    .wordKor(myWord.get(i).getWord().getWordKor())
+                    .meaningEng1(myWord.get(i).getWord().getMeaningEng1())
+                    .meaningEng2(myWord.get(i).getWord().getMeaningEng2())
+                    .meaningKor1(myWord.get(i).getWord().getMeaningKor1())
+                    .meaningKor1(myWord.get(i).getWord().getMeaningKor2())
                     .image(myWord.get(i).getWord().getImage())
                     .audio(myWord.get(i).getWord().getAudio())
-                    .pronunciation(myWord.get(i).getWord().getPronunciation())
+                    .pronunciationEng(myWord.get(i).getWord().getPronunciationEng())
                     .build();
             myWordListApiResponseList.add(myWordListApiResponse);
         }
@@ -182,4 +184,44 @@ public class MyWordFolderApiLogicService {
                 .wordList(myWordListApiResponseList).build();
         return learnWordApiResponse;
     }
+
+    public LearnWordApiResponse getWordListforLearning(Integer id, Header<MyWordFolderApiRequest> request) {
+        MyWordFolderApiRequest body = request.getData();
+
+        Optional<MyWordFolder> myWordFolder = myWordFolderRepository.findById(body.getWordFolderId());
+        return myWordFolder.map(selectedWordFolder->{
+            List<MyWord> myWord = myWordRepository.findAllByMyWordFolderId(selectedWordFolder.getId());
+            if(myWord.isEmpty()){
+                throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORDFOLDER);
+            }
+            Integer totalPage;
+            return responseForLearnWordList(myWord,id,selectedWordFolder);
+        }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
+    }
+
+    private LearnWordApiResponse responseForLearnWordList(List<MyWord> myWord, Integer id, MyWordFolder selectedWordFolder) {
+        List<MyWordListApiResponse> myWordListApiResponseList =new ArrayList<MyWordListApiResponse>();
+        for(int i=0;i<myWord.size();i++){
+            MyWordListApiResponse myWordListApiResponse = MyWordListApiResponse.builder()
+                    .id(myWord.get(i).getId())
+                    .myWordStatus(myWord.get(i).getWordStatus())
+                    .wordEng(myWord.get(i).getWord().getWordEng())
+                    .wordKor(myWord.get(i).getWord().getWordKor())
+                    .meaningEng1(myWord.get(i).getWord().getMeaningEng1())
+                    .meaningEng2(myWord.get(i).getWord().getMeaningEng2())
+                    .meaningKor1(myWord.get(i).getWord().getMeaningKor1())
+                    .meaningKor1(myWord.get(i).getWord().getMeaningKor2())
+                    .image(myWord.get(i).getWord().getImage())
+                    .audio(myWord.get(i).getWord().getAudio())
+                    .pronunciationEng(myWord.get(i).getWord().getPronunciationEng())
+                    .build();
+            myWordListApiResponseList.add(myWordListApiResponse);
+        }
+        LearnWordApiResponse learnWordApiResponse = LearnWordApiResponse.builder()
+                .folderId(selectedWordFolder.getId())
+                .folderName(selectedWordFolder.getFolderName())
+                .wordList(myWordListApiResponseList).build();
+        return learnWordApiResponse;
+    }
+
 }

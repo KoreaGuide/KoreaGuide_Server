@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /*
@@ -27,6 +28,7 @@ import java.util.List;
 @Builder
 @ToString(exclude = {"myWordList,homeList"})
 @Accessors(chain = true)
+@Table(name = "words")
 public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     // 전략옵션
@@ -36,11 +38,19 @@ public class Word {
 
     private String wordKor;
 
-    private String pronunciation;
+    private String pronunciationEng;
 
-    private String meaningKor;
+    private String pronunciationKor;
 
-    private String meaningEng;
+    private String meaningKor1;
+
+    private String meaningKor2;
+
+    private String meaningEng1;
+
+    private String meaningEng2;
+
+    private String partOfSpeech;
 
     private String audio;
 
