@@ -24,9 +24,9 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"place"})
+//@ToString(exclude = {"place"})
 @Accessors(chain = true)
-@Table(name = "new_mapping")
+@Table(name = "final_mapping")
 public class PlaceWithWord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class PlaceWithWord {
 
     private Integer wordId;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "placeWithWord")
-    private Place place;
+//    @OneToOne(fetch = FetchType.LAZY,mappedBy = "placeWithWord")
+//    private Place place;
 
 }

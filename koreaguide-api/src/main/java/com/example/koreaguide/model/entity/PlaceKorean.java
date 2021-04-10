@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"place"})
+//@ToString(exclude = {"place"})
 @Accessors(chain = true)
 @Table(name = "final_place_korean")
 public class PlaceKorean {
@@ -32,10 +32,8 @@ public class PlaceKorean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer contentId;
-
     private String korOverview;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "placeKorean")
-    private Place place;
+//    @OneToOne(fetch = FetchType.LAZY,mappedBy = "placeKorean")
+    private Integer placeId;
 }

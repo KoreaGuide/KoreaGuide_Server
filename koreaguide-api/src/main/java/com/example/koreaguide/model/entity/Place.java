@@ -27,7 +27,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"placeKorean","placeWithWord","myPlaceList"})
+//@ToString(exclude = {"placeKorean","placeWithWord","myPlaceList"})
+@ToString(exclude = {"myPlaceList"})
 @Accessors(chain = true)
 @Table(name = "final_place")
 public class Place {
@@ -40,8 +41,6 @@ public class Place {
     private String address1;
 
     private Integer areaCode;
-
-    private Integer sigunguCode;
 
     private String firstImage;
 
@@ -61,11 +60,11 @@ public class Place {
 
     private String cat3;
 
-    @OneToOne
-    private PlaceKorean placeKorean;
-
-    @OneToOne
-    private PlaceWithWord placeWithWord;
+//    @OneToOne
+//    private PlaceKorean placeKorean;
+//
+//    @OneToOne
+//    private PlaceWithWord placeWithWord;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "place")
     private List<MyPlace> myPlaceList;

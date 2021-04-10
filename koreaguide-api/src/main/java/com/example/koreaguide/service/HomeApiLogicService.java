@@ -130,10 +130,11 @@ public class HomeApiLogicService {
         int min = minNum;
         int max = minNum+count;
         System.out.println("______min: "+minNum+"  MAX: "+max);
-        for(int i=0;i<count;i++){
+        for(int i=0;i<3;i++){
             int selectedNumber=(int) ((Math.random() * (max - min)) + min);
             System.out.println("______SELECTED!!! : "+selectedNumber);
             while(placeRepository.findById(selectedNumber)==null){
+                System.out.println("______SELECTED is NULL!!! : "+selectedNumber);
                 selectedNumber=(int) ((Math.random() * (max - min)) + min);
             }
             indices[i]=selectedNumber;
