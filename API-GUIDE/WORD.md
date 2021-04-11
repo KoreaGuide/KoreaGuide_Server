@@ -4,7 +4,7 @@
 __Request Form:__   
 Path: api/word/   
 Request Type: GET   
-__Response Form(Good Response):__
+__Request Form:__
 ```json
 {
     "data":{
