@@ -37,5 +37,6 @@ public class WordApiResponse {
     private String audio;
 
     private String image;
+
 //    private String level;
 }
