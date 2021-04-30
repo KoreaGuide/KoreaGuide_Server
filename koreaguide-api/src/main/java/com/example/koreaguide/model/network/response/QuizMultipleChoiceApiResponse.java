@@ -19,4 +19,5 @@ import java.util.List;
 public class QuizMultipleChoiceApiResponse {
     private WordApiResponse selectedWord;
     private List<WordApiResponse> wordChoiceList;
+    private List<String> alphabetChoiceList;
 }
