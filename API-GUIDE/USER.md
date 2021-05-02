@@ -179,7 +179,6 @@ Request Type: POST
 __Response Form(Good Response):__
 ```json
 {
-{
     "result_code": 200,
     "status": "OK",
     "description": "OK",
