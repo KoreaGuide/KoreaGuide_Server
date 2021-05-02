@@ -12,8 +12,7 @@
  - "CORRECT": 정답 
  - "WRONG": 오답
 ```
-** 출제할 문제 받아 올때 공통 Response:
-**공통 Response
+** 출제할 문제 받아 올때 공통 Response:   
 __Response Form(Good Response - 해당 폴더가 비어있음 ):__
 ```json
 {
