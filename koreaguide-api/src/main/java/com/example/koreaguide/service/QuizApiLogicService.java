@@ -1,25 +1,35 @@
 package com.example.koreaguide.service;
 
+import com.example.koreaguide.model.entity.MyTestResult;
 import com.example.koreaguide.model.entity.MyWord;
 import com.example.koreaguide.model.entity.MyWordFolder;
+import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.entity.Word;
+import com.example.koreaguide.model.enumclass.MyWordStatus;
 import com.example.koreaguide.model.enumclass.QuizType;
+import com.example.koreaguide.model.enumclass.TestResultStatus;
+import com.example.koreaguide.model.enumclass.UserStatus;
 import com.example.koreaguide.model.exception.KoreaGuideError;
 import com.example.koreaguide.model.exception.KoreaGuideException;
 import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.MyWordFolderApiRequest;
 import com.example.koreaguide.model.network.request.QuizListApiRequest;
+import com.example.koreaguide.model.network.request.QuizResultApiRequest;
+import com.example.koreaguide.model.network.request.QuizResultDetailApiRequest;
 import com.example.koreaguide.model.network.response.MyWordListApiResponse;
 import com.example.koreaguide.model.network.response.QuizListApiResponse;
 import com.example.koreaguide.model.network.response.QuizMultipleChoiceApiResponse;
 import com.example.koreaguide.model.network.response.WordApiResponse;
+import com.example.koreaguide.repository.MyTestResultRepository;
 import com.example.koreaguide.repository.MyWordFolderRepository;
 import com.example.koreaguide.repository.MyWordRepository;
+import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,6 +52,12 @@ public class QuizApiLogicService {
 
     @Autowired
     MyWordRepository myWordRepository;
+
+    @Autowired
+    MyTestResultRepository myTestResultRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     List<String> alphabets= Arrays.asList(new String[]{"가", "나","다","라","마","바","사","아","자","차","카","타","파","하",
                                             "기","니","디","리","미","비","시","이","지","치","키","티","피","히",
@@ -114,7 +130,7 @@ public class QuizApiLogicService {
             List<MyWord> myWordList= myWordRepository.findAllByMyWordFolderId(selectedWordFolder.getId());
             List<Word> words = new ArrayList<Word>();
             for(int i=0;i<myWordList.size();i++){
-                words.add(wordRepository.getOne(myWordList.get(i).getId()));
+                words.add(wordRepository.getOne(myWordList.get(i).getWord().getId()));
             }
             QuizListApiResponse response= null;
             if(!myWordList.isEmpty()){
@@ -288,5 +304,89 @@ public class QuizApiLogicService {
         }
         return indices;
     }
+    void updateTestResult(int userId, LocalDate today,TestResultStatus resultStatus){
+        Optional<MyTestResult> testResult = myTestResultRepository.findByDateAndUserId(today,userId);
+        if(!testResult.isPresent()){
+            System.out.println("\nTEST RESULT is NULL");
+            Integer correctNum = 0;
+            Integer wrongNum = 0;
+            User selectedUser = userRepository.getOne(userId);
+            if(resultStatus == TestResultStatus.WRONG){
+                wrongNum +=1;
+            }else{
+                correctNum +=1;
+            }
+            MyTestResult myTestResult = MyTestResult.builder()
+                    .date(today)
+                    .correctNumber(correctNum)
+                    .wrongNumber(wrongNum)
+                    .totalNumber(correctNum+wrongNum)
+                    .user(selectedUser)
+                    .build();
+            System.out.println("\nMY TEST RESULT : "+myTestResult);
 
+            myTestResultRepository.save(myTestResult);
+        }
+        testResult.map(selectedTestResult-> {
+            System.out.println("\nTEST RESULT is FOUND");
+
+            if (resultStatus == TestResultStatus.WRONG) {
+                        selectedTestResult.setWrongNumber(selectedTestResult.getWrongNumber() + 1);
+                    } else {
+                        selectedTestResult.setCorrectNumber(selectedTestResult.getCorrectNumber() + 1);
+                    }
+                    selectedTestResult.setTotalNumber(selectedTestResult.getTotalNumber() + 1);
+                    myTestResultRepository.save(selectedTestResult);
+            System.out.println("\nMY TEST RESULT : "+selectedTestResult);
+
+            return selectedTestResult;
+        });
+    }
+
+    public Header postTestResult(Integer id, Header<QuizResultApiRequest> request) {
+        QuizResultApiRequest body = request.getData();
+        List<QuizResultDetailApiRequest> resultList = body.getQuizResults();
+        for(int i=0;i<resultList.size();i++){
+            Optional<MyWordFolder> wordFolder= myWordFolderRepository.findById(resultList.get(i).getOriginalFolderId());
+            int finalI = i;
+            wordFolder.map(selectedWordFolder->{
+                Word testWord = wordRepository.getOne(resultList.get(finalI).getWordId());
+                System.out.println("test word: "+testWord.getWordEng());
+                Optional<MyWord> word = myWordRepository.findByMyWordFolderAndWord(selectedWordFolder,testWord);
+
+                word.map(selectedWord ->{
+                    System.out.println("selectedWord: "+selectedWord.getWord());
+                    Optional<MyWordFolder> destWordFolder = myWordFolderRepository.findById(resultList.get(finalI).getFinalFolderId());
+
+                    destWordFolder.map(selectedDestWordFolder->{
+                        System.out.println("destWordFolder: "+selectedDestWordFolder.getId());
+                        TestResultStatus result = resultList.get(finalI).getResultStatus();
+                        selectedWord.setMyWordFolder(selectedDestWordFolder);
+
+                        if(result == TestResultStatus.CORRECT){
+                            selectedWord.setWordStatus(MyWordStatus.KNOW);
+                        }else{
+                            selectedWord.setWordStatus(MyWordStatus.DONT_KNOW);
+                        }
+
+                        updateTestResult(id, LocalDate.now(),result);
+                        myWordRepository.save(selectedWord);
+
+                        Integer wordCountDest = myWordRepository.findAllByMyWordFolderId(selectedDestWordFolder.getId()).size();
+                        Integer wordCountOrigin = myWordRepository.findAllByMyWordFolderId(selectedWordFolder.getId()).size();
+                        selectedWordFolder.setWordCount(wordCountDest);
+                        selectedDestWordFolder.setWordCount(wordCountOrigin);
+
+                        myWordFolderRepository.save(selectedWordFolder);
+                        myWordFolderRepository.save(selectedDestWordFolder);
+
+                        return selectedDestWordFolder;
+                    }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
+                    return selectedWord;
+                }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_WORD));
+                return selectedWordFolder;
+            }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_MYWORDFOLDER));
+        }
+        return Header.OK();
+    }
 }
