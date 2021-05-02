@@ -104,7 +104,8 @@ public class QuizApiLogicService {
                                             "찮","읆","옮","읊","않","되","돼","괘","괴","롭","괜","희","의","삶",
                                             "갤","낼","맬","랠","댈","밸","샐","앨","잴","챌","캘","탤","팰","핼",
                                             "경","녕","뎡","령","명","병","셩","영","졍","쳥","켱",
-                                            "근","는","든","른","믄","븐","슨","음","즘","츤","큰","튼","픈","흔"});
+                                            "근","는","든","른","믄","븐","슨","음","즘","츤","큰","튼","픈","흔",
+                                            "글","늘","들","를","믈","블","슬","을","즐","츨","클","틀","플","흘"});
 
     public QuizListApiResponse getQuizWordList(Integer id, Header<QuizListApiRequest> request) {
         QuizListApiRequest body = request.getData();
@@ -124,6 +125,8 @@ public class QuizApiLogicService {
                     response = responseSpellingEasy(words,body.getQuizType(),body.getFolderId());
                 }else if(body.getQuizType()==QuizType.SPELLING_H){
                     response = responseSpellingHard(words,body.getQuizType(),body.getFolderId());
+                }else{
+                    throw new KoreaGuideException(KoreaGuideError.WRONG_FORMAT);
                 }
             }else{
                 throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORDFOLDER);

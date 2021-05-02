@@ -26,6 +26,14 @@ __Response Form(Bad Response - 해당 폴더가 없음  ):__
   "description": "Cannot Find MyWordFolder"
 }
 ```
+__Response Form(Bad Response - 잘못된 QuizType을 보냄):__
+```json
+{
+  "result_code": 500,
+  "status": "INTERNAL_SERVER_ERROR",
+  "description": "ERROR"
+}
+```
 
 ## Quiz "MATCH" READ (퀴즈타입 "MATCH"에 출제할 문제 및 multiple choice 받아오기)
 __Request Form:__   
