@@ -7,6 +7,11 @@
  - "SPELLING_E": 영어 단어 / 설명 --> 한국어 단어   
  - "SPELLING_H":영어 단어 / 설명 --> 한국어 단어
 ```
+## result_status 종류:
+```
+ - "CORRECT": 정답 
+ - "WRONG": 오답
+```
 ** 출제할 문제 받아 올때 공통 Response:
 **공통 Response
 __Response Form(Good Response - 해당 폴더가 비어있음 ):__
@@ -26,12 +31,20 @@ __Response Form(Bad Response - 해당 폴더가 없음  ):__
   "description": "Cannot Find MyWordFolder"
 }
 ```
-__Response Form(Bad Response - 잘못된 QuizType을 보냄):__
+__Response Form(Bad Response - 잘못된 QuizType / result_status를 보냄):__
 ```json
 {
   "result_code": 500,
   "status": "INTERNAL_SERVER_ERROR",
   "description": "ERROR"
+}
+```
+__Response Form(Bad Response - 단어를 사용자의 단어장에서 찾을 수 없음):__
+```json
+{
+  "result_code": 500,
+  "status": "INTERNAL_SERVER_ERROR",
+  "description": "Cannot Find MyWord"
 }
 ```
 
@@ -364,5 +377,41 @@ __Response Form(Good Response):__
       }
     ]
   }
+}
+```
+
+## Quiz RESULT POST (퀴즈 결과 업데이트 하기)
+__Request Form:__   
+Path: api/quiz/result/{id} __**여기서 id 는 user_id(integer)__   
+Request Type: POST
+
+__Request Form(Good Response):__
+```json
+{
+  "data": {
+    "quiz_results":[
+      {
+        "word_id":10,
+        "original_folder_id":3,
+        "final_folder_id":3,
+        "result_status":"CORRECT"
+      },
+      {
+        "word_id":1,
+        "original_folder_id":4,
+        "final_folder_id":3,
+        "result_status":"WRONG"
+      }
+    ]
+  }
+}
+```
+
+__Request Form(Good Response):__
+```json
+{
+    "result_code": 200,
+    "status": "OK",
+    "description": "OK"
 }
 ```

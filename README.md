@@ -1,14 +1,14 @@
 # KoreaGuide_Server
 This project serves as the backend of a mobile application __"Korea Guide".__   
-The project is in the form of a RESTAPI.
+The project is in the form of a RESTAPI. 
 ## Download and Installation
 To begin using this template, choose one of the following options to get started:
 * [Fork, Clone, or Download on GitHub](https://github.com/KoreaGuide/KoreaGuide_Server)
 
 ## Requirements
-- Java version 11
-- Spring Boot 
-- MySQL 
+- Java Version 11
+- Spring Boot Version 2.4.3
+- MySQL Version 8.0.23
 
 ## Dependencies 
 ```
@@ -40,6 +40,7 @@ To begin using this template, choose one of the following options to get started
 10. Place Detail (장소 정보 & 관련 단어리스트)
 11. My Map (내 지도) 
 12. 내 단어장 폴더별 단어 학습 
+13. Quiz 
 
 ## Example of Token in header 
 ```
@@ -140,6 +141,12 @@ __WORD Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
 | GET | [api/word](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/WORD.md) | YES | READ | 특정 단어에 대한 정보 조회 ( HOME의 단어랑 연결시 사용) |
+
+__Quiz Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| GET | [api/quiz/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | READ | 해당 퀴즈에 출제될 문제목록 및 객관식 목록 받아오기 |
+| POST | [api/quiz/result/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | UPDATE | 퀴즈 종료 후 해당 퀴즈의 결과 서버에 업데이트 |
 
 ## ERD
    
