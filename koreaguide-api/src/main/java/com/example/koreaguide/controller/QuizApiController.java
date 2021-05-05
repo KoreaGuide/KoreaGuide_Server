@@ -57,20 +57,20 @@ public class QuizApiController extends GlobalExceptionHandler {
 
     @PostMapping("/result/{id}")
     public Header postTestResult(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<QuizResultApiRequest> request
     ){
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
         System.out.println("USER ID: "+id);
         Header header =quizApiLogicService.postTestResult(id,request);
         return header;

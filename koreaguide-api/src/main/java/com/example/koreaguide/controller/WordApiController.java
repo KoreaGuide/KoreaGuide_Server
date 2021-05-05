@@ -32,18 +32,18 @@ public class WordApiController extends GlobalExceptionHandler {
 
     @GetMapping("")
     public Header<WordApiResponse> getWordInfo(
-            Authentication authentication,
+//            Authentication authentication,
             @RequestBody Header<WordApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         WordApiResponse wordApiResponse =wordApiLogicService.getWordInfo(request);
         return new Header<>(wordApiResponse);

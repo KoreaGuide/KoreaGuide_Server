@@ -44,19 +44,19 @@ public class MyWordApiController extends GlobalExceptionHandler {
 
     @PostMapping("/{id}")
     public Header<MyWordApiResponse> addWordToMyWordlist(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyWordApiResponse myWordApiResponse =myWordApiLogicService.addWordToMyWordList(id,request);
         return new Header<>(myWordApiResponse,HttpStatus.OK,"Successfully added");
@@ -64,19 +64,19 @@ public class MyWordApiController extends GlobalExceptionHandler {
 
     @GetMapping("/{id}")
     public Header<MyWordApiResponse> getMyWordList(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
         System.out.println("USER ID: "+id);
         MyWordApiResponse myWordApiResponse =myWordApiLogicService.getMyWordList(id,request);
         return new Header<>(myWordApiResponse);
@@ -85,18 +85,18 @@ public class MyWordApiController extends GlobalExceptionHandler {
 
     @DeleteMapping("/{id}")
     public Header<MyWordApiResponse> deleteMyWord(
-            Authentication authentication,
+//            Authentication authentication,
             @RequestBody Header<MyWordApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyWordApiResponse myWordApiResponse =myWordApiLogicService.deleteMyWord(request);
         return new Header<>(myWordApiResponse);

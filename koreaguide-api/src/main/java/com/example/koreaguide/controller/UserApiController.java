@@ -48,7 +48,7 @@ public class UserApiController extends GlobalExceptionHandler{
     }
 
     @PostMapping("/login")
-    public Header<UserApiResponse> login(Authentication authentication,@RequestBody Header<SessionRequestDto> request){
+    public Header<UserApiResponse> login(@RequestBody Header<SessionRequestDto> request){
 
         UserApiResponse userApiResponse = userApiLogicService.login(request);
         return new Header<>(userApiResponse);
@@ -60,18 +60,17 @@ public class UserApiController extends GlobalExceptionHandler{
 
     @GetMapping("/{id}")
     public Header<UserApiResponse> read(
-            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-        try{
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId",Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try{
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId",Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         UserApiResponse userApiResponse =userApiLogicService.read(id);
         return new Header<>(userApiResponse);

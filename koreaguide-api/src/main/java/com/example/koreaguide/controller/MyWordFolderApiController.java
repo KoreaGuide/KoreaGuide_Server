@@ -48,19 +48,19 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
 
     @PostMapping("/")
     public Header<MyWordFolderApiResponse> createWordFolder(
-            Authentication authentication,
+//            Authentication authentication,
             @RequestBody Header<MyWordFolderApiResponse> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            System.out.println("USER ID: "+request.getData().getUserId());
-            if(request.getData().getUserId()!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            System.out.println("USER ID: "+request.getData().getUserId());
+//            if(request.getData().getUserId()!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyWordFolderApiResponse myWordFolderApiResponse =myWordFolderApiLogicService.create(request);
         return new Header<>(myWordFolderApiResponse, HttpStatus.CREATED,"Successfully created");
@@ -69,18 +69,18 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
     // 유저 아이디
     @GetMapping("/{id}")
     public Header<List<MyWordFolderApiResponse>> getAllFolderList(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-        try{
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId",Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try{
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId",Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         List<MyWordFolderApiResponse> myWordFolderApiResponseList =myWordFolderApiLogicService.getAllFolderList(id);
         return new Header<>(myWordFolderApiResponseList);
@@ -89,19 +89,19 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
     // 유저 아이디
     @DeleteMapping("/{id}")
     public Header<MyWordFolderApiResponse> deleteOneFolder(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordFolderApiRequest> request) {
-        try{
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId",Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try{
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId",Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyWordFolderApiResponse myWordFolderApiResponse =myWordFolderApiLogicService.deleteOneFolder(id,request);
         return new Header<>(myWordFolderApiResponse);
@@ -109,19 +109,19 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
 
     @PatchMapping("/{id}")
     public Header<MyWordFolderApiResponse> updateFolderName(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordFolderApiRequest> request) {
-        try{
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId",Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try{
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId",Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
         MyWordFolderApiResponse myWordFolderApiResponse =myWordFolderApiLogicService.updateFolderName(id,request);
         return new Header<>(myWordFolderApiResponse);
     }
@@ -129,21 +129,21 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
     //유저의 아이디
     @GetMapping("/learn/{id}")
     public Header<LearnWordApiResponse> getWordforLearning(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordFolderApiRequest> request,
             @RequestParam(value = "page",defaultValue = "1")Integer pageNumber) {
         Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         LearnWordApiResponse learnWordApiResponse =myWordFolderApiLogicService.getWordforLearning(id,request,pageNumber);
         return new Header<>(learnWordApiResponse);
@@ -151,20 +151,20 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
 
     @GetMapping("/learnWord/{id}")
     public Header<LearnWordApiResponse> getWordListforLearning(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyWordFolderApiRequest> request) {
         Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         LearnWordApiResponse learnWordApiResponse =myWordFolderApiLogicService.getWordListforLearning(id,request);
         return new Header<>(learnWordApiResponse);

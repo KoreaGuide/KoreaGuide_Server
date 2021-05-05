@@ -37,103 +37,108 @@ public class PlaceApiController extends GlobalExceptionHandler {
     @Autowired
     UserRepository userRepository;
     //id= place id
-    @GetMapping("/detail/{id}")
+    @GetMapping("/detail/{userId}/{id}")
     public Header<PlaceDetailApiResponse> getPlaceDetailAll(
-            Authentication authentication,
+//            Authentication authentication,
+            @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id) {
-        Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        Integer userId;
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         PlaceDetailApiResponse placeDetailApiResponse =placeApiLogicService.getPlaceDetailAll(userId,id);
         return new Header<>(placeDetailApiResponse);
     }
 
-    @GetMapping("/detail/eng/{id}")
+    @GetMapping("/detail/eng/{userId}/{id}")
     public Header<PlaceDetailApiResponse> getPlaceDetailEng(
-            Authentication authentication,
+//            Authentication authentication,
+            @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id) {
-        Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        Integer userId;
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         PlaceDetailApiResponse placeDetailApiResponse =placeApiLogicService.getPlaceDetailEng(userId,id);
         return new Header<>(placeDetailApiResponse);
     }
 
-    @GetMapping("/detail/kor/{id}")
+    @GetMapping("/detail/kor/{userId}/{id}")
     public Header<PlaceDetailApiResponse> getPlaceDetailKor(
-            Authentication authentication,
+//            Authentication authentication,
+            @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id) {
-        Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        Integer userId;
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         PlaceDetailApiResponse placeDetailApiResponse =placeApiLogicService.getPlaceDetailKor(userId,id);
         return new Header<>(placeDetailApiResponse);
     }
 
     //id = place_id
-    @GetMapping("/word/{id}")
+    @GetMapping("/word/{userId}/{id}")
     public Header<PlaceDetailHeadApiResponse> getPlaceWord(
-            Authentication authentication,
+//            Authentication authentication,
+            @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id,
             @RequestParam(value = "page",defaultValue = "1")Integer pageNumber) {
-        Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        Integer userId;
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         PlaceDetailHeadApiResponse placeDetailHeadApiResponse =placeApiLogicService.getWord(userId,id,pageNumber);
         return new Header<>(placeDetailHeadApiResponse);
     }
 
-    @GetMapping("/wordList/{id}")
+    @GetMapping("/wordList/{userId}/{id}")
     public Header<PlaceDetailHeadApiResponse> getPlaceWordList(
-            Authentication authentication,
+//            Authentication authentication,
+            @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id) {
-        Integer userId;
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userRepository.findById(userId).isEmpty()){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        Integer userId;
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userRepository.findById(userId).isEmpty()){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         PlaceDetailHeadApiResponse placeDetailHeadApiResponse =placeApiLogicService.getWordWithoutPagination(userId,id);
         return new Header<>(placeDetailHeadApiResponse);

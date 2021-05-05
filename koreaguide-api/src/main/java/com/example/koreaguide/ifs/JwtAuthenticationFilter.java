@@ -30,9 +30,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
        Authentication authentication = getAuthentication(request);
        if(authentication==null){
            chain.doFilter(request,response);
+           System.out.println("NULL");
             return;
        }
         if(authentication!=null){
+            System.out.println("NOT NULL");
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(authentication);
         }

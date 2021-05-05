@@ -59,6 +59,7 @@ public class UserApiLogicService {
 
 
     public UserApiResponse create(Header<UserApiRequest> request) {
+        System.out.println("IN CREATE!! "+request.getData().getEmail()+"  nickname:"+request.getData().getNickname());
         // 회원가입!
 
         // 1.request data 가져오고
@@ -73,6 +74,7 @@ public class UserApiLogicService {
             throw new KoreaGuideException(KoreaGuideError.DUPLICATE_ERROR_USER,"Email already exists");
         }else {
             // 2. user 생성
+            System.out.println("INSIDE!! "+request.getData().getEmail()+"  nickname:"+request.getData().getNickname());
             User user = User.builder()
                     .email(body.getEmail())
                     .password(encodedPassword)
@@ -83,12 +85,15 @@ public class UserApiLogicService {
                     .status(UserStatus.INACTIVE)
                     .weekAttendance(0)
                     .build();
-            String token = jwtUtil.createAccessToken(body.getId(),body.getNickname());
-            System.out.println("ACCESS TOKEN"+token);
+//            String token = jwtUtil.createAccessToken(body.getId(),body.getNickname());
+//            System.out.println("ACCESS TOKEN"+token);
             User newUser = userRepository.save(user);
+            System.out.println("CREATED is :"+newUser);
+
 
             // 3. 생성된 데이터 --> userapiresponse 리턴
 //            return Header.OK(response(newUser),HttpStatus.CREATED);
+            System.out.println("CREATED");
             return response(newUser);
         }
     }
@@ -148,6 +153,7 @@ public class UserApiLogicService {
     }
 
     private UserApiResponse response(User user){
+        System.out.println("USER IN RESPONSE : "+user);
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -209,10 +215,11 @@ public class UserApiLogicService {
         if (!passwordEncoder.matches(request.getData().getPassword(), user.getPassword())) {
             throw new KoreaGuideException(KoreaGuideError.WRONG_PASSWORD,"user");
         }
-
-        String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
-        System.out.println("USER TOKEN: "+token);
+        System.out.println("USER id & nickname: "+user.getId()+"  "+user.getNickname());
         System.out.println("DAY OF WEEK : "+LocalDate.now().getDayOfWeek());
+
+//        String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
+//        System.out.println("USER TOKEN: "+token);
 
         if(LocalDate.now().getDayOfWeek().compareTo(DayOfWeek.MONDAY)==0){
             System.out.println("NOW: "+LocalDate.now().getDayOfWeek());
@@ -239,7 +246,8 @@ public class UserApiLogicService {
             }
         }
 
-        return response(user,token);
+//        return response(user,token);
+        return response(user);
     }
 
 }

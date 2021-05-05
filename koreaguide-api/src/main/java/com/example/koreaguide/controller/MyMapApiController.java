@@ -34,19 +34,18 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
     @PostMapping("/{id}")
     public Header<MyMapApiResponse> addToMyMap(
-            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyMapApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userId!=id){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userId!=id){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.addToMyMap(id,request);
         return new Header<>(myMapApiResponse);
@@ -54,18 +53,18 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
     @GetMapping("/all/{id}")
     public Header<MyMapApiResponse> getMyMapAll(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userId!=id){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userId!=id){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.getMyMapAll(id);
         return new Header<>(myMapApiResponse);
@@ -73,18 +72,18 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
     @GetMapping("/wish/{id}")
     public Header<MyMapApiResponse> getMyMapWish(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userId!=id){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userId!=id){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.getMyMapWish(id);
         return new Header<>(myMapApiResponse);
@@ -92,18 +91,18 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
     @GetMapping("/haveBeen/{id}")
     public Header<MyMapApiResponse> getMyMapHaveBeenTo(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userId!=id){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userId!=id){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.getMyMapHaveBeenTo(id);
         return new Header<>(myMapApiResponse);
@@ -111,19 +110,19 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
     @DeleteMapping("/{id}")
     public Header<MyMapApiResponse> DeleteMyMap(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyMapApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userId!=id){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userId!=id){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.deleteMyMap(id,request);
         return new Header<>(myMapApiResponse);
@@ -131,19 +130,19 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
     @PatchMapping("/{id}")
     public Header<MyMapApiResponse> changeMyMap(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<MyMapApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(userId!=id){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(userId!=id){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.changeMyMap(id,request);
         return new Header<>(myMapApiResponse);
