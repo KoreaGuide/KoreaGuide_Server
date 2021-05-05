@@ -2,16 +2,8 @@
 
 ## WORD READ (특정 단어 정보 조회)
 __Request Form:__   
-Path: api/word/   
-Request Type: GET   
-__Request Form:__
-```json
-{
-    "data":{
-        "word_id":5
-    }
-}
-```
+Path: api/word/{wordId}   
+Request Type: GET
   
 __Response Form(Good Response):__
 ```json

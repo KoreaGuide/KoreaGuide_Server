@@ -108,7 +108,7 @@ __MyWord (내 단어장) Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
 | POST | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | CREATE | 특정 단어장 폴더에 특정 단어 추가 |
-| GET | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | READ | 특정 단어장 폴더에 있는 단어들 정보 조회 |
+| GET | [api/myWord/{id}/{wordFolderId](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | READ | 특정 단어장 폴더에 있는 단어들 정보 조회 |
 | DELETE | [/api/myWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORD.md) | YES | DELETE | 특정 단어장 폴더에 있는 특정 단어 삭제 |
 
 __Place Related Endpoints__
@@ -140,7 +140,7 @@ __My Map Related Endpoints__
 __WORD Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
-| GET | [api/word](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/WORD.md) | YES | READ | 특정 단어에 대한 정보 조회 ( HOME의 단어랑 연결시 사용) |
+| GET | [api/word/{wordId}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/WORD.md) | YES | READ | 특정 단어에 대한 정보 조회 ( HOME의 단어랑 연결시 사용) |
 
 __Quiz Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|

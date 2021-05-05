@@ -65,17 +65,9 @@ __Response Form(BAD Response - 단어를 추가하려는 단어장 폴더가 없
    
 ## MyWord READ (내 단어장 정보 읽기)
 __Request Form:__   
-Path: api/myWord/{id} __**여기서 id는 user의 id (Integer)__   
+Path: api/myWord/{id}/{wordFolderId} __**여기서 id는 user의 id (Integer)__   
 Request Type: GET
-__Request Form:__
-```json
-{
-    "data": {
-        "word_folder_id": 2
-    }
-}
 
-```
 __Response Form(Good Response):__
 ```json
 {
