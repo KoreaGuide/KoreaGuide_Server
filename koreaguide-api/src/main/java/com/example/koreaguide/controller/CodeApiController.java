@@ -80,7 +80,7 @@ public class CodeApiController extends GlobalExceptionHandler {
     //id=regionid
     @GetMapping("/region/{userId}/{id}")
     public Header<RegionPlaceApiResponse> getPlaceListForRegion(
-            @PathVariable(name = "id") Integer userId,
+            @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id) {
 //        Integer userId;
 //        try {
