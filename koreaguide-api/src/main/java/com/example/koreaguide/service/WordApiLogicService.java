@@ -17,9 +17,8 @@ public class WordApiLogicService {
     @Autowired
     WordRepository wordRepository;
 
-    public WordApiResponse getWordInfo(Header<WordApiRequest> request) {
-        WordApiRequest body = request.getData();
-        Optional<Word> word = wordRepository.findById(body.getWordId());
+    public WordApiResponse getWordInfo(Integer wordId) {
+        Optional<Word> word = wordRepository.findById(wordId);
         return word.map(selectedWord->{
             return response(selectedWord);
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_WORD));
