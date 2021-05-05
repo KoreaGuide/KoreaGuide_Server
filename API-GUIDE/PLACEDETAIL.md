@@ -9,7 +9,7 @@
 
 ## Place Detail ALL READ (특정 관광지 정보 조회 -- 영어 & 한국어)
 __Request Form:__   
-Path: api/place/detail/{id} __**여기서 id 는 place_id(integer)__   
+Path: api/place/detail/{userId}/{id} __**여기서 id 는 place_id(integer)__   
 Request Type: GET   
    
   
@@ -50,7 +50,7 @@ __Response Form(Bad Response- place_id 가 잘못됨 <-- 이런 관광지 없음
 
 ## Place Detail English READ (특정 관광지 정보 조회 -- 영어만)
 __Request Form:__   
-Path: api/place/detail/eng/{id} __**여기서 id 는 place_id(integer)__   
+Path: api/place/detail/eng/{userId}/{id} __**여기서 id 는 place_id(integer)__   
 Request Type: GET   
    
   
@@ -90,7 +90,7 @@ __Response Form(Bad Response- place_id 가 잘못됨 <-- 이런 관광지 없음
 
 ## Place Detail Korean READ (특정 관광지 정보 조회 -- 한국어만)
 __Request Form:__   
-Path: api/place/detail/kor/{id} __**여기서 id 는 place_id(integer)__   
+Path: api/place/detail/kor/{userId}/{id} __**여기서 id 는 place_id(integer)__   
 Request Type: GET   
    
   
@@ -130,10 +130,10 @@ __Response Form(Bad Response- place_id 가 잘못됨 <-- 이런 관광지 없음
 
 ## Place Related Words(PAGINATION)  (특정 관광지와 관련된 단어 페이지네이션)
 __Request Form:__   
-Path: api/place/word/{id}?page={pageNumber} __**여기서 id 는 place_id(integer)__  __**pageNumber = 1부터 시작!__    
+Path: api/place/word/{userId}/{id}?page={pageNumber} __**여기서 id 는 place_id(integer)__  __**pageNumber = 1부터 시작!__    
 __Path 예시:__
 ```
-http://localhost:8080/api/place/word/100?page=1
+http://localhost:8080/api/place/word/18/100?page=1
 ```
 Request Type: GET     
 __Response Form(Good Response):__
@@ -189,7 +189,7 @@ __Response Form(Bad Response- place_id 가 잘못됨 <-- 이런 관광지 없음
 ```
 ## Place Related Words(NO PAGINATION)  (특정 관광지와 관련된 단어 리스트)
 __Request Form:__   
-Path: api/place/wordList/{id} __**여기서 id 는 place_id(integer)__   
+Path: api/place/wordList/{userId}/{id} __**여기서 id 는 place_id(integer)__   
 Request Type: GET  
  
 __Response Form(Good Response):__

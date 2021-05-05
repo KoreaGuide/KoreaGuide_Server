@@ -116,16 +116,16 @@ __Place Related Endpoints__
 |---|------|---|---|---|
 | GET | [/api/place/regionList/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACE.md) | YES | READ | 모든 지역에 대한 정보 조회(지역 리스트 받기) |
 | PATCH | [/api/place/regionList/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACE.md) | YES | UPDATE | 어떤 지역의 색 바꾸기 |
-| GET | [/api/place/region/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACE.md) | YES | READ | 특정 지역에 대한 관광리 리스트 조회 |
+| GET | [/api/place/region/{userId}/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACE.md) | YES | READ | 특정 지역에 대한 관광리 리스트 조회 |
 
 __Place Detail Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
-| GET | [/api/place/detail/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (영어 & 한국어)|
-| GET | [/api/place/detail/eng/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (영어)|
-| GET | [/api/place/detail/kor/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (한국어)|
-| GET | [/api/place/word/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination|
-| GET | [/api/place/wordList/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination 없이| 
+| GET | [/api/place/detail/{userId}/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (영어 & 한국어)|
+| GET | [/api/place/detail/eng/{userId}/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (영어)|
+| GET | [/api/place/detail/kor/{userId}/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지에 대한 정보 조회 (한국어)|
+| GET | [/api/place/word/{userId}/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination|
+| GET | [/api/place/wordList/{userId}/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PLACEDETAIL.md) | YES | READ | 특정 관광지의 단어 리스트 pagination 없이| 
    
 __My Map Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
