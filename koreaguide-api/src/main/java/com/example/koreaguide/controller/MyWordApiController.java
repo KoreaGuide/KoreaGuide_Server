@@ -62,11 +62,12 @@ public class MyWordApiController extends GlobalExceptionHandler {
         return new Header<>(myWordApiResponse,HttpStatus.OK,"Successfully added");
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/{wordFolderId}")
     public Header<MyWordApiResponse> getMyWordList(
 //            Authentication authentication,
             @PathVariable(name = "id") Integer id,
-            @RequestBody Header<MyWordApiRequest> request) {
+            @PathVariable(name = "wordFolderId") Integer wordFolderId
+            ) {
 //        try {
 //            Claims claims = (Claims) authentication.getPrincipal();
 //            Integer userId = claims.get("userId", Integer.class);
@@ -78,7 +79,7 @@ public class MyWordApiController extends GlobalExceptionHandler {
 //            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
 //        }
         System.out.println("USER ID: "+id);
-        MyWordApiResponse myWordApiResponse =myWordApiLogicService.getMyWordList(id,request);
+        MyWordApiResponse myWordApiResponse =myWordApiLogicService.getMyWordList(id,wordFolderId);
         return new Header<>(myWordApiResponse);
     }
 

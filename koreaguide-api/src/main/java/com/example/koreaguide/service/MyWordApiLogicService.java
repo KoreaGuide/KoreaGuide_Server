@@ -117,12 +117,10 @@ public class MyWordApiLogicService {
     }
 
 
-    public MyWordApiResponse getMyWordList(Integer id,Header<MyWordApiRequest> request) {
+    public MyWordApiResponse getMyWordList(Integer id,Integer wordFolderIdt) {
         System.out.println("INSIDE");
-        MyWordApiRequest body = request.getData();
-        System.out.println("BODY: "+body);
-        System.out.println("MY folder id: "+body.getWordFolderId());
-        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(body.getWordFolderId());
+        System.out.println("MY folder id: "+wordFolderIdt);
+        List<MyWord> myWordList = myWordRepository.findAllByMyWordFolderId(wordFolderIdt);
         System.out.println("MY WORD LIST"+myWordList);
         if(myWordList.isEmpty()){
             throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORD,"myWordList");
