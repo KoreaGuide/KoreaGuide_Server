@@ -89,7 +89,16 @@ public class UserApiLogicService {
 //            System.out.println("ACCESS TOKEN"+token);
             User newUser = userRepository.save(user);
             System.out.println("CREATED is :"+newUser);
-
+            if(newUser!=null){
+                for(int i = 0 ;i<3;i++) {
+                    Integer folderName = i+1;
+                    MyWordFolder newMyWordFolder = MyWordFolder.builder()
+                            .folderName(folderName.toString())
+                            .wordCount(0)
+                            .user(user).build();
+                    MyWordFolder newCreatedFolder = myWordFolderRepository.save(newMyWordFolder);
+                }
+            }
 
             // 3. 생성된 데이터 --> userapiresponse 리턴
 //            return Header.OK(response(newUser),HttpStatus.CREATED);
@@ -154,6 +163,7 @@ public class UserApiLogicService {
 
     private UserApiResponse response(User user){
         System.out.println("USER IN RESPONSE : "+user);
+
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -164,6 +174,44 @@ public class UserApiLogicService {
                 .weekAttendance(user.getWeekAttendance())
                 .lastLoginAt(user.getLastLoginAt())
                 .status(user.getStatus())
+                .build();
+        return userApiResponse;
+    }
+
+    private UserApiResponse responseForLogin(User user){
+        System.out.println("USER IN RESPONSE : "+user);
+        Integer learnFolder = 0;
+        Integer knowFolder= 0;
+        Integer dontKnowFolder = 0;
+        List<MyWordFolder> myWordFolderList = myWordFolderRepository.findAllByUserId(user.getId());
+        if(myWordFolderList.isEmpty()){
+            throw new KoreaGuideException(KoreaGuideError.ENTITY_EMPTY_MYWORDFOLDER);
+        }else{
+            for(int i=0;i<myWordFolderList.size();i++){
+                if(myWordFolderList.get(i).getFolderName().equals("1")){
+                    learnFolder = myWordFolderList.get(i).getId();
+                }
+                else if(myWordFolderList.get(i).getFolderName().equals("2")){
+                    knowFolder = myWordFolderList.get(i).getId();
+                }
+                else if(myWordFolderList.get(i).getFolderName().equals("3")){
+                    dontKnowFolder = myWordFolderList.get(i).getId();
+                }
+            }
+        }
+        UserApiResponse userApiResponse = UserApiResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .nickname(user.getNickname())
+                .createdAt(user.getCreatedAt())
+                .createdBy(user.getCreatedBy())
+                .weekAttendance(user.getWeekAttendance())
+                .lastLoginAt(user.getLastLoginAt())
+                .status(user.getStatus())
+                .addFolderId(learnFolder)
+                .completeFolderId(knowFolder)
+                .learningFolderId(dontKnowFolder)
                 .build();
         return userApiResponse;
     }
@@ -246,8 +294,10 @@ public class UserApiLogicService {
             }
         }
 
+
+
 //        return response(user,token);
-        return response(user);
+        return responseForLogin(user);
     }
 
 }

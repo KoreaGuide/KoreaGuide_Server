@@ -37,4 +37,10 @@ public class UserApiResponse {
     private Integer weekAttendance;
 
     private UserStatus status;
+
+    private Integer learningFolderId;
+
+    private Integer completeFolderId;
+
+    private Integer addFolderId;
 }
