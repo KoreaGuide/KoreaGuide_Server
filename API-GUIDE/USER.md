@@ -179,21 +179,23 @@ Request Type: POST
 __Response Form(Good Response):__
 ```json
 {
-    "result_code": 200,
-    "status": "OK",
-    "description": "OK",
-    "data": {
-        "id": 18,
-        "email": "cindia@naver.com",
-        "password": "$2a$10$uV9nL.nh6OEGA.wYd6GBnu.F9ugVc9ljivOPyHiwkkyEEp9xlO99i",
-        "nickname": "Jisoo Kim",
-        "created_at": "2021-03-21T06:57:21",
-        "created_by": "Admin",
-        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE4LCJuYW1lIjoiSmlzb28gS2ltIn0.Qj1bLBI1DJ6F7x_XCn16gzo2tC5TBjKB3I-SKOWJOic",
-        "last_login_at": "2021-03-21",
-        "week_attendance": 1,
-        "status": "INACTIVE"
-    }
+  "result_code": 200,
+  "status": "OK",
+  "description": "OK",
+  "data": {
+    "id": 30,
+    "email": "amy@naver.com",
+    "password": "$2a$10$1pnDyldVpmBmPlG0eQCXK.g4EOMzkXS5Ue1C17KLho4ActTEYFn5a",
+    "nickname": "Jisoo Kim",
+    "created_at": "2021-05-06T13:59:48",
+    "created_by": "Admin",
+    "last_login_at": "2021-05-06",
+    "week_attendance": 1,
+    "status": "INACTIVE",
+    "learning_folder_id": 8,
+    "complete_folder_id": 7,
+    "add_folder_id": 6
+  }
 }
 ```
 Example from Postman: 
