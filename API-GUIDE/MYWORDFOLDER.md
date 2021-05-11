@@ -206,17 +206,9 @@ __Response Form(Bad Response: 해당 단어장 폴더를 못찾겠는 경우):__
 
 ## MyWordFolder LEARN(NO PAGINATION) (특정 단어장 폴더에 있는 단어들 학습하기 리스트)
 __Request Form:__   
-Path: api/myWordFolder/learnWord/{id}
+Path: api/myWordFolder/learnWord/{id}/{folderId}
 
-Request Type: GET   
-__Request Form:__
-```json
-{
-    "data":{
-        "word_folder_id":4
-    }
-}
-```
+Request Type: GET
 __Response Form:__
 ```json
 {
