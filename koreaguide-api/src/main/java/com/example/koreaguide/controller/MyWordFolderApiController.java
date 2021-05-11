@@ -149,11 +149,12 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
         return new Header<>(learnWordApiResponse);
     }
 
-    @GetMapping("/learnWord/{id}")
+    @GetMapping("/learnWord/{id}/{folderId}")
     public Header<LearnWordApiResponse> getWordListforLearning(
 //            Authentication authentication,
             @PathVariable(name = "id") Integer id,
-            @RequestBody Header<MyWordFolderApiRequest> request) {
+    @PathVariable(name = "folderId") Integer folderId){
+//            @RequestBody Header<MyWordFolderApiRequest> request) {
         Integer userId;
 //        try {
 //            Claims claims = (Claims) authentication.getPrincipal();
@@ -166,7 +167,7 @@ public class MyWordFolderApiController extends GlobalExceptionHandler {
 //            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
 //        }
 
-        LearnWordApiResponse learnWordApiResponse =myWordFolderApiLogicService.getWordListforLearning(id,request);
+        LearnWordApiResponse learnWordApiResponse =myWordFolderApiLogicService.getWordListforLearning(id,folderId);
         return new Header<>(learnWordApiResponse);
     }
 }

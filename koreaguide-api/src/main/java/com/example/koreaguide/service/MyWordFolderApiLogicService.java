@@ -185,10 +185,9 @@ public class MyWordFolderApiLogicService {
         return learnWordApiResponse;
     }
 
-    public LearnWordApiResponse getWordListforLearning(Integer id, Header<MyWordFolderApiRequest> request) {
-        MyWordFolderApiRequest body = request.getData();
+    public LearnWordApiResponse getWordListforLearning(Integer id, Integer folderId) {
 
-        Optional<MyWordFolder> myWordFolder = myWordFolderRepository.findById(body.getWordFolderId());
+        Optional<MyWordFolder> myWordFolder = myWordFolderRepository.findById(folderId);
         return myWordFolder.map(selectedWordFolder->{
             List<MyWord> myWord = myWordRepository.findAllByMyWordFolderId(selectedWordFolder.getId());
             if(myWord.isEmpty()){
