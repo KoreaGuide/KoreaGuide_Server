@@ -35,21 +35,21 @@ public class QuizApiController extends GlobalExceptionHandler {
     @Autowired
     private UserRepository userRepository;
     //id = userid
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     public Header<QuizListApiResponse> getMyWordList(
-            Authentication authentication,
+//            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<QuizListApiRequest> request) {
-        try {
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId", Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+//        try {
+//            Claims claims = (Claims) authentication.getPrincipal();
+//            Integer userId = claims.get("userId", Integer.class);
+//            System.out.println("USER ID: "+userId);
+//            if(id!=userId){
+//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//            }
+//        }catch (Exception e){
+//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
+//        }
         System.out.println("USER ID: "+id);
         QuizListApiResponse quizListApiResponse =quizApiLogicService.getQuizWordList(id,request);
         return new Header<>(quizListApiResponse);

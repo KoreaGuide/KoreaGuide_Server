@@ -102,7 +102,7 @@ __MyWordFolder (내 단어장 폴더) Related Endpoints__
 | DELETE | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | DELETE | 내 특정 단어장 폴더 삭제 |
 | PATCH | [api/myWordFolder/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | UPDATE | 내 특정 단어장 이름 변경 |
 | GET | [api/myWordFolder/learn/{id}?page={pageNumber}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 특정 단어장 폴더에 있는 단어들 학습하기 |
-| GET | [api/myWordFolder/learnWord/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 특정 단어장 폴더에 있는 단어들 학습하기 |
+| GET | [api/myWordFolder/learnWord/{id}/{folderId}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYWORDFOLDER.md) | YES | READ | 내 특정 단어장 폴더에 있는 단어들 학습하기 |
 
 __MyWord (내 단어장) Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
@@ -145,7 +145,7 @@ __WORD Related Endpoints__
 __Quiz Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
 |---|------|---|---|---|
-| GET | [api/quiz/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | READ | 해당 퀴즈에 출제될 문제목록 및 객관식 목록 받아오기 |
+| POST | [api/quiz/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | READ | 해당 퀴즈에 출제될 문제목록 및 객관식 목록 받아오기 |
 | POST | [api/quiz/result/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | UPDATE | 퀴즈 종료 후 해당 퀴즈의 결과 서버에 업데이트 |
 
 ## ERD

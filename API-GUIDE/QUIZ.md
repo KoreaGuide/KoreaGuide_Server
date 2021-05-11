@@ -50,7 +50,7 @@ __Response Form(Bad Response - 단어를 사용자의 단어장에서 찾을 수
 ## Quiz "MATCH" READ (퀴즈타입 "MATCH"에 출제할 문제 및 multiple choice 받아오기)
 __Request Form:__   
 Path: api/quiz/{id} __**여기서 id 는 user_id(integer)__   
-Request Type: GET
+Request Type: POST
 
 __Request Form(Good Response):__
 ```json
