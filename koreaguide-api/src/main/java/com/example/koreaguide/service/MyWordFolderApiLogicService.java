@@ -209,7 +209,7 @@ public class MyWordFolderApiLogicService {
                     .meaningEng1(myWord.get(i).getWord().getMeaningEng1())
                     .meaningEng2(myWord.get(i).getWord().getMeaningEng2())
                     .meaningKor1(myWord.get(i).getWord().getMeaningKor1())
-                    .meaningKor1(myWord.get(i).getWord().getMeaningKor2())
+                    .meaningKor2(myWord.get(i).getWord().getMeaningKor2())
                     .image(myWord.get(i).getWord().getImage())
                     .audio(myWord.get(i).getWord().getAudio())
                     .pronunciationEng(myWord.get(i).getWord().getPronunciationEng())
