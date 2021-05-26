@@ -23,6 +23,7 @@ import com.example.koreaguide.repository.WordRepository;
 import com.example.koreaguide.utils.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.swing.text.html.Option;
 import javax.validation.constraints.Email;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -104,6 +113,52 @@ public class UserApiLogicService {
                     MyWordFolder newCreatedFolder = myWordFolderRepository.save(newMyWordFolder);
                 }
             }
+
+            final String uploadPath = Paths.get("koreaguide-api","src","main","java","com","example","koreaguide","mapFiles").toString();
+            File dir = new File(uploadPath);
+            if (dir.exists() == false) {
+                dir.mkdirs();
+            }
+            final String saveName = "mapFile_"+newUser.getId() + "." + "json";
+
+            String defaultPath = Paths.get("koreaguide-api/src/main/java/com/example/koreaguide/mapFiles/mapFile_defaultgeo.json").toString();
+            String newPath = Paths.get("koreaguide-api/src/main/java/com/example/koreaguide/mapFiles/"+saveName).toString();
+
+            File original = new File(defaultPath);
+            File newFile = new File(newPath);
+
+            try {
+
+                FileInputStream fis = new FileInputStream(original); //읽을파일
+                FileOutputStream fos = new FileOutputStream(newFile); //복사할파일
+
+                int fileByte = 0;
+                // fis.read()가 -1 이면 파일을 다 읽은것
+                while((fileByte = fis.read()) != -1) {
+                    fos.write(fileByte);
+                }
+                //자원사용종료
+                fis.close();
+                fos.close();
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            MapFile ori = mapFileRepository.getByUser(userRepository.getOne(29));
+
+            MapFile mapFile = MapFile.builder()
+                    .fileName(saveName)
+                    .createdAt(LocalDateTime.now())
+                    .user(newUser)
+                    .originalName(saveName)
+                    .size(153871)
+                    .build();
+
+            mapFileRepository.save(mapFile);
+
 
 //            MapFile defaultFile = mapFileRepository.getOne()
 
