@@ -37,6 +37,10 @@ public class MapFile {
 
     private LocalDateTime createdAt;
 
+    private long size;
+
+    private String originalName;
+
     @ManyToOne
     User user;
 }

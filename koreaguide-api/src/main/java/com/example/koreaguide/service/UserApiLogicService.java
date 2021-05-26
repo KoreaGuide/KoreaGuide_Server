@@ -1,6 +1,7 @@
 package com.example.koreaguide.service;
 
 import com.example.koreaguide.ifs.CrudInterface;
+import com.example.koreaguide.model.entity.MapFile;
 import com.example.koreaguide.model.entity.MyWord;
 import com.example.koreaguide.model.entity.MyWordFolder;
 import com.example.koreaguide.model.entity.User;
@@ -14,6 +15,7 @@ import com.example.koreaguide.model.network.request.SessionRequestDto;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.SessionResponseDto;
 import com.example.koreaguide.model.network.response.UserApiResponse;
+import com.example.koreaguide.repository.MapFileRepository;
 import com.example.koreaguide.repository.MyWordFolderRepository;
 import com.example.koreaguide.repository.MyWordRepository;
 import com.example.koreaguide.repository.UserRepository;
@@ -35,6 +37,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -57,6 +60,8 @@ public class UserApiLogicService {
     @Autowired
     private MyWordFolderRepository myWordFolderRepository;
 
+    @Autowired
+    MapFileRepository mapFileRepository;
 
     public UserApiResponse create(Header<UserApiRequest> request) {
         System.out.println("IN CREATE!! "+request.getData().getEmail()+"  nickname:"+request.getData().getNickname());
@@ -99,6 +104,9 @@ public class UserApiLogicService {
                     MyWordFolder newCreatedFolder = myWordFolderRepository.save(newMyWordFolder);
                 }
             }
+
+//            MapFile defaultFile = mapFileRepository.getOne()
+
 
             // 3. 생성된 데이터 --> userapiresponse 리턴
 //            return Header.OK(response(newUser),HttpStatus.CREATED);

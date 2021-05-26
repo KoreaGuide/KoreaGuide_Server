@@ -36,7 +36,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-@ToString(exclude = {"myPlaceList","regionColorList","testResultList"})
+@ToString(exclude = {"myPlaceList","regionColorList","testResultList","myMapFile"})
 @Accessors(chain = true)
 public class User {
     @Id
@@ -72,4 +72,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<MyTestResult> testResultList;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy="user")
+    private List<MapFile> myMapFile;
 }
