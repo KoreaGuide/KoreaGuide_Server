@@ -8,10 +8,12 @@ import com.example.koreaguide.model.network.request.MyMapApiRequest;
 import com.example.koreaguide.model.network.response.HomeApiResponse;
 import com.example.koreaguide.model.network.response.MyMapApiResponse;
 import com.example.koreaguide.repository.UserRepository;
+import com.example.koreaguide.service.MapFileApiLogicService;
 import com.example.koreaguide.service.MyMapApiLogicService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -28,6 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MyMapApiController extends GlobalExceptionHandler {
     @Autowired
     MyMapApiLogicService myMapApiLogicService;
+
+    @Autowired
+    MapFileApiLogicService mapFileApiLogicService;
 
     @Autowired
     UserRepository userRepository;
@@ -146,5 +155,15 @@ public class MyMapApiController extends GlobalExceptionHandler {
 
         MyMapApiResponse myMapApiResponse =myMapApiLogicService.changeMyMap(id,request);
         return new Header<>(myMapApiResponse);
+    }
+
+    @PostMapping("/upload/{id}")
+    public Header uploadFile(@PathVariable(name = "id") Integer id,@RequestParam("file") MultipartFile file) {
+        return mapFileApiLogicService.storeFile(file,id);
+    }
+
+    @GetMapping("download/{id}")
+    public ResponseEntity downloadFile(@PathVariable(name = "id") Integer id) throws IOException{
+        return mapFileApiLogicService.downloadFile(id);
     }
 }
