@@ -8,6 +8,7 @@ import com.example.koreaguide.model.network.request.MyMapApiRequest;
 import com.example.koreaguide.model.network.response.HomeApiResponse;
 import com.example.koreaguide.model.network.response.MyMapApiResponse;
 import com.example.koreaguide.repository.UserRepository;
+import com.example.koreaguide.service.MapFileApiLogicService;
 import com.example.koreaguide.service.MyMapApiLogicService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MyMapApiController extends GlobalExceptionHandler {
     @Autowired
     MyMapApiLogicService myMapApiLogicService;
+
+    @Autowired
+    MapFileApiLogicService mapFileApiLogicService;
 
     @Autowired
     UserRepository userRepository;
