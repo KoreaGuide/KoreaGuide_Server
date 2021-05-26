@@ -136,6 +136,8 @@ __My Map Related Endpoints__
 | GET | [api/myMap/haveBeen/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 내 지도에 포함된 장소 보기(have been to ONLY)|
 | PATCH | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | UPDATE | 내 지도에 있는 장소 수정|
 | DELETE | [api/myMap/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | DELETE | 내 지도에 있는 장소 삭제|
+| POST | [api/myMap/upload/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | CREATE / UPDATE | 지도 색 부분에서 필요한 json 파일 올리기 / 업데이트|
+| GET | [api/myMap/download/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/MYMAP.md) | YES | READ | 지도 색 부분에서 필요한 json 파일 받기|
 
 __WORD Related Endpoints__
 |**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
