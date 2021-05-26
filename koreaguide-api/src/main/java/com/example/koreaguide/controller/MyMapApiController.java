@@ -13,6 +13,7 @@ import com.example.koreaguide.service.MyMapApiLogicService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -154,8 +157,13 @@ public class MyMapApiController extends GlobalExceptionHandler {
         return new Header<>(myMapApiResponse);
     }
 
-    @PostMapping("/file/{id}")
+    @PostMapping("/upload/{id}")
     public Header uploadFile(@PathVariable(name = "id") Integer id,@RequestParam("file") MultipartFile file) {
         return mapFileApiLogicService.storeFile(file,id);
+    }
+
+    @GetMapping("download/{id}")
+    public ResponseEntity downloadFile(@PathVariable(name = "id") Integer id) throws IOException{
+        return mapFileApiLogicService.downloadFile(id);
     }
 }
