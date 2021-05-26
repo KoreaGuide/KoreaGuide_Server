@@ -285,3 +285,35 @@ __Response Form(Bad Response- 수정하려는 장소가 내 지도에 없음):__
     "description": "Cannot Find MyPlace"
 }
 ```
+
+## MyMap JSON FILE UPLOAD (내 지도 색에서 필요한 json 파일 업로드 / 수정)
+__Request Form:__   
+Path: api/myMap/upload/{id}  __**여기서 id는 user의 id (Integer)__   
+Request Type: POST   
+__Request Form:__
+주의!! body 부분이 이전이랑 다름!   
+아래 스샷처럼 multipart로 파일 올림 
+<img width="1421" alt="스크린샷 2021-05-26 오후 11 32 41" src="https://user-images.githubusercontent.com/52744390/119678667-ad6fb980-be7a-11eb-8710-1a4614c26de3.png">
+
+__Response Form(Good Response):__
+```json
+{
+    "result_code": 200,
+    "status": "OK",
+    "description": "File upload successful"
+}
+```
+
+
+## MyMap JSON FILE DOWNLOAD (내 지도 색에서 필요한 json 파일 받기)
+__Request Form:__   
+Path: api/myMap/download/{id}  __**여기서 id는 user의 id (Integer)__   
+Request Type: GET   
+__Response Form(Good Response):__
+주의!! 응답 받을때 형식이 이전과 다름!   
+<img width="1421" alt="스크린샷 2021-05-26 오후 11 34 06" src="https://user-images.githubusercontent.com/52744390/119678878-e0b24880-be7a-11eb-98a5-eb889150210c.png">
+
+
+
+
+
