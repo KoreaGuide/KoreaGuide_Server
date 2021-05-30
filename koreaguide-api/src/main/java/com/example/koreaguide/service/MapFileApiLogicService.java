@@ -54,7 +54,7 @@ public class MapFileApiLogicService {
         }
         Optional<User> user = userRepository.findById(userId);
         Header ret = user.map(selectedUser->{
-            final String saveName = "mapFile_"+selectedUser.getId() + "." + "json";
+            final String saveName = "mapFile_"+selectedUser.getId() + "." + "geojson";
 
             File target = new File(uploadPath, saveName);
             try {

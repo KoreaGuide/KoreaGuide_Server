@@ -119,9 +119,9 @@ public class UserApiLogicService {
             if (dir.exists() == false) {
                 dir.mkdirs();
             }
-            final String saveName = "mapFile_"+newUser.getId() + "." + "json";
+            final String saveName = "mapFile_"+newUser.getId() + "." + "geojson";
 
-            String defaultPath = Paths.get("koreaguide-api/src/main/java/com/example/koreaguide/mapFiles/mapFile_defaultgeo.json").toString();
+            String defaultPath = Paths.get("koreaguide-api/src/main/java/com/example/koreaguide/mapFiles/mapFile_default.geojson").toString();
             String newPath = Paths.get("koreaguide-api/src/main/java/com/example/koreaguide/mapFiles/"+saveName).toString();
 
             File original = new File(defaultPath);
