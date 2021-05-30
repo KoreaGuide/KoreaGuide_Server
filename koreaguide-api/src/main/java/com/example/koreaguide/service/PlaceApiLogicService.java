@@ -26,6 +26,7 @@ import com.example.koreaguide.repository.WordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -209,7 +210,21 @@ public class PlaceApiLogicService {
         Optional<Place> place = placeRepository.findById(id);
         return place.map(selectedPlace->{
             List<PlaceWithWord> placeWithWords = placeWithWordRepository.findByPlaceId(selectedPlace.getId());
-            List<Word> wordForPlace = wordRepository.findAllById(placeWithWords.stream().map(i->i.getWordId()).collect(Collectors.toList()));
+//            Optional<Word> w = wordRepository.findById(51);
+//            if(w.isPresent()){
+//                System.out.println("W : "+w);
+//            }else{
+//                System.out.println("W not valid");
+//            }
+            List<Word> wordForPlace = new ArrayList<Word>();
+            for(int i =0;i<placeWithWords.size();i++){
+                Word word =wordRepository.getOne(placeWithWords.get(i).getWordId());
+                wordForPlace.add(word);
+            }
+//            List<Word> wordForPlace = wordRepository.findAllById(placeWithWords.stream().map(i->{
+//                System.out.println("IDDDD: "+i.getWordId());
+//                return i.getWordId();
+//            }).collect(Collectors.toList()));
             List<MyWordStatus> myWordStatusList = getWordStatusList(wordForPlace,userId);
             return responseForWord(wordForPlace,userId,id,myWordStatusList);
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
@@ -225,9 +240,11 @@ public class PlaceApiLogicService {
         }else{
             System.out.println("WORD SIZE: "+words.size());
             for (int i = 0; i < words.size(); i++) {
+                System.out.println("WORDDD : "+words.get(i).getId());
                 for(int j=0;j <myWordFolder.size();j++) {
+                    System.out.println("i: "+i+"   j:"+j);
                     System.out.println("WORD FOLDER: " + myWordFolder.get(j));
-                    System.out.println("WORD: " + words.get(i));
+//                    System.out.println("WORD: " + words.get(i));
                     Optional<MyWord> myWord = myWordRepository.findByMyWordFolderAndWord(myWordFolder.get(j), words.get(i));
                     if(myWord.isEmpty()){
                         System.out.println("Empty: !!!!" );
@@ -308,7 +325,7 @@ public class PlaceApiLogicService {
     private PlaceDetailHeadApiResponse responseForWord(List<Word> words,Integer userId,Integer placeId,List<MyWordStatus> myWordStatusList) {
         List<PlaceDetailWordApiResponse> placeDetailWordApiResponseArrayList =new ArrayList<PlaceDetailWordApiResponse>();
         for(int i=0;i<words.size();i++){
-            System.out.println("WORD!!! "+words.get(i));
+//            System.out.println("WORD!!! "+words.get(i));
             PlaceDetailWordApiResponse placeDetailWordApiResponse = PlaceDetailWordApiResponse.builder()
                     .wordId(words.get(i).getId())
                     .wordStatus(myWordStatusList.get(i))
