@@ -30,17 +30,9 @@ public class HomeApiController extends GlobalExceptionHandler {
     private UserRepository userRepository;
 
     @GetMapping("")
-    public Header<HomeApiResponse> getHomeInfo() {
-//        try {
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            Integer userId = claims.get("userId", Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(userRepository.findById(userId).isEmpty()){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+    public Header<HomeApiResponse> getHomeInfo(
+            Authentication authentication) {
+        SessionController.checkJWT(authentication,userRepository);
 
         HomeApiResponse homeApiResponse =homeApiLogicService.getHomeInfo();
         return new Header<>(homeApiResponse);

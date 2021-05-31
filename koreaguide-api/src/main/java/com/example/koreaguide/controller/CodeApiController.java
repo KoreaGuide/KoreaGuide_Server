@@ -42,17 +42,9 @@ public class CodeApiController extends GlobalExceptionHandler {
     // id = userId
     @GetMapping("/regionList/{id}")
     public Header<RegionApiResponse> getRegionList(
+            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-//        try {
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            Integer userId = claims.get("userId", Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(id!=userId){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+        SessionController.checkJWT(authentication,id,userRepository);
 
         RegionApiResponse regionApiResponse =codeApiLogicService.getRegionList(id);
         return new Header<>(regionApiResponse);
@@ -60,18 +52,11 @@ public class CodeApiController extends GlobalExceptionHandler {
 
     @PatchMapping("/regionList/{id}")
     public Header<RegionApiResponse> changeRegionColor(
+            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<RegionApiRequest> request) {
-//        try {
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            Integer userId = claims.get("userId", Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(id!=userId){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+        SessionController.checkJWT(authentication,id,userRepository);
+
 
         RegionApiResponse regionApiResponse =codeApiLogicService.changeRegionColor(id,request);
         return new Header<>(regionApiResponse);
@@ -80,19 +65,10 @@ public class CodeApiController extends GlobalExceptionHandler {
     //id=regionid
     @GetMapping("/region/{userId}/{id}")
     public Header<RegionPlaceApiResponse> getPlaceListForRegion(
+            Authentication authentication,
             @PathVariable(name = "userId") Integer userId,
             @PathVariable(name = "id") Integer id) {
-//        Integer userId;
-//        try {
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            userId = claims.get("userId", Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(userRepository.findById(userId).isEmpty()){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+        SessionController.checkJWT(authentication,userRepository);
 
         RegionPlaceApiResponse regionPlaceApiResponse =codeApiLogicService.getPlaceListForRegion(userId,id);
         return new Header<>(regionPlaceApiResponse);

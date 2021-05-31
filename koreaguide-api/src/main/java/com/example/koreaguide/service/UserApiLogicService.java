@@ -329,7 +329,7 @@ public class UserApiLogicService {
         System.out.println("USER id & nickname: "+user.getId()+"  "+user.getNickname());
         System.out.println("DAY OF WEEK : "+LocalDate.now().getDayOfWeek());
 
-//        String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
+        String token = jwtUtil.createAccessToken(user.getId(),user.getNickname());
 //        System.out.println("USER TOKEN: "+token);
 
         if(LocalDate.now().getDayOfWeek().compareTo(DayOfWeek.MONDAY)==0){
@@ -359,8 +359,8 @@ public class UserApiLogicService {
 
 
 
-//        return response(user,token);
-        return responseForLogin(user);
+        return response(user,token);
+//        return responseForLogin(user);
     }
 
 }
