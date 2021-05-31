@@ -40,7 +40,9 @@ To begin using this template, choose one of the following options to get started
 10. Place Detail (장소 정보 & 관련 단어리스트)
 11. My Map (내 지도) 
 12. 내 단어장 폴더별 단어 학습 
-13. Quiz 
+13. Quiz (4Types)
+14. Quiz Result posting 
+15. Profile - word related
 
 ## Example of Token in header 
 ```
@@ -149,6 +151,11 @@ __Quiz Related Endpoints__
 |---|------|---|---|---|
 | POST | [api/quiz/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | READ | 해당 퀴즈에 출제될 문제목록 및 객관식 목록 받아오기 |
 | POST | [api/quiz/result/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/QUIZ.md) | YES | UPDATE | 퀴즈 종료 후 해당 퀴즈의 결과 서버에 업데이트 |
+
+__Profile Related Endpoints__
+|**Request Type**|**Path**|**Need Token**|**Method**|**Description**|
+|---|------|---|---|---|
+| GET | [api/profile/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PROFILE.md) | YES | READ | 사용자의 1주일치 출석 & 단어 시험 결과 조회 |
 
 ## ERD
    

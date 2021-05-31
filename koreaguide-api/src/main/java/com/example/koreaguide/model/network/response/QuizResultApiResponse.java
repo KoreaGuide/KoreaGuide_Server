@@ -20,6 +20,8 @@ import java.time.LocalDate;
 public class QuizResultApiResponse {
     private LocalDate date;
 
+    private String dayOfWeek;
+
     private Integer total;
 
     private Integer correct;
