@@ -351,15 +351,15 @@ public class QuizApiLogicService {
             int finalI = i;
             wordFolder.map(selectedWordFolder->{
                 Word testWord = wordRepository.getOne(resultList.get(finalI).getWordId());
-                System.out.println("test word: "+testWord.getWordEng());
+//                System.out.println("test word: "+testWord.getWordEng());
                 Optional<MyWord> word = myWordRepository.findByMyWordFolderAndWord(selectedWordFolder,testWord);
 
                 word.map(selectedWord ->{
-                    System.out.println("selectedWord: "+selectedWord.getWord());
+//                    System.out.println("selectedWord: "+selectedWord.getWord());
                     Optional<MyWordFolder> destWordFolder = myWordFolderRepository.findById(resultList.get(finalI).getFinalFolderId());
 
                     destWordFolder.map(selectedDestWordFolder->{
-                        System.out.println("destWordFolder: "+selectedDestWordFolder.getId());
+//                        System.out.println("destWordFolder: "+selectedDestWordFolder.getId());
                         TestResultStatus result = resultList.get(finalI).getResultStatus();
                         selectedWord.setMyWordFolder(selectedDestWordFolder);
 
