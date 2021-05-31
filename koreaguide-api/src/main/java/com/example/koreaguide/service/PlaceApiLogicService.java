@@ -6,6 +6,7 @@ import com.example.koreaguide.model.entity.MyWordFolder;
 import com.example.koreaguide.model.entity.Place;
 import com.example.koreaguide.model.entity.PlaceKorean;
 import com.example.koreaguide.model.entity.PlaceWithWord;
+import com.example.koreaguide.model.entity.User;
 import com.example.koreaguide.model.entity.Word;
 import com.example.koreaguide.model.enumclass.MyWordStatus;
 import com.example.koreaguide.model.enumclass.PlaceStatus;
@@ -64,13 +65,18 @@ public class PlaceApiLogicService {
 
     public PlaceDetailApiResponse getPlaceDetailAll(Integer userId, Integer id) {
         Optional<Place> place = placeRepository.findById(id);
+        Optional<User> user = userRepository.findById(userId);
         return place.map(selectedPlace->{
-            MyPlace myPlace = myPlaceRepository.findByPlace(selectedPlace);
-            PlaceStatus placeStatus = PlaceStatus.NO_STATUS;
-            if(myPlace!=null){
-                placeStatus=myPlace.getStatus();
-            }
-            return responseAll(selectedPlace,placeStatus,userId);
+                System.out.println("id: "+selectedPlace.getId());
+               MyPlace myPlace = myPlaceRepository.findByPlaceAndUserId(selectedPlace,userId);
+                PlaceStatus placeStatus = PlaceStatus.NO_STATUS;
+//                System.out.println("hi");
+                if(myPlace!=null){
+                    System.out.println("NOT NULL");
+                    placeStatus=myPlace.getStatus();
+                }
+                System.out.println("selected Place: "+selectedPlace.getTitle()+"   place status:"+placeStatus+"  userId:"+userId);
+                return responseAll(selectedPlace,placeStatus,userId);
         }).orElseThrow(()->new KoreaGuideException(KoreaGuideError.ENTITY_NOT_FOUND_PLACE));
 
     }
@@ -79,7 +85,7 @@ public class PlaceApiLogicService {
     public PlaceDetailApiResponse getPlaceDetailEng(Integer userId, Integer id) {
         Optional<Place> place = placeRepository.findById(id);
         return place.map(selectedPlace->{
-            MyPlace myPlace = myPlaceRepository.findByPlace(selectedPlace);
+            MyPlace myPlace = myPlaceRepository.findByPlaceAndUserId(selectedPlace,userId);
             PlaceStatus placeStatus = PlaceStatus.NO_STATUS;
             if(myPlace!=null){
                 placeStatus=myPlace.getStatus();
@@ -91,7 +97,7 @@ public class PlaceApiLogicService {
     public PlaceDetailApiResponse getPlaceDetailKor(Integer userId, Integer id) {
         Optional<Place> place = placeRepository.findById(id);
         return place.map(selectedPlace->{
-            MyPlace myPlace = myPlaceRepository.findByPlace(selectedPlace);
+            MyPlace myPlace = myPlaceRepository.findByPlaceAndUserId(selectedPlace,userId);
             PlaceStatus placeStatus = PlaceStatus.NO_STATUS;
             if(myPlace!=null){
                 placeStatus=myPlace.getStatus();
@@ -101,6 +107,7 @@ public class PlaceApiLogicService {
     }
 
     private PlaceDetailApiResponse responseAll(Place selectedPlace,PlaceStatus status,Integer userId) {
+        System.out.println("sel:"+selectedPlace.getTitle());
         Optional<PlaceKorean> placeKorean =placeKoreanRepository.findByPlaceId(selectedPlace.getId());
         PlaceDetailApiResponse response =placeKorean.map(selectedPlaceKorean->{
             PlaceDetailApiResponse placeDetailApiResponse = PlaceDetailApiResponse.builder()

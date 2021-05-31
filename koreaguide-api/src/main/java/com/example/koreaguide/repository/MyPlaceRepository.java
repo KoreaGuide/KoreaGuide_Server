@@ -16,7 +16,7 @@ import java.util.Optional;
 */
 @Repository
 public interface MyPlaceRepository extends JpaRepository<MyPlace,Integer> {
-    MyPlace findByPlace(Place place);
+    MyPlace findByPlaceAndUserId(Place place,Integer userId);
     Optional<MyPlace> findByPlaceAndUser(Place place, User user);
     List<MyPlace> findAllByUserIdAndStatus(Integer userId, PlaceStatus status);
     List<MyPlace> findAllByUserId(Integer userId);
