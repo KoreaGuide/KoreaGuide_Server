@@ -202,7 +202,7 @@ public class MyWordFolderApiLogicService {
         List<MyWordListApiResponse> myWordListApiResponseList =new ArrayList<MyWordListApiResponse>();
         for(int i=0;i<myWord.size();i++){
             MyWordListApiResponse myWordListApiResponse = MyWordListApiResponse.builder()
-                    .id(myWord.get(i).getId())
+                    .id(myWord.get(i).getWord().getId())
                     .myWordStatus(myWord.get(i).getWordStatus())
                     .wordEng(myWord.get(i).getWord().getWordEng())
                     .wordKor(myWord.get(i).getWord().getWordKor())
