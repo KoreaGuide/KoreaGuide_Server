@@ -19,4 +19,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuizResultApiRequest {
     private List<QuizResultDetailApiRequest> quizResults;
+    private QuizResultDetailApiRequest quizResult;
+
 }
