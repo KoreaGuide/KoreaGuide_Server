@@ -4,7 +4,7 @@ The project is in the form of a RESTAPI.
 ## Download and Installation
 To begin using this template, choose one of the following options to get started:
 * [Fork, Clone, or Download on GitHub](https://github.com/KoreaGuide/KoreaGuide_Server)
-
+[See SQL](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/sqlStmts.md)
 ## Requirements
 - Java Version 11
 - Spring Boot Version 2.4.3
@@ -158,6 +158,7 @@ __Profile Related Endpoints__
 | GET | [api/profile/{id}](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/API-GUIDE/PROFILE.md) | YES | READ | 사용자의 1주일치 출석 & 단어 시험 결과 조회 |
 
 ## ERD
+[See SQL](https://github.com/KoreaGuide/KoreaGuide_Server/blob/main/sqlStmts.md)
    <img width="981" alt="스크린샷 2021-06-07 오전 12 52 42" src="https://user-images.githubusercontent.com/52744390/120931007-ac684300-c72a-11eb-9a01-4ec084502d6c.png">
 
 ## Team Members & roles
