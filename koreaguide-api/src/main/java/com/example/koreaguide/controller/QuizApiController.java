@@ -37,19 +37,11 @@ public class QuizApiController extends GlobalExceptionHandler {
     //id = userid
     @PostMapping("/{id}")
     public Header<QuizListApiResponse> getMyWordList(
-//            Authentication authentication,
+            Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<QuizListApiRequest> request) {
-//        try {
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            Integer userId = claims.get("userId", Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(id!=userId){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+        SessionController.checkJWT(authentication,id,userRepository);
+
         System.out.println("USER ID: "+id);
         QuizListApiResponse quizListApiResponse =quizApiLogicService.getQuizWordList(id,request);
         return new Header<>(quizListApiResponse);
@@ -57,20 +49,11 @@ public class QuizApiController extends GlobalExceptionHandler {
 
     @PostMapping("/result/{id}")
     public Header postTestResult(
-//            Authentication authentication,
+            Authentication authentication,
             @PathVariable(name = "id") Integer id,
-            @RequestBody Header<QuizResultApiRequest> request
-    ){
-//        try {
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            Integer userId = claims.get("userId", Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(id!=userId){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+            @RequestBody Header<QuizResultApiRequest> request){
+        SessionController.checkJWT(authentication,id,userRepository);
+
         System.out.println("USER ID: "+id);
         Header header =quizApiLogicService.postTestResult(id,request);
         return header;

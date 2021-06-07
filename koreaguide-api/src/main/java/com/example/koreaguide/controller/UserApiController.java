@@ -9,6 +9,7 @@ import com.example.koreaguide.model.network.Header;
 import com.example.koreaguide.model.network.request.SessionRequestDto;
 import com.example.koreaguide.model.network.request.UserApiRequest;
 import com.example.koreaguide.model.network.response.UserApiResponse;
+import com.example.koreaguide.repository.UserRepository;
 import com.example.koreaguide.service.UserApiLogicService;
 import com.mysql.cj.log.Log;
 import io.jsonwebtoken.Claims;
@@ -40,6 +41,9 @@ public class UserApiController extends GlobalExceptionHandler{
     @Autowired
     UserApiLogicService userApiLogicService;
 
+    @Autowired
+    UserRepository userRepository;
+
     @PostMapping("")
     public Header<UserApiResponse> create(@Valid @RequestBody Header<UserApiRequest> request) {
         UserApiResponse userApiResponse = userApiLogicService.create(request);
@@ -60,17 +64,9 @@ public class UserApiController extends GlobalExceptionHandler{
 
     @GetMapping("/{id}")
     public Header<UserApiResponse> read(
+            Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-//        try{
-//            Claims claims = (Claims) authentication.getPrincipal();
-//            Integer userId = claims.get("userId",Integer.class);
-//            System.out.println("USER ID: "+userId);
-//            if(id!=userId){
-//                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//            }
-//        }catch (Exception e){
-//            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-//        }
+        SessionController.checkJWT(authentication,id,userRepository);
 
         UserApiResponse userApiResponse =userApiLogicService.read(id);
         return new Header<>(userApiResponse);
@@ -81,16 +77,8 @@ public class UserApiController extends GlobalExceptionHandler{
             Authentication authentication,
             @PathVariable(name = "id") Integer id,
             @RequestBody Header<UserApiRequest> request) {
-        try{
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId",Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+        SessionController.checkJWT(authentication,id,userRepository);
+
         return userApiLogicService.update(id,request);
     }
 
@@ -98,16 +86,8 @@ public class UserApiController extends GlobalExceptionHandler{
     public Header delete(
             Authentication authentication,
             @PathVariable(name = "id") Integer id) {
-        try{
-            Claims claims = (Claims) authentication.getPrincipal();
-            Integer userId = claims.get("userId",Integer.class);
-            System.out.println("USER ID: "+userId);
-            if(id!=userId){
-                throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-            }
-        }catch (Exception e){
-            throw new KoreaGuideException(KoreaGuideError.NOT_LOGIN,"Invalid Authentication");
-        }
+        SessionController.checkJWT(authentication,id,userRepository);
+
         return userApiLogicService.delete(id);
     }
 
